@@ -7,6 +7,6 @@ $_SESSION = array();
 session_destroy();
 
 
-header("location: gdopticalclinic.php");
+header("location: index.php");
 exit;
 ?>
