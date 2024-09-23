@@ -10,26 +10,32 @@ $success_message = '';
 // Check if the user is logged in
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
-    
+
     // Prepare SQL statement to prevent SQL injection
     $stmt = $conn->prepare("SELECT fullname, account_type FROM accounts WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    if ($stmt) {
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        $user_fullname = $row['fullname'];
-        $user_role = $row['account_type'];
+        if ($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            $user_fullname = htmlspecialchars($row['fullname']);
+            $user_role = ucfirst(htmlspecialchars($row['account_type']));
+        }
+
+        $stmt->close();
     }
-
-    $stmt->close();
 } else {
     header("Location: login.php");
     exit();
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../images/ico.png" />
     <style>
         .success-message {
@@ -48,10 +54,10 @@ if (isset($_SESSION['username'])) {
         }
     </style>
 </head>
+<body>
 <!-- start: Main -->
 <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
-    <div class="py-2 px-6 bg-white flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-30">
-        <!-- Left side (menu button and breadcrumbs) -->
+    <div class="py-2 px-6 bg-white flex items-center shadow-md sticky top-0 left-0 z-30">
         <button type="button" class="text-lg text-gray-600 sidebar-toggle">
             <i class="ri-menu-line"></i>
         </button>
@@ -61,13 +67,12 @@ if (isset($_SESSION['username'])) {
             </li>
         </ul>
 
-        <!-- Right side (profile image, name, and role) -->
         <div class="ml-auto flex items-center">
             <div class="dropdown ml-3">
                 <button type="button" class="dropdown-toggle flex items-center">
                     <img src="../images/profile.png" alt="Profile Image" class="w-8 h-8 rounded-full block object-cover">
                 </button>
-                <ul class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
+                <ul class="dropdown-menu shadow-md z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
                     <li>
                         <a href="../index.php" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-black-50">Logout</a>
                     </li>
@@ -75,8 +80,8 @@ if (isset($_SESSION['username'])) {
             </div>
 
             <div class="user-details">
-                <span class="name text-sm font-semibold text-gray-900 block"><?php echo htmlspecialchars($user_fullname); ?></span>
-                <span class="role text-xs text-gray-500"><?php echo ucfirst(htmlspecialchars($user_role)); ?></span>
+                <span class="name text-sm font-semibold text-gray-900 block"><?php echo $user_fullname; ?></span>
+                <span class="role text-xs text-gray-500"><?php echo $user_role; ?></span>
             </div>
         </div>
     </div>
@@ -134,11 +139,11 @@ if (isset($_SESSION['username'])) {
 
             <div class="flex space-x-4">
                 <div class="input-box w-1/2">
-                    <label class="block text-sm font-semibold mb-1">Contact number</label>
+                    <label class="block text-sm font-semibold mb-1">Contact Number</label>
                     <input type="number" name="contact_number" id="contact_number" placeholder="Enter phone number" required oninput="validateNumber(this)" class="block w-full border border-gray-300 rounded-md py-2 px-4">
                 </div>
                 <div class="input-box w-1/2">
-                    <label class="block text-sm font-semibold mb-1">Birth of Date</label>
+                    <label class="block text-sm font-semibold mb-1">Date of Birth</label>
                     <input type="date" name="birthdate" id="birthdate" placeholder="Enter birth date" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
                 </div>
             </div>
@@ -190,30 +195,30 @@ if (isset($_SESSION['username'])) {
     }
 
     // Show success message
-function showSuccessMessage(event) {
-    event.preventDefault(); // Prevent default form submission
-    const successMessage = document.getElementById('success-message');
-    successMessage.style.display = 'block';
-    successMessage.style.opacity = '1';
+    function showSuccessMessage(event) {
+        event.preventDefault(); // Prevent default form submission
+        const successMessage = document.getElementById('success-message');
+        successMessage.style.display = 'block';
+        successMessage.style.opacity = '1';
 
-    setTimeout(() => {
-        successMessage.style.opacity = '0';
         setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 500);
-    }, 1234567); // Message displayed for 10 seconds
+            successMessage.style.opacity = '0';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 500);
+        }, 10000); // Message displayed for 10 seconds
 
-    // Simulate form submission (you can replace this with actual form submission logic)
-    setTimeout(() => {
-        event.target.submit(); // Submit the form after showing the message
-    }, 1234567);
-}
+        // Simulate form submission
+        setTimeout(() => {
+            event.target.submit(); // Submit the form after showing the message
+        }, 1000); // Wait 1 second before submitting
+    }
 
-
-    // Get the current date
+    // Get the current date for date validation
     const today = new Date();
     const eighteenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 18));
     const maxDate = eighteenYearsAgo.toISOString().split("T")[0];
     document.getElementById('birthdate').setAttribute('max', maxDate);
 </script>
-    
+</body>
+</html>
