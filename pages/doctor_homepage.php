@@ -22,37 +22,37 @@
     <ul class="mt-4">
         <li class="mb-1 group active">
             <a href="doctor_dashboard.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-checkbox-multiple-blank-line mr-3 text-lg"></i>
+            <i class="ri-dashboard-3-line mr-3 text-lg" style="color: orange;"></i>
                 <span class="text-sm">Dashboard</span>
             </a>
         </li>
         <li class="mb-1 group">
             <a href="doctor_table.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-table-line mr-3 text-lg"></i>
+            <i class="ri-table-line mr-3 text-lg" style="color: #197DE4;"></i>
                 <span class="text-sm">Patients Table</span>
             </a>
         </li>
         <li class="mb-1 group">
             <a href="#" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-article-line mr-3 text-lg"></i>
+                <i class="ri-article-line mr-3 text-lg "style="color: #25B453;"></i>
                 <span class="text-sm">Certificate</span>
             </a>
         </li>
         <li class="mb-1 group">
-            <a href="#" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-history-line mr-3 text-lg"></i>
+            <a href="doctor_history.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+                <i class="ri-history-line mr-3 text-lg "style="color: #4F90C6;"></i>
                 <span class="text-sm">History</span>
             </a>
         </li>
         <li class="mb-1 group">
             <a href="add_user.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-user-add-fill mr-3 text-lg"></i>
+                <i class="ri-user-add-fill mr-3 text-lg "style="color: #D32485;"></i>
                 <span class="text-sm">Create User</span>
             </a>
         </li>
         <li class="mb-1 group">
             <a href="view_user.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-            <i class="ri-group-line mr-3 text-lg"></i>
+            <i class="ri-group-line mr-3 text-lg "style="color: #F0BB40;"></i>
                 <span class="text-sm">View User</span>
             </a>
         </li>

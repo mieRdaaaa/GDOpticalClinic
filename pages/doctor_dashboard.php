@@ -94,10 +94,11 @@ if (isset($_SESSION['username'])) {
 
 
     <!-- User Details -->
-    <div class="user-details">
-        <span class="name text-sm font-semibold text-gray-900 block"><?php echo $user_fullname; ?></span>
-        <span class="role text-xs text-gray-500"><?php echo ucfirst($user_role); ?></span>
-    </div>
+    <div class="user-details ml-3">
+    <span class="name text-sm font-semibold text-grey-900 block"><?php echo $user_fullname; ?></span>
+    <span class="role text-xs text-grey-500"><?php echo ucwords($user_role); ?></span>
+</div>
+
 </div>
 </div>
         <div class="p-6">

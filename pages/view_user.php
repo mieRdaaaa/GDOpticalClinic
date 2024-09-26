@@ -105,7 +105,7 @@ $total_stmt->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="#" class="text-gray-400 hover:text-gray-600 font-medium">View User</a>
+                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">View User</a>
                 </li>
             </ul>
             <div class="ml-auto flex items-center">

@@ -2,73 +2,111 @@
 session_start();
 include('db.php');
 
-// Enable error reporting
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+// Check if a delete request has been made
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+    
+    // SQL query to delete the record from the patients table
+    $delete_sql = "DELETE FROM patients WHERE patients_id = ?";
 
-// User authentication
+// Prepare the statement
+if ($stmt = $conn->prepare($delete_sql)) {
+    // Bind the parameters
+    $stmt->bind_param("i", $delete_id);
+    
+    // Execute the statement
+    if (!$stmt->execute()) {
+        echo "Error deleting record: " . $stmt->error;
+    }
+    
+    // Close the statement
+    $stmt->close();
+} else {
+    // Display SQL error
+    echo "Error preparing statement: " . $conn->error;
+}
+
+}
+
+// User info
 $user_fullname = '';
 $user_role = '';
+
+// Check if the user is logged in
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
-    $sql = "SELECT fullname, account_type FROM accounts WHERE username=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s', $username);
+    
+    // Prepare SQL statement to get user info
+    $stmt = $conn->prepare("SELECT fullname, account_type FROM accounts WHERE username = ?");
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows == 1) {
+    if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
         $user_fullname = $row['fullname'];
         $user_role = $row['account_type'];
     }
+
+    $stmt->close();
 } else {
     header("Location: login.php");
     exit();
 }
 
-$search = "";
-if (isset($_GET['search'])) {
-    $search = $_GET['search'];
-}
+// Pagination and search
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 5; // Set limit to 5
+$offset = ($page - 1) * $limit;
 
-// Use prepared statements to prevent SQL injection
+// Updated SQL query to search patients table
 $sql = "SELECT patients_id, last_name, first_name, middle_name, gender, date_of_birth, contact_no, address, date_added FROM patients 
         WHERE last_name LIKE ? 
         OR first_name LIKE ? 
         OR middle_name LIKE ?       
-        OR contact_no LIKE ?
-        OR address LIKE ?
-        OR date_added LIKE ?";
+        OR contact_no LIKE ? 
+        OR address LIKE ? 
+        OR date_added LIKE ? 
+        LIMIT ? OFFSET ?";
 
+// Prepare the statement
 $stmt = $conn->prepare($sql);
-$searchTerm = "%$search%";
-$stmt->bind_param('ssssss', $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
-$stmt->execute();
+
+// Check if the statement preparation failed
+if ($stmt === false) {
+    die("Error preparing the SQL statement: " . $conn->error . " SQL: " . $sql); // Display the SQL error
+}
+
+// Use search_param for binding the search inputs
+$search_param = "%$search%";
+
+// Check the number of parameters being bound
+if (!$stmt->bind_param("ssssssii", $search_param, $search_param, $search_param, $search_param, $search_param, $search_param, $limit, $offset)) {
+    die("Error binding parameters: " . $stmt->error);
+}
+
+if (!$stmt->execute()) {
+    die("Error executing statement: " . $stmt->error);
+}
+
 $result = $stmt->get_result();
 
-if (isset($_GET['delete_id'])) {
-    $delete_id = intval($_GET['delete_id']);
-    $conn->begin_transaction();
-    
-    try {
-        $delete_eye_result_sql = "DELETE FROM eye_result WHERE patients_id = ?";
-        $delete_stmt = $conn->prepare($delete_eye_result_sql);
-        $delete_stmt->bind_param('i', $delete_id);
-        $delete_stmt->execute();
-        
-        $delete_patient_sql = "DELETE FROM patients WHERE patients_id = ?";
-        $delete_stmt = $conn->prepare($delete_patient_sql);
-        $delete_stmt->bind_param('i', $delete_id);
-        $delete_stmt->execute();
-        
-        $conn->commit();
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
-    } catch (Exception $e) {
-        $conn->rollback();
-        echo $e->getMessage();
-    }
+// Count total records for pagination
+$total_sql = "SELECT COUNT(*) FROM patients WHERE last_name LIKE ? OR first_name LIKE ? OR middle_name LIKE ? OR contact_no LIKE ? OR address LIKE ? OR date_added LIKE ?";
+$total_stmt = $conn->prepare($total_sql);
+if ($total_stmt === false) {
+    die("Error preparing total count statement: " . $conn->error);
 }
+$total_stmt->bind_param("ssssss", $search_param, $search_param, $search_param, $search_param, $search_param, $search_param);
+$total_stmt->execute();
+$total_result = $total_stmt->get_result();
+$total_count = $total_result->fetch_row()[0];
+$total_pages = ceil($total_count / $limit);
+
+$stmt->close();
+$total_stmt->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -76,108 +114,112 @@ if (isset($_GET['delete_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="shortcut icon" href="../images/ico.png" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Patients Table</title>
+    <link rel="stylesheet" href="css/doctor_users.css">
+    <link rel="shortcut icon" href="../images/ico.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="h-screen bg-gray-100 flex items-center justify-center">
-<!-- start: Main -->
-<main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
-    <div class="py-2 px-6 bg-white flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-30">
-        <!-- Left side (menu button and breadcrumbs) -->
-        <button type="button" class="text-lg text-gray-600 sidebar-toggle">
-            <i class="ri-menu-line"></i>
-        </button>
-        <ul class="flex items-center text-sm ml-4">
-            <li class="mr-2">
-                <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Patients Table</a>
-            </li>
-        </ul>
-
-        <!-- Right side (profile image, name, and role) -->
-        <div class="ml-auto flex items-center">
-            <div class="dropdown ml-3">
-                <button type="button" class="dropdown-toggle flex items-center">
-                    <img src="../images/profile.png" alt="Profile Image" class="w-8 h-8 rounded-full block object-cover">
-                </button>
-                <ul class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
-                    <li>
-                        <a href="../index.php" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-black-50">Logout</a>
-                    </li>
-                </ul>
-            </div>
-<!-- User Details -->
-<div class="user-details">
-        <span class="name text-sm font-semibold text-gray-900 block"><?php echo $user_fullname; ?></span>
-        <span class="role text-xs text-gray-500"><?php echo ucfirst($user_role); ?></span>
-    </div>
-        </div>
-    </div>
-
-    <div class="max-w-6xl w-full mx-auto bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
-        <h2 class="text-2xl font-semibold mb-4">PATIENTS TABLE</h2>
-        <!-- Search Form -->
-        <form method="GET" action="" class="mb-6 flex items-center justify-center">
-            <input 
-                type="text" 
-                name="search" 
-                placeholder="Search patients..." 
-                value="<?php echo htmlspecialchars($search); ?>" 
-                class="w-full p-2 border border-black-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black-500"
-            />
-            <button type="submit" class="ml-2 px-4 py-2 bg-blue-600 text-black rounded-md shadow hover:bg-blue-500 transition">
-                <i class="fas fa-search"></i> Search
+<body class="bg-gray-100">
+    <!-- Start: Main -->
+    <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
+        <div class="py-2 px-6 bg-white flex items-center shadow-md sticky top-0 z-30">
+            <button type="button" class="text-lg text-gray-600 sidebar-toggle">
+                <i class="ri-menu-line"></i>
             </button>
-        </form>
-
-        <!-- Table -->
-        <div class="overflow-x-auto">
-            <table class="min-w-full table-auto">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="p-3 text-left text-gray-500">Last Name</th>
-                        <th class="p-3 text-left text-gray-500">First Name</th>
-                        <th class="p-3 text-left text-gray-500">Middle Name</th>
-                        <th class="p-3 text-left text-gray-500">Gender</th>
-                        <th class="p-3 text-left text-gray-500">Date of Birth</th>
-                        <th class="p-3 text-left text-gray-500">Contact No</th>
-                        <th class="p-3 text-left text-gray-500">Address</th>
-                        <th class="p-3 text-left text-gray-500">Date Added</th>
-                        <th class="p-3 text-left text-gray-500">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white">
-                    <?php
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr class='border-b hover:bg-gray-50'>
-                                    <td class='p-3'>{$row['last_name']}</td>
-                                    <td class='p-3'>{$row['first_name']}</td>
-                                    <td class='p-3'>{$row['middle_name']}</td>
-                                    <td class='p-3'>{$row['gender']}</td>
-                                    <td class='p-3'>{$row['date_of_birth']}</td>
-                                    <td class='p-3'>{$row['contact_no']}</td>
-                                    <td class='p-3'>{$row['address']}</td>
-                                    <td class='p-3'>{$row['date_added']}</td>
-                                    <td class='p-3 flex space-x-2'>
-                                        <a href='doctor_view.php?id={$row['patients_id']}' class='text-blue-500 hover:text-blue-700'><i class='fas fa-eye'></i></a>
-                                        <a href='?delete_id={$row['patients_id']}' class='text-red-500 hover:text-red-700' onclick='return confirm(\"Are you sure you want to delete this record?\")'><i class='fas fa-trash'></i></a>
-                                        <a href='doctor_eyeresult.php?id={$row['patients_id']}' class='text-green-500 hover:text-green-700'><i class='fas fa-plus'></i></a>
-                                    </td>
-                                  </tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='9' class='p-3 text-center text-gray-500'>No records found</td></tr>";
-                    }
-                    $conn->close();
-                    ?>
-                </tbody>
-            </table>
+            <ul class="flex items-center text-sm ml-4">
+                <li class="mr-2">
+                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Patients Table</a>
+                </li>
+            </ul>
+            <div class="ml-auto flex items-center">
+                <div class="dropdown ml-3">
+                    <button type="button" class="dropdown-toggle flex items-center">
+                        <img src="../images/profile.png" alt="Profile Image" class="w-8 h-8 rounded-full block object-cover">
+                    </button>
+                    <ul class="dropdown-menu shadow-md z-30 hidden py-1.5 rounded-md bg-white border border-gray-100">
+                        <li>
+                            <a href="../index.php" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-black-50">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="user-details ml-3">
+                    <span class="name text-sm font-semibold text-gray-900 block"><?php echo htmlspecialchars($user_fullname); ?></span>
+                    <span class="role text-xs text-gray-500"><?php echo ucfirst(htmlspecialchars($user_role)); ?></span>
+                </div>
+            </div>
         </div>
+
+        <!-- Search form -->
+<form method="GET" action="" class="px-6 py-4">
+    <div class="flex">
+        <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>
     </div>
-</main>
-<?php include('doctor_homepage.php'); ?>
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="../dist/js/script.js"></script>
+</form>
+
+
+        <!-- Table container -->
+        <div class="table-container px-6 py-4">
+            <div class="overflow-x-auto bg-white rounded-lg shadow">
+                <table class="min-w-full bg-white border border-gray-300">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-600 text-left text-sm uppercase font-semibold">
+                            <th class="py-2 px-4">Last Name</th>
+                            <th class="py-2 px-4">First Name</th>
+                            <th class="py-2 px-4">Middle Name</th>
+                            <th class="py-2 px-4">Gender</th>
+                            <th class="py-2 px-4">Date of Birth</th>
+                            <th class="py-2 px-4">Contact Number</th>
+                            <th class="py-2 px-4">Address</th>
+                            <th class="py-2 px-4">Date Added</th>
+                            <th class="py-2 px-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($result->num_rows > 0) {
+                            // Output data of each row
+                            while($row = $result->fetch_assoc()) {
+                                echo "<tr class='border-b border-gray-200 hover:bg-gray-100'>
+                                        <td class='py-2 px-4'>{$row['last_name']}</td>
+                                        <td class='py-2 px-4'>{$row['first_name']}</td>
+                                        <td class='py-2 px-4'>{$row['middle_name']}</td>
+                                        <td class='py-2 px-4'>{$row['gender']}</td>
+                                        <td class='py-2 px-4'>{$row['date_of_birth']}</td>
+                                        <td class='py-2 px-4'>{$row['contact_no']}</td>
+                                        <td class='py-2 px-4'>{$row['address']}</td>
+                                        <td class='py-2 px-4'>{$row['date_added']}</td>
+                                        <td class='py-2 px-4'>
+                                            <a href='doctor_view.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
+                                            <a href='?delete_id={$row['patients_id']}' class='action-btn delete text-red-500 hover:text-red-700' onclick='return confirm(\"Are you sure you want to delete this record?\")'><i class='fa fa-trash'></i></a>
+                                            <a href='doctor_eyeresult.php?id={$row['patients_id']}' class='action-btn add text-green-500 hover:text-green-700'><i class='fa fa-plus'></i></a>
+                                        </td>
+                                      </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='9' class='py-2 px-4 text-center text-gray-500'>No records found</td></tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-center mt-4">
+            <?php if ($page > 1): ?>
+                <a href="?page=<?php echo $page - 1; ?>&search=<?php echo htmlspecialchars($search); ?>" class="px-4 py-2 bg-blue-500 text-white rounded-l hover:bg-blue-600">Previous</a>
+            <?php endif; ?>
+            <span class="px-4 py-2 bg-gray-200 text-gray-600"><?php echo $page; ?> / <?php echo $total_pages; ?></span>
+            <?php if ($page < $total_pages): ?>
+                <a href="?page=<?php echo $page + 1; ?>&search=<?php echo htmlspecialchars($search); ?>" class="px-4 py-2 bg-blue-500 text-white rounded-r hover:bg-blue-600">Next</a>
+            <?php endif; ?>
+        </div>
+    </main>
+    <?php include('doctor_homepage.php'); ?>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../dist/js/script.js"></script>
 </body>
 </html>
