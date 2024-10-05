@@ -30,6 +30,7 @@ if (isset($_SESSION['username'])) {
 ?>
 
 <!-- Start: Main -->
+<link rel="shortcut icon" href="../images/ico.png" />
 <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
     <div class="py-2 px-6 bg-white flex items-center shadow-md sticky top-0 z-30">
         <button type="button" class="text-lg text-gray-600 sidebar-toggle">
@@ -37,7 +38,7 @@ if (isset($_SESSION['username'])) {
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="doctor_view.php" class="text-black-400 hover:text-gray-600 font-medium">Eye Test Results</a>
+                <a href="secretary_view.php" class="text-black-400 hover:text-gray-600 font-medium">Eye Test Results</a>
             </li>
         </ul>
         <div class="ml-auto flex items-center">
@@ -110,10 +111,10 @@ if (isset($_SESSION['username'])) {
             echo '</div>';
         }
         ?>
-        <a href="doctor_table.php" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition duration-200 mb-4">
+        <a href="secretary_table.php" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition duration-200 mb-4">
         Back to Patients Table
     </a>
     </div>
-    <?php include('doctor_homepage.php'); ?>
+    <?php include('secretary_homepage.php'); ?>
 </main>
 <!-- end: Main -->

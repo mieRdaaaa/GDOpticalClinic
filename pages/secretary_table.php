@@ -2,32 +2,6 @@
 session_start();
 include('db.php');
 
-// Check if a delete request has been made
-if (isset($_GET['delete_id'])) {
-    $delete_id = $_GET['delete_id'];
-    
-    // SQL query to delete the record from the patients table
-    $delete_sql = "DELETE FROM patients WHERE patients_id = ?";
-
-// Prepare the statement
-if ($stmt = $conn->prepare($delete_sql)) {
-    // Bind the parameters
-    $stmt->bind_param("i", $delete_id);
-    
-    // Execute the statement
-    if (!$stmt->execute()) {
-        echo "Error deleting record: " . $stmt->error;
-    }
-    
-    // Close the statement
-    $stmt->close();
-} else {
-    // Display SQL error
-    echo "Error preparing statement: " . $conn->error;
-}
-
-}
-
 // User info
 $user_fullname = '';
 $user_role = '';
@@ -150,13 +124,12 @@ $total_stmt->close();
         </div>
 
         <!-- Search form -->
-<form method="GET" action="" class="px-6 py-4">
-    <div class="flex">
-        <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>
-    </div>
-</form>
-
+        <form method="GET" action="" class="px-6 py-4">
+            <div class="flex">
+                <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </form>
 
         <!-- Table container -->
         <div class="table-container px-6 py-4">
@@ -191,8 +164,6 @@ $total_stmt->close();
                                         <td class='py-2 px-4'>{$row['date_added']}</td>
                                         <td class='py-2 px-4'>
                                             <a href='secretary_view.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
-                                            <a href='?delete_id={$row['patients_id']}' class='action-btn delete text-red-500 hover:text-red-700' onclick='return confirm(\"Are you sure you want to delete this record?\")'><i class='fa fa-trash'></i></a>
-                                            <a href='secretary_eyeresult.php?id={$row['patients_id']}' class='action-btn add text-green-500 hover:text-green-700'><i class='fa fa-plus'></i></a>
                                         </td>
                                       </tr>";
                             }

@@ -68,7 +68,7 @@ $conn->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients Table</a>
+                    <a href="secretary_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients Table</a>
                 </li>
                 <li class="text-gray-600 mr-2 font-medium">/</li>
                 <li class="text-black-600 mr-2 font-medium">View Patient Details</li>
@@ -132,10 +132,10 @@ $conn->close();
                 </div>
             </div>
             <div class="action-buttons mt-6">
-                <a href="doctor_edit.php?id=<?php echo $row['patients_id']; ?>" class="action-btn edit-btn bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg"><i class="fa fa-edit"></i> Edit</a>
+                <a href="secretary_edit.php?id=<?php echo $row['patients_id']; ?>" class="action-btn edit-btn bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg"><i class="fa fa-edit"></i> Edit</a>
                 <a href="delete.php?id=<?php echo $row['patients_id']; ?>" class="action-btn delete-btn bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 text-lg" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-trash"></i> Delete</a>
-                <a href="doctor_table.php" class="action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg"><i class="fa fa-undo"></i> Back to List</a>
-                <a href="doctor_eye_test_results.php?id=<?php echo $row['patients_id']; ?>" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">
+                <a href="secretary_table.php" class="action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg"><i class="fa fa-undo"></i> Back to List</a>
+                <a href="secretary_eye_test_results.php?id=<?php echo $row['patients_id']; ?>" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">
   <i class="fa fa-eye"></i> Eye Test Results
 </a>
 
@@ -143,7 +143,7 @@ $conn->close();
         </div>
     </main>
 </body>
-<?php include('doctor_homepage.php'); ?>
+<?php include('secretary_homepage.php'); ?>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../dist/js/script.js"></script>
