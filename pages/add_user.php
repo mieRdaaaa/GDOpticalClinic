@@ -63,7 +63,7 @@ if (isset($_SESSION['username'])) {
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="#" class="text-black-400 hover:text-black-600 font-medium">Create User</a>
+                <a href="#" class="text-black-400 hover:text-black-600 font-medium">Registration</a>
             </li>
         </ul>
 
@@ -93,7 +93,7 @@ if (isset($_SESSION['username'])) {
     </div>
 
     <section class="container mx-auto p-6 bg-white rounded-md shadow-md">
-        <header class="text-2xl font-bold mb-4">Create User</header>
+        <header class="text-2xl font-bold mb-4">Registration</header>
 
         <form action="register.php" method="post" class="space-y-4" onsubmit="showSuccessMessage(event)">
             <div class="input-box">

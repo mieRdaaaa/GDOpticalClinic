@@ -77,7 +77,7 @@ $conn->close();
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="doctor_history.php" class="text-gray-400 hover:text-gray-600 font-medium">History</a>
+                <a href="secretary_history.php" class="text-gray-400 hover:text-gray-600 font-medium">History</a>
             </li>
             <li class="text-gray-600 mr-2 font-medium">/</li>
         <li class="text-gray-600 mr-2 font-medium">Results</li>
@@ -154,6 +154,6 @@ $conn->close();
 </div>
 
     </div>
-    <?php include('doctor_homepage.php'); ?>
+    <?php include('secretary_homepage.php'); ?>
 </body>
 </html>

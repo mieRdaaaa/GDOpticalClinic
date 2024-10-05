@@ -57,7 +57,7 @@ if (isset($_SESSION['username'])) {
 // Pagination and search
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 15; // Set limit to 5
+$limit = 14; // Set limit to 5
 $offset = ($page - 1) * $limit;
 
 // Updated SQL query to search patients table
@@ -115,7 +115,6 @@ $total_stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patients Table</title>
-    <link rel="stylesheet" href="css/doctor_users.css">
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -191,9 +190,9 @@ $total_stmt->close();
                                         <td class='py-2 px-4'>{$row['address']}</td>
                                         <td class='py-2 px-4'>{$row['date_added']}</td>
                                         <td class='py-2 px-4'>
-                                            <a href='doctor_view.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
+                                            <a href='secretary_view.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
                                             <a href='?delete_id={$row['patients_id']}' class='action-btn delete text-red-500 hover:text-red-700' onclick='return confirm(\"Are you sure you want to delete this record?\")'><i class='fa fa-trash'></i></a>
-                                            <a href='doctor_eyeresult.php?id={$row['patients_id']}' class='action-btn add text-green-500 hover:text-green-700'><i class='fa fa-plus'></i></a>
+                                            <a href='secretary_eyeresult.php?id={$row['patients_id']}' class='action-btn add text-green-500 hover:text-green-700'><i class='fa fa-plus'></i></a>
                                         </td>
                                       </tr>";
                             }
@@ -217,7 +216,7 @@ $total_stmt->close();
             <?php endif; ?>
         </div>
     </main>
-    <?php include('doctor_homepage.php'); ?>
+    <?php include('secretary_homepage.php'); ?>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../dist/js/script.js"></script>

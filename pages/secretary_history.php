@@ -142,7 +142,7 @@ $total_pages = ceil($total_rows / $limit);
                                         <td class='py-2 px-4'>{$row['contact_no']}</td>
                                         <td class='py-2 px-4'>{$row['date_added']}</td>
                                         <td class='py-2 px-4'>
-                                            <a href='doctor_history_result.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
+                                            <a href='secretary_history_result.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
                                         </td>
                                       </tr>";
                             }
@@ -177,7 +177,7 @@ $total_pages = ceil($total_rows / $limit);
 
 
     </main>
-    <?php include('doctor_homepage.php'); ?>
+    <?php include('secretary_homepage.php'); ?>
 </body>
 </html>
 
