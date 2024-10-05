@@ -92,8 +92,13 @@ if (isset($_SESSION['username'])) {
         User created successfully!
     </div>
 
+<<<<<<< HEAD
     <section class="container mx-auto mt-6 p-4 bg-white rounded-lg shadow-md">
     <header class="text-2xl font-bold mb-4">Registration</header>
+=======
+    <section class="container mx-auto p-6 bg-white rounded-md shadow-md">
+        <header class="text-2xl font-bold mb-4">Registration</header>
+>>>>>>> 2f2550cd03fdb596c81989a4c2ffb945b458c206
 
     <form action="register.php" method="post" class="space-y-4" onsubmit="showSuccessMessage(event)">
         <div class="input-box">
