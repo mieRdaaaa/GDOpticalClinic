@@ -55,7 +55,7 @@ if (isset($_SESSION['username'])) {
 // Pagination and search
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 5; // Set limit to 5
+$limit = 14; // Set limit to 5
 $offset = ($page - 1) * $limit;
 
 // Fetch data with search filter

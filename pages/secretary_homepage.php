@@ -15,47 +15,42 @@
     
     <!-- start: Sidebar -->
 <div class="fixed left-0 top-0 w-64 h-full bg-gray-900 p-4 z-50 sidebar-menu transition-transform">
-    <a href="../pages/doctor_dashboard.php" class="flex items-center pb-4 border-b border-b-gray-800">
+    <a href="../pages/secretary_dashboard.php" class="flex items-center pb-4 border-b border-b-gray-800">
         <img src="../images/dash.png" alt="Dashboard Icon" class="rounded object-cover" style="width: 40px; height: 40px;">
         <span class="text-lg font-bold text-white ml-3">GD Optical Clinic</span>
     </a>
     <ul class="mt-4">
         <li class="mb-1 group active">
-            <a href="doctor_dashboard.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+            <a href="secretary_dashboard.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
             <i class="ri-dashboard-3-line mr-3 text-lg" style="color: orange;"></i>
                 <span class="text-sm">Dashboard</span>
             </a>
         </li>
         <li class="mb-1 group">
-            <a href="doctor_table.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+            <a href="add_patient.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
             <i class="ri-table-line mr-3 text-lg" style="color: #197DE4;"></i>
+                <span class="text-sm">Add Patients</span>
+            </a>
+        </li>
+        <li class="mb-1 group">
+            <a href="secretary_table.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+                <i class="ri-article-line mr-3 text-lg "style="color: #25B453;"></i>
                 <span class="text-sm">Patients Table</span>
             </a>
         </li>
         <li class="mb-1 group">
             <a href="#" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-article-line mr-3 text-lg "style="color: #25B453;"></i>
+                <i class="ri-article-line mr-3 text-lg "style="color: #4F90C6;"></i>
                 <span class="text-sm">Certificate</span>
             </a>
         </li>
         <li class="mb-1 group">
-            <a href="doctor_history.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-history-line mr-3 text-lg "style="color: #4F90C6;"></i>
+            <a href="secretary_history.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+                <i class="ri-history-line mr-3 text-lg "style="color: #D32485;"></i>
                 <span class="text-sm">History</span>
             </a>
         </li>
-        <li class="mb-1 group">
-            <a href="add_user.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-user-add-fill mr-3 text-lg "style="color: #D32485;"></i>
-                <span class="text-sm">Registration</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
-            <a href="view_user.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-            <i class="ri-group-line mr-3 text-lg "style="color: #F0BB40;"></i>
-                <span class="text-sm">View User</span>
-            </a>
-        </li>
+        
     </ul>
 </div>
 <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>

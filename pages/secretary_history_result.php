@@ -15,15 +15,14 @@ if (isset($_GET['id'])) {
         exit;
     }
 
-   // Fetch all eye results for the patient, including the diagnosis
-$sql_eye_results = "SELECT * FROM eye_result WHERE patients_id = $id ORDER BY date_added DESC";
-$eye_results_result = $conn->query($sql_eye_results);
+    // Fetch all eye results for the patient
+    $sql_eye_results = "SELECT * FROM eye_result WHERE patients_id = $id ORDER BY date_added DESC";
+    $eye_results_result = $conn->query($sql_eye_results);
 
-if ($eye_results_result === false) {
-    echo "Error fetching eye results";
-    exit;
-}
-
+    if ($eye_results_result === false) {
+        echo "Error fetching eye results";
+        exit;
+    }
 } else {
     echo "Invalid request";
     exit;
@@ -78,7 +77,7 @@ $conn->close();
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="doctor_history.php" class="text-gray-400 hover:text-gray-600 font-medium">History</a>
+                <a href="secretary_history.php" class="text-gray-400 hover:text-gray-600 font-medium">History</a>
             </li>
             <li class="text-gray-600 mr-2 font-medium">/</li>
         <li class="text-gray-600 mr-2 font-medium">Results</li>
@@ -144,7 +143,6 @@ $conn->close();
                 <p><strong>Right Cylinder:</strong> <?php echo $eye_row['r_cylinder']; ?></p>
                 <p><strong>Left Cylinder:</strong> <?php echo $eye_row['l_cylinder']; ?></p>
                 <p><strong>Pupillary Distance:</strong> <?php echo $eye_row['pd']; ?></p>
-                <p><strong>Diagnosis:</strong> <?php echo $eye_row['diagnosis']; ?></p>
                 <p><strong>Eye Result ID:</strong> <?php echo $eye_row['eye_result_id']; ?></p>
             </div>
             <!-- Separator -->
@@ -156,6 +154,6 @@ $conn->close();
 </div>
 
     </div>
-    <?php include('doctor_homepage.php'); ?>
+    <?php include('secretary_homepage.php'); ?>
 </body>
 </html>
