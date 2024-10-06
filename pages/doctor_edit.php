@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $gender = $_POST['gender'];
     $date_of_birth = $_POST['date_of_birth'];
     $contact_no = $_POST['contact_no'];
+    $address = $_POST['address'];
     $medication_history = $_POST['medication_history'];
 
     // Validate date of birth to be at least 6 months ago
@@ -68,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         gender = '$gender', 
                         date_of_birth = '$date_of_birth', 
                         contact_no = '$contact_no',
+                        address = '$address',
                         medication_history = '$medication_history',
                         date_added = '$original_date_added'  -- Ensure the original date_added is preserved
                        WHERE patients_id = $id";
@@ -163,7 +165,7 @@ $conn->close();
                     <label for="date_of_birth" class="block text-sm font-medium text-gray-700"><i class="fa fa-calendar"></i> Date of Birth:</label>
                     <input type="date" id="date_of_birth" name="date_of_birth" 
                         value="<?php echo htmlspecialchars($row['date_of_birth']); ?>" 
-                        required class="mt-1 p-2 border border-gray-300 rounded-md w-full" 
+                        readonly class="mt-1 p-2 border border-gray-300 rounded-md w-full" 
                         max="<?php echo $max_date; ?>"> <!-- Set max attribute here -->
                 </div>
                 <div class="mb-4">
@@ -171,6 +173,10 @@ $conn->close();
                     <input type="text" id="contact_no" name="contact_no" value="<?php echo htmlspecialchars($row['contact_no']); ?>" 
                         pattern="\d{11}" maxlength="11" required title="Contact number must be exactly 11 digits" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
                 </div>
+                <div class="mb-4">
+            <label for="address" class="block text-sm font-medium text-gray-700"><i class="fa fa-home"></i> Address:</label>
+            <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($row['address']); ?>" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
                 <div class="mb-4">
                     <label for="medication_history" class="block text-sm font-medium text-gray-700"><i class="fa fa-notes-medical"></i> Medication History:</label>
                     <textarea id="medication_history" name="medication_history" rows="3" class="mt-1 p-2 border border-gray-300 rounded-md w-full"><?php echo htmlspecialchars($row['medication_history']); ?></textarea>

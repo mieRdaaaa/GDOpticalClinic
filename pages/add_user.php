@@ -20,11 +20,18 @@ if (isset($_SESSION['username'])) {
 
         if ($result->num_rows === 1) {
             $row = $result->fetch_assoc();
-            $user_fullname = htmlspecialchars($row['fullname']);
-            $user_role = ucfirst(htmlspecialchars($row['account_type']));
+            $user_fullname = htmlspecialchars($row['fullname'], ENT_QUOTES, 'UTF-8');
+            $user_role = ucfirst(htmlspecialchars($row['account_type'], ENT_QUOTES, 'UTF-8'));
+        } else {
+            // Handle user not found
+            $user_fullname = "Unknown User";
+            $user_role = "Guest";
         }
 
         $stmt->close();
+    } else {
+        // Log the SQL error
+        error_log("SQL Error: " . $conn->error);
     }
 } else {
     header("Location: login.php");
@@ -80,117 +87,109 @@ if (isset($_SESSION['username'])) {
             </div>
 
             <div class="user-details ml-3">
-        <span class="name text-sm font-semibold text-grey-900 block"><?php echo $user_fullname; ?></span>
-        <span class="role text-xs text-grey-500"><?php echo $user_role; ?></span>
-    </div>
+                <span class="name text-sm font-semibold text-grey-900 block"><?php echo $user_fullname; ?></span>
+                <span class="role text-xs text-grey-500"><?php echo $user_role; ?></span>
+            </div>
         </div>
     </div>
-
-    
 
     <div id="success-message" class="success-message">
         User created successfully!
     </div>
 
-<<<<<<< HEAD
-    <section class="container mx-auto mt-6 p-4 bg-white rounded-lg shadow-md">
-    <header class="text-2xl font-bold mb-4">Registration</header>
-=======
     <section class="container mx-auto p-6 bg-white rounded-md shadow-md">
         <header class="text-2xl font-bold mb-4">Registration</header>
->>>>>>> 2f2550cd03fdb596c81989a4c2ffb945b458c206
 
-    <form action="register.php" method="post" class="space-y-4" onsubmit="showSuccessMessage(event)">
-        <div class="input-box">
-            <label class="block text-lg font-semibold mb-1">Full Name</label>
-            <input type="text" name="fullname" placeholder="Enter full name" required class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
-        </div>
-
-        <div class="input-box">
-            <label class="block text-lg font-semibold mb-1">Username</label>
-            <input type="text" name="username" placeholder="Enter username" required class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
-        </div>
-
-        <div class="input-box">
-            <label class="block text-lg font-semibold mb-1">Password</label>
-            <input type="password" name="password" placeholder="Enter password" required class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
-        </div>
-
-        <div class="input-box">
-            <label class="block text-lg font-semibold mb-1">Region</label>
-            <select id="region" name="region" onchange="loadProvinces()" required class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
-                <option value="">Select Region</option>
-            </select>
-        </div>
-
-        <div class="input-box">
-            <label class="block text-lg font-semibold mb-1">Province</label>
-            <select id="province" name="province" onchange="loadCities()" required class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
-                <option value="">Select Province</option>
-            </select>
-        </div>
-
-        <div class="input-box">
-            <label class="block text-lg font-semibold mb-1">City / Municipality</label>
-            <select id="city" name="city" onchange="loadBarangays()" required class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
-                <option value="">Select City / Municipality</option>
-            </select>
-        </div>
-
-        <div class="input-box">
-            <label class="block text-lg font-semibold mb-1">Barangay</label>
-            <select id="barangay" name="barangay" required class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
-                <option value="">Select Barangay</option>
-            </select>
-        </div>
-
-        <div class="flex space-x-4">
-            <div class="input-box w-1/2">
-                <label class="block text-lg font-semibold mb-1">Contact Number</label>
-                <input type="number" name="contact_number" id="contact_number" placeholder="Enter phone number" required oninput="validateNumber(this)" class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
+        <form action="register.php" method="post" class="space-y-4" onsubmit="showSuccessMessage(event)">
+            <div class="input-box">
+                <label class="block text-sm font-semibold mb-1">Full Name</label>
+                <input type="text" name="fullname" placeholder="Enter full name" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
             </div>
-            <div class="input-box w-1/2">
-                <label class="block text-lg font-semibold mb-1">Date of Birth</label>
-                <input type="date" name="birthdate" id="birthdate" placeholder="Enter birth date" required class="block w-full border border-gray-300 rounded-md py-2 px-4 text-lg">
-            </div>
-        </div>
 
-        <div class="gender-box mb-4">
-            <h3 class="text-lg font-semibold mb-1">Gender</h3>
+            <div class="input-box">
+                <label class="block text-sm font-semibold mb-1">Username</label>
+                <input type="text" name="username" placeholder="Enter username" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
+            </div>
+
+            <div class="input-box">
+                <label class="block text-sm font-semibold mb-1">Password</label>
+                <input type="password" name="password" placeholder="Enter password" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
+            </div>
+
+            <div class="input-box">
+                <label class="block text-sm font-semibold mb-1">Region</label>
+                <select id="region" name="region" onchange="loadProvinces()" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
+                    <option value="">Select Region</option>
+                </select>
+            </div>
+
+            <div class="input-box">
+                <label class="block text-sm font-semibold mb-1">Province</label>
+                <select id="province" name="province" onchange="loadCities()" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
+                    <option value="">Select Province</option>
+                </select>
+            </div>
+
+            <div class="input-box">
+                <label class="block text-sm font-semibold mb-1">City / Municipality</label>
+                <select id="city" name="city" onchange="loadBarangays()" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
+                    <option value="">Select City / Municipality</option>
+                </select>
+            </div>
+
+            <div class="input-box">
+                <label class="block text-sm font-semibold mb-1">Barangay</label>
+                <select id="barangay" name="barangay" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
+                    <option value="">Select Barangay</option>
+                </select>
+            </div>
+
             <div class="flex space-x-4">
-                <div class="gender">
-                    <input type="radio" id="check-male" name="gender" value="male" checked>
-                    <label for="check-male" class="text-lg">Male</label>
+                <div class="input-box w-1/2">
+                    <label class="block text-sm font-semibold mb-1">Contact Number</label>
+                    <input type="number" name="contact_number" id="contact_number" placeholder="Enter phone number" required oninput="validateNumber(this)" class="block w-full border border-gray-300 rounded-md py-2 px-4">
                 </div>
-                <div class="gender">
-                    <input type="radio" id="check-female" name="gender" value="female">
-                    <label for="check-female" class="text-lg">Female</label>
-                </div>
-                <div class="gender">
-                    <input type="radio" id="check-other" name="gender" value="prefer_not_to_say">
-                    <label for="check-other" class="text-lg">Prefer not to say</label>
+                <div class="input-box w-1/2">
+                    <label class="block text-sm font-semibold mb-1">Date of Birth</label>
+                    <input type="date" name="birthdate" id="birthdate" placeholder="Enter birth date" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
                 </div>
             </div>
-        </div>
 
-        <div class="role-box mb-4">
-            <h3 class="text-lg font-semibold mb-1">Select Role</h3>
-            <div class="flex space-x-4">
-                <div class="role">
-                    <input type="radio" id="check-doctor" name="role" value="doctor" checked>
-                    <label for="check-doctor" class="text-lg">Doctor</label>
-                </div>
-                <div class="role">
-                    <input type="radio" id="check-secretary" name="role" value="secretary">
-                    <label for="check-secretary" class="text-lg">Secretary</label>
+            <div class="gender-box mb-4">
+                <h3 class="text-sm font-semibold mb-1">Gender</h3>
+                <div class="flex space-x-4">
+                    <div class="gender">
+                        <input type="radio" id="check-male" name="gender" value="male" checked>
+                        <label for="check-male" class="text-sm">Male</label>
+                    </div>
+                    <div class="gender">
+                        <input type="radio" id="check-female" name="gender" value="female">
+                        <label for="check-female" class="text-sm">Female</label>
+                    </div>
+                    <div class="gender">
+                        <input type="radio" id="check-other" name="gender" value="prefer_not_to_say">
+                        <label for="check-other" class="text-sm">Prefer not to say</label>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-lg">Submit</button>
-    </form>
-</section>
+            <div class="role-box mb-4">
+                <h3 class="text-sm font-semibold mb-1">Select Role</h3>
+                <div class="flex space-x-4">
+                    <div class="role">
+                        <input type="radio" id="check-doctor" name="role" value="doctor" checked>
+                        <label for="check-doctor" class="text-sm">Doctor</label>
+                    </div>
+                    <div class="role">
+                        <input type="radio" id="check-secretary" name="role" value="secretary">
+                        <label for="check-secretary" class="text-sm">Secretary</label>
+                    </div>
+                </div>
+            </div>
 
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+        </form>
+    </section>
 
     <?php include('doctor_homepage.php'); ?>
 </main>

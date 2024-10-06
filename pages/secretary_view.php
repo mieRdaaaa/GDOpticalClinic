@@ -123,6 +123,10 @@ $conn->close();
                     <span class="detail-value text-lg"><?php echo $row['contact_no']; ?></span>
                 </div>
                 <div class="detail-row mb-4 border-b border-gray-300 pb-2">
+                    <span class="detail-title font-bold text-lg">Address:</span>
+                    <span class="detail-value text-lg"><?php echo $row['address']; ?></span>
+                </div>
+                <div class="detail-row mb-4 border-b border-gray-300 pb-2">
                     <span class="detail-title font-bold text-lg">Medication History:</span>
                     <span class="detail-value text-lg"><?php echo $row['medication_history']; ?></span>
                 </div>
@@ -133,7 +137,6 @@ $conn->close();
             </div>
             <div class="action-buttons mt-6">
                 <a href="secretary_edit.php?id=<?php echo $row['patients_id']; ?>" class="action-btn edit-btn bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg"><i class="fa fa-edit"></i> Edit</a>
-                <a href="delete.php?id=<?php echo $row['patients_id']; ?>" class="action-btn delete-btn bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 text-lg" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fa fa-trash"></i> Delete</a>
                 <a href="secretary_table.php" class="action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg"><i class="fa fa-undo"></i> Back to List</a>
                 <a href="secretary_eye_test_results.php?id=<?php echo $row['patients_id']; ?>" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">
   <i class="fa fa-eye"></i> Eye Test Results

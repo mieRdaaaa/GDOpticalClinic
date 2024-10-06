@@ -5,28 +5,30 @@ include('db.php');
 // Check if a delete request has been made
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
-    
-    // SQL query to delete the record from the patients table
-    $delete_sql = "DELETE FROM patients WHERE patients_id = ?";
 
-// Prepare the statement
-if ($stmt = $conn->prepare($delete_sql)) {
-    // Bind the parameters
-    $stmt->bind_param("i", $delete_id);
-    
-    // Execute the statement
-    if (!$stmt->execute()) {
-        echo "Error deleting record: " . $stmt->error;
+    // First, delete the associated records in eye_result
+    $delete_eye_result_sql = "DELETE FROM eye_result WHERE patients_id = ?";
+    if ($stmt = $conn->prepare($delete_eye_result_sql)) {
+        $stmt->bind_param("i", $delete_id);
+        $stmt->execute();
+        $stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error;
     }
-    
-    // Close the statement
-    $stmt->close();
-} else {
-    // Display SQL error
-    echo "Error preparing statement: " . $conn->error;
+
+    // Then, delete the record from the patients table
+    $delete_sql = "DELETE FROM patients WHERE patients_id = ?";
+    if ($stmt = $conn->prepare($delete_sql)) {
+        $stmt->bind_param("i", $delete_id);
+        if (!$stmt->execute()) {
+            echo "Error deleting record: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error;
+    }
 }
 
-}
 
 // User info
 $user_fullname = '';
@@ -115,7 +117,6 @@ $total_stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patients Table</title>
-    <link rel="stylesheet" href="css/doctor_users.css">
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
