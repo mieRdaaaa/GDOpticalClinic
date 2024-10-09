@@ -62,6 +62,11 @@ if (isset($_SESSION['username'])) {
 ?>
 <head>
 <link rel="shortcut icon" href="../images/ico.png" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> <!--Replace with your tailwind.css once created-->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
 <head>
  <!-- start: Main -->
  <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
@@ -101,48 +106,52 @@ if (isset($_SESSION['username'])) {
 
 </div>
 </div>
-        <div class="p-6">
+<div class="p-6">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
-            <div class="flex justify-between mb-6">
-                <div>
-                    <div class="text-2xl font-semibold mb-1"><?php echo $patients_today; ?></div>
-                    <div class="text-sm font-medium text-black-400 flex items-center">
-                        <i class="fas fa-user mr-2"></i> <!-- FontAwesome User Icon -->
-                        Patients Today
-                    </div>
+
+        <!-- Metric Card for Patients Today -->
+        <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5">
+            <div class="flex flex-row items-center">
+                <div class="flex-shrink pr-4">
+                    <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                </div>
+                <div class="flex-1 text-right md:text-center">
+                    <h5 class="font-bold uppercase text-gray-600">Patients Today</h5>
+                    <h3 class="font-bold text-3xl"><?php echo $patients_today; ?></h3>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
-            <div class="flex justify-between mb-4">
-                <div>
-                    <div class="flex items-center mb-1">
-                        <div class="text-2xl font-semibold"><?php echo $patients_yesterday; ?></div>
-                    </div>
-                    <div class="text-sm font-medium text-black-400 flex items-center">
-                        <i class="fas fa-user mr-2"></i> <!-- FontAwesome User Icon -->
-                        Patients Yesterday
-                    </div>
+        <!-- Metric Card for Patients Yesterday with Indigo Colors -->
+        <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5">
+            <div class="flex flex-row items-center">
+                <div class="flex-shrink pr-4">
+                    <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                </div>
+                <div class="flex-1 text-right md:text-center">
+                    <h5 class="font-bold uppercase text-gray-600">Patients Yesterday</h5>
+                    <h3 class="font-bold text-3xl"><?php echo $patients_yesterday; ?></h3>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
-    <div class="flex justify-between mb-6">
-        <div>
-            <div class="text-2xl font-semibold mb-1">
-                <span class="text-base font-normal text-gray-400 align-top"></span>
-                <?php echo $total_patients; ?>
-            </div>
-            <div class="text-sm font-medium text-black-400 flex items-center">
-                <i class="fas fa-user mr-2"></i> <!-- FontAwesome User Icon -->
-                Total Patients
+        <!-- Metric Card for Total Patients -->
+        <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5">
+            <div class="flex flex-row items-center">
+                <div class="flex-shrink pr-4">
+                    <div class="rounded-full p-5 bg-green-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                </div>
+                <div class="flex-1 text-right md:text-center">
+                    <h5 class="font-bold uppercase text-gray-600">Total Patients</h5>
+                    <h3 class="font-bold text-3xl"><?php echo $total_patients; ?></h3>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
+
+
     </main>
     <?php include('doctor_homepage.php'); ?>
     <!-- end: Main -->

@@ -9,75 +9,85 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
 
+    <!-- Tailwind CSS -->
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
-
-      html {
-        font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      }
-    </style>
   </head>
 
-  <body class="leading-normal tracking-normal text-indigo-400 m-6 bg-cover bg-fixed" style="background-image: url('header.png');">
-    <div class="h-full">
-      <!--Nav-->
-      <div class="w-full container mx-auto">
-        <div class="w-full flex items-center justify-between">
-          <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="index.php">
-            <span style="color: #01adf0; text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;">GD</span>
-            <span style="color: white; margin-left: 10px; text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;">OPTICAL</span>
-            <span style="color: white; margin-left: 10px; text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;">CLINIC</span>
-           
+  <body>
+    <!-- Section 1 -->
+    <header class="w-full px-8 text-gray-700 bg-gray-200">
+      <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
+        <div class="relative flex flex-col md:flex-row">
+          <a href="index.php" class="flex items-center mb-5 font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0">
+            <img src="images/mainlogo.png" alt="GD Optical Clinic Logo" class="h-12 w-auto mr-2">
+            <span class="mx-auto text-3xl font-white leading-none text-blue-600 select-none font-bold">
+              GD <span class="text-indigo-600"></span>
+              <span class="mx-auto text-3xl font-black leading-none text-gray-900 select-none">Optical Clinic<span class="text-indigo-600"></span></span>
+            </span>
+          </a>
+        </div>
+
+        <div class="inline-flex items-center ml-5 space-x-6 lg:justify-end">
+          <a href="pages/login.php" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+            LogIn
           </a>
         </div>
       </div>
+    </header>
 
-      <!--Main-->
-      <div class="container pt-24 md:pt-36 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-        <!--Left Col-->
-        <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
-          <h1 class="my-4 text-2xl md:text-5xl font-bold leading-tight text-center md:text-left" style="color: white; text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;">
-            &quot;Check your vision for a
-            <span style="color: white; text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;">
-              brighter future.
-            </span>&quot;
+    <!-- Section 2 -->
+    <main class="px-2 py-32" style="background-image: url('images/landbg.png'); background-size: cover; background-position: center;">
+  <div class="container items-center max-w-6xl mx-auto px-8 xl:px-5 py-20">
+    <div class="flex flex-wrap items-center sm:-mx-3">
+      <div class="w-full md:w-1/2 md:px-3">
+        <div class="w-full pb-6 space-y-6 sm:max-w-md lg:max-w-lg md:space-y-4 lg:space-y-8 xl:space-y-9 sm:pr-5 lg:pr-0 md:pb-0">
+          <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
+            <span class="block xl:inline">"Check your vision for a</span>
+            <span class="block text-white xl:inline">brighter future."</span>
           </h1>
-          
-          
-          
-          
-
-          <form class="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-              <label class="block text-blue-300 py-2 font-bold mb-2" >
-                Login Here
-              </label>
-             
-            </div>
-
-            <div class="flex items-center justify-between pt-4">
-            <a
-  href="pages/login.php"
-  class="bg-gradient-to-r from-purple-800 to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-  style="--tw-gradient-from: #01adf0; --tw-gradient-to: #01adf0;"
->
-  Log In
-</a>
-            </div>
-          </form>
         </div>
+      </div>
+      <div class="w-full md:w-1/2">
+      <div class="w-full h-auto overflow-hidden rounded-md sm:rounded-xl shadow-lg">
+  <img src="images/doc.png" alt="Main Logo" class="w-full h-auto">
+</div>
 
-        <!--Right Col-->
-        <div class="w-full xl:w-3/5 p-12 overflow-hidden">
-          <img class="mx-auto w-full md:w-4/5 transform -rotate-6 transition hover:scale-105 duration-700 ease-in-out hover:rotate-6" src="images/mainlogo.png" />
+      </div>
+    </div>
+  </div>
+</main>
+
+
+    <hr class="border-t border-gray-300" />
+
+    <!-- Section 3 -->
+    <div class="py-20 bg-gray-100">
+    <div class="container mx-auto px-6 md:px-12 xl:px-32">
+      <div class="mb-16 text-center">
+        <h2 class="mb-4 text-2xl black-300 font-bold md:text-4xl">Members:</h2>
+      </div>
+      <div class="grid gap-12 items-center md:grid-cols-3">
+        <div class="space-y-4 text-center">
+          <img class="w-64 h-64 mx-auto object-cover rounded-xl md:w-40 md:h-40 lg:w-64 lg:h-64" 
+              src="images/members.png" alt="Hentoni Doe" loading="lazy" width="640" height="805">
+          <div>
+            <h4 class="text-2xl black-300">Jules Martin Enolva</h4>
+          </div>
         </div>
-
- 
-
-        
+        <div class="space-y-4 text-center">
+          <img class="w-64 h-64 mx-auto object-cover rounded-xl md:w-40 md:h-40 lg:w-64 lg:h-64"  
+              src="images/members.png" alt="Jonathan Doe" loading="lazy" width="1000" height="667">
+          <div>
+            <h4 class="text-2xl black-300">Ralph Justin Saransate</h4>
+          </div>
+        </div>
+        <div class="space-y-4 text-center">
+          <img class="w-64 h-64 mx-auto object-cover rounded-xl md:w-40 md:h-40 lg:w-64 lg:h-64" 
+              src="images/members.png" alt="Anabelle Doe" loading="lazy" width="1000" height="667">
+          <div>
+            <h4 class="text-2xl text-black-300">Charliene Cabilando</h4>
+          </div>
+        </div>
       </div>
     </div>
   </body>
