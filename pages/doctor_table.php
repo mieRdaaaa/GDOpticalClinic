@@ -59,7 +59,7 @@ if (isset($_SESSION['username'])) {
 // Pagination and search
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 15; // Set limit to 5
+$limit = 14; 
 $offset = ($page - 1) * $limit;
 
 // Updated SQL query to search patients table
