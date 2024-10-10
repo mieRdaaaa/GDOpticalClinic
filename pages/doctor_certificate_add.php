@@ -77,6 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Close the statement
     $stmt->close();
 }
+// Fetch available eye results for the patient
+$eye_result_options_sql = "SELECT eye_result_id, date_added FROM eye_result WHERE patients_id = ? ORDER BY date_added DESC";
+$options_stmt = $conn->prepare($eye_result_options_sql);
+$options_stmt->bind_param("i", $patient_id);
+$options_stmt->execute();
+$options_result = $options_stmt->get_result();
 
 // Close the MySQLi connection
 $conn->close();
@@ -125,6 +131,25 @@ $conn->close();
 
     <div class="max-w-full mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
         <h2 class="text-2xl font-bold mb-4">Add Certificate</h2>
+
+        <div class="flex space-x-4 mb-4">
+    <div class="input-box w-full">
+        <label class="block text-sm font-semibold mb-1" for="eye_result_id">Select Eye Result:</label>
+        <select id="eye_result_id" name="eye_result_id" required class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="">--Select an eye result--</option>
+            <?php
+            if ($options_result->num_rows > 0) {
+                while ($row = $options_result->fetch_assoc()) {
+                    echo "<option value=\"" . htmlspecialchars($row['eye_result_id']) . "\" data-date=\"" . htmlspecialchars(date('Y-m-d', strtotime($row['date_added']))) . "\">" . htmlspecialchars(date('Y-m-d', strtotime($row['date_added']))) . "</option>";
+                }
+            } else {
+                echo "<option value=\"\">No eye results found</option>";
+            }
+            ?>
+        </select>
+    </div>
+</div>
+
 
         <form action="" method="POST">
             <div class="flex space-x-4 mb-4">
