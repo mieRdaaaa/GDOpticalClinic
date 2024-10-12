@@ -37,13 +37,6 @@ if ($patient_id <= 0) {
 }
 
 // Fetch existing certificates for the patient
-$certificate_sql = "SELECT * FROM certificate WHERE patients_id = ?";
-$stmt = $conn->prepare($certificate_sql);
-$stmt->bind_param("i", $patient_id);
-$stmt->execute();
-$certificate_result = $stmt->get_result();
-
-// Fetch existing certificates for the patient, including eye result ID
 $certificate_sql = "
     SELECT c.*, e.eye_result_id 
     FROM certificate c 
@@ -119,8 +112,8 @@ $conn->close();
                             <th class="py-2 px-4">Odbcva</th>
                             <th class="py-2 px-4">Osbcva</th>
                             <th class="py-2 px-4">Eye Result ID</th>
-                            <th class="py-2 px-4">Generate Certificate</th>
                             <th class="py-2 px-4">Date Added</th>
+                            <th class="py-2 px-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -137,13 +130,13 @@ $conn->close();
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['odbcva']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['osbcva']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['eye_result_id']); ?></td>
-                                
+                                <td><?php echo htmlspecialchars($row['date_added']); ?></td>
                                 <td class="py-2 px-4">
-                                    <a href="certificate.php?id=<?php echo $row['certificate_id']; ?>&patient_id=<?php echo $patient_id; ?>" class="text-blue-500 hover:text-green-700">
-                                        <i class="fas fa-file-download"></i> Generate
+                                    
+                                    <a href="doctor_certificate_details.php?id=<?php echo $row['certificate_id']; ?>" class="text-green-500 hover:text-green-700 ml-2">
+                                        <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
-                                <td><?php echo htmlspecialchars($row['date_added']); ?></td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>

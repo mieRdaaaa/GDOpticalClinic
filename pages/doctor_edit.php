@@ -147,7 +147,7 @@ $conn->close();
                 </div>
                 <div class="mb-4">
                     <label for="middle_name" class="block text-sm font-medium text-gray-700"><i class="fa fa-user"></i> Middle Name:</label>
-                    <input type="text" id="middle_name" name="middle_name" value="<?php echo htmlspecialchars($row['middle_name']); ?>" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                    <input type="text" id="middle_name" name="middle_name" value="<?php echo htmlspecialchars($row['middle_name']); ?>" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
                 </div>
                 <div class="mb-4">
                     <label for="gender" class="block text-sm font-medium text-gray-700"><i class="fa fa-venus-mars"></i> Gender:</label>

@@ -34,6 +34,54 @@ document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function (item) {
         }
     })
 })
+// Apply hover effect with border on sidebar items
+const sidebarItems = document.querySelectorAll('.sidebar-menu a');
+let activeItem = null;
+
+// Function to set active item based on current page path
+function setActiveSidebarItem() {
+    const currentPath = window.location.pathname.split('/').pop(); // Get the current page file (e.g., add_user.php)
+    
+    sidebarItems.forEach(function(item) {
+        const href = item.getAttribute('href');
+
+        // If the current URL path matches the href attribute of the link
+        if (currentPath === href) {
+            item.classList.add('border', 'border-blue-400', 'text-blue-400');
+            activeItem = item;
+        } else {
+            item.classList.remove('border', 'border-blue-400', 'text-blue-400');
+        }
+    });
+}
+
+// Set active item when the page loads
+setActiveSidebarItem();
+
+// Hover effect
+sidebarItems.forEach(function(item) {
+    item.addEventListener('mouseover', function() {
+        item.classList.add('border', 'border-blue-400');
+    });
+
+    item.addEventListener('mouseout', function() {
+        if (item !== activeItem) {
+            item.classList.remove('border', 'border-blue-400');
+        }
+    });
+
+    // Click effect: Maintain the border on clicked item
+    item.addEventListener('click', function() {
+        if (activeItem) {
+            activeItem.classList.remove('border', 'border-blue-400');
+        }
+        activeItem = item;
+        activeItem.classList.add('border', 'border-blue-400');
+    });
+});
+
+
+
 // end: Sidebar
 
 

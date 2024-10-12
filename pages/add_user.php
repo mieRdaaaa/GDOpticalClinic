@@ -192,7 +192,11 @@ if (isset($_SESSION['username'])) {
     </section>
 
     <?php include('doctor_homepage.php'); ?>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../dist/js/script.js"></script>
 </main>
+
 <!-- end: Main -->
 <script src="../dist/js/address_selector.js"></script>
 <script>
@@ -228,4 +232,5 @@ if (isset($_SESSION['username'])) {
     document.getElementById('birthdate').setAttribute('max', maxDate);
 </script>
 </body>
+
 </html>

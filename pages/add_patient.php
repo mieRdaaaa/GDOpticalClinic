@@ -40,88 +40,96 @@ if (isset($_SESSION['username'])) {
     <script src="https://unpkg.com/@iconify/iconify@1.0.7/dist/iconify.min.js"></script>
     <script src="https://unpkg.com/remixicon/fonts/remixicon.css"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var form = document.querySelector('form');
-        
-        var firstName = document.getElementById('first_name');
-        var lastName = document.getElementById('last_name');
-        var middleName = document.getElementById('middle_name');
-        var contactNo = document.getElementById('contact_no');
-        var dateOfBirthInput = document.getElementById('date_of_birth');
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.querySelector('form');
+    
+    var firstName = document.getElementById('first_name');
+    var lastName = document.getElementById('last_name');
+    var middleName = document.getElementById('middle_name');
+    var contactNo = document.getElementById('contact_no');
+    var dateOfBirthInput = document.getElementById('date_of_birth');
 
-        var namePattern = /^[a-zA-Z\s]+$/;
-        var numberPattern = /^[0-9]+$/;
+    var namePattern = /^[a-zA-Z\s]+$/;  // Allow letters and spaces
+    var numberPattern = /^[0-9]+$/;  // Only numbers
 
-        function validateName(input) {
-            if (!namePattern.test(input.value)) {
-                input.setCustomValidity('This field should contain only letters');
-            } else {
-                input.setCustomValidity('');
-            }
+    function validateName(input) {
+        // If the field is empty, allow it (no custom validity message)
+        if (input.value.trim() === '') {
+            input.setCustomValidity(''); 
+        } 
+        // If it’s not empty, ensure it only contains letters
+        else if (!namePattern.test(input.value)) {
+            input.setCustomValidity('This field should contain only letters');
+        } else {
+            input.setCustomValidity('');
         }
+    }
 
-        function validateContact(input) {
-            input.value = input.value.replace(/\D/g, ''); // Remove non-digit characters
-            if (!numberPattern.test(input.value)) {
-                input.setCustomValidity('This field should contain only numbers');
-            } else {
-                input.setCustomValidity('');
-            }
+    function validateContact(input) {
+        // Remove non-digit characters
+        input.value = input.value.replace(/\D/g, ''); 
+        if (!numberPattern.test(input.value)) {
+            input.setCustomValidity('This field should contain only numbers');
+        } else {
+            input.setCustomValidity('');
         }
+    }
 
-        // Validate names and contact numbers
-        firstName.oninput = function() { validateName(firstName); };
-        lastName.oninput = function() { validateName(lastName); };
-        middleName.oninput = function() { validateName(middleName); };
-        contactNo.oninput = function() { validateContact(contactNo); };
+    // Add input event listeners to trigger validation
+    firstName.oninput = function() { validateName(firstName); };
+    lastName.oninput = function() { validateName(lastName); };
+    middleName.oninput = function() { validateName(middleName); };  // Middle name can be blank
+    contactNo.oninput = function() { validateContact(contactNo); };
 
-        // Date validation
-        const today = new Date();
-        const maxDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate()); // 6 months ago
-        dateOfBirthInput.setAttribute('max', maxDate.toISOString().split("T")[0]);
+    // Date validation
+    const today = new Date();
+    const maxDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate()); // 6 months ago
+    dateOfBirthInput.setAttribute('max', maxDate.toISOString().split("T")[0]);
 
-        dateOfBirthInput.addEventListener('change', function() {
-            const selectedDate = new Date(this.value);
-            if (selectedDate > today) {
-                alert('Date of Birth cannot be in the future.');
-                this.value = ''; // Clear the input
-            }
-        });
-
-        // Form submission
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-
-            validateName(firstName);
-            validateName(lastName);
-            validateName(middleName);
-            validateContact(contactNo);
-
-            if (!form.checkValidity()) {
-                alert('Please correct the errors in the form.');
-                return;
-            }
-
-            var formData = new FormData(form);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'submit_patient.php'); // Ensure this path is correct
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.status === 'success') {
-                        alert(response.message);
-                        form.reset(); 
-                    } else {
-                        alert('Failed to add patient: ' + response.message); 
-                    }
-                } else {
-                    alert('Error: ' + xhr.status); 
-                }
-            };
-            xhr.send(formData);
-        });
+    dateOfBirthInput.addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        if (selectedDate > today) {
+            alert('Date of Birth cannot be in the future.');
+            this.value = '';  // Clear the input
+        }
     });
-    </script>
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+
+        // Validate all form fields
+        validateName(firstName);
+        validateName(lastName);
+        validateName(middleName);
+        validateContact(contactNo);
+
+        if (!form.checkValidity()) {
+            alert('Please correct the errors in the form.');
+            return;
+        }
+
+        // Proceed with AJAX form submission
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'submit_patient.php');  // Ensure this path is correct
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.status === 'success') {
+                    alert(response.message);
+                    form.reset();  // Reset the form on successful submission
+                } else {
+                    alert('Failed to add patient: ' + response.message);
+                }
+            } else {
+                alert('Error: ' + xhr.status);
+            }
+        };
+        xhr.send(formData);
+    });
+});
+</script>
 </head>
 <body>
 
@@ -227,7 +235,12 @@ if (isset($_SESSION['username'])) {
     </div>
 </main>
 <script src="../dist/js/address_selector.js"></script>
+
 <?php include('secretary_homepage.php'); ?>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../dist/js/script.js"></script>
+
 <!-- End: Main -->
 </body>
 </html>

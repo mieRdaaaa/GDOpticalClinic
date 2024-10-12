@@ -63,7 +63,7 @@ $sql = "SELECT accounts_id, fullname, username, password, gender, birthdate, con
         WHERE fullname LIKE ? 
         OR contact_number LIKE ? 
         OR address LIKE ?       
-        OR account_type LIKE ? 
+        OR account_type LIKE ?
         LIMIT ? OFFSET ?";
 
 $stmt = $conn->prepare($sql);

@@ -62,6 +62,7 @@ $sql = "SELECT patients_id, last_name, first_name, middle_name, gender, date_of_
         OR middle_name LIKE ?       
         OR contact_no LIKE ? 
         OR date_added LIKE ?
+        ORDER BY date_added DESC
         LIMIT ?, ?";
 
 $stmt = $conn->prepare($sql);

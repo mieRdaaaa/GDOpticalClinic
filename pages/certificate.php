@@ -67,10 +67,10 @@ if ($certificate_result->num_rows > 0) {
 
 
 
-header('content-type:image/jpeg');
-$font="Arial.ttf";
-$image=imagecreatefromjpeg("Jules.jpg");
-$color=imagecolorallocate($image, 19,20,21);
+ header('Content-Type: image/jpeg');
+ $font = "arial.ttf";
+ $image = imagecreatefromjpeg("Jules.jpg");
+ $color = imagecolorallocate($image, 19, 20, 21);
 
 
 
@@ -252,8 +252,8 @@ imagettftext($image, 28, 0, 278, 2030, $color, $font, strtoupper($doctor));
 
 
 // Save the generated image
-imagejpeg($image, );
-imagedestroy($image);         
+imagejpeg($image);
+imagedestroy($image);   
 
 
 

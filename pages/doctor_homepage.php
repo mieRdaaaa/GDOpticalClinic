@@ -50,12 +50,14 @@
                 <span class="text-sm">Services</span>
             </a>
         </li>
-        <li class="mb-1 group">
-            <a href="add_user.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-user-add-fill mr-3 text-lg "style="color: #D32485;"></i>
-                <span class="text-sm">Registration</span>
-            </a>
-        </li>
+        <ul class="sidebar-menu">
+    <li class="mb-1 group">
+        <a href="add_user.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+            <i class="ri-user-add-fill mr-3 text-lg" style="color: #D32485;"></i>
+            <span class="text-sm">Registration</span>
+        </a>
+    </li>
+
         <li class="mb-1 group">
             <a href="view_user.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
             <i class="ri-group-line mr-3 text-lg "style="color: #F0BB40;"></i>
