@@ -2,6 +2,34 @@
 session_start();
 include('db.php');
 
+// Check if a delete request has been made
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+
+    // First, delete the associated records in eye_result
+    $delete_eye_result_sql = "DELETE FROM eye_result WHERE patients_id = ?";
+    if ($stmt = $conn->prepare($delete_eye_result_sql)) {
+        $stmt->bind_param("i", $delete_id);
+        $stmt->execute();
+        $stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error;
+    }
+
+    // Then, delete the record from the patients table
+    $delete_sql = "DELETE FROM patients WHERE patients_id = ?";
+    if ($stmt = $conn->prepare($delete_sql)) {
+        $stmt->bind_param("i", $delete_id);
+        if (!$stmt->execute()) {
+            echo "Error deleting record: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error;
+    }
+}
+
+
 // User info
 $user_fullname = '';
 $user_role = '';
@@ -31,7 +59,7 @@ if (isset($_SESSION['username'])) {
 // Pagination and search
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 14; // Set limit to 5
+$limit = 14; 
 $offset = ($page - 1) * $limit;
 
 // Updated SQL query to search patients table
@@ -41,8 +69,8 @@ $sql = "SELECT patients_id, last_name, first_name, middle_name, gender, date_of_
         OR middle_name LIKE ?       
         OR contact_no LIKE ? 
         OR address LIKE ? 
-        OR date_added LIKE ? 
-        ORDER BY date_added DESC
+        OR date_added LIKE ?
+        ORDER BY date_added DESC 
         LIMIT ? OFFSET ?";
 
 // Prepare the statement
@@ -125,12 +153,13 @@ $total_stmt->close();
         </div>
 
         <!-- Search form -->
-        <form method="GET" action="" class="px-6 py-4">
-            <div class="flex">
-                <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>
-            </div>
-        </form>
+<form method="GET" action="" class="px-6 py-4">
+    <div class="flex">
+        <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>
+    </div>
+</form>
+
 
         <!-- Table container -->
         <div class="table-container px-6 py-4">
@@ -165,6 +194,7 @@ $total_stmt->close();
                                         <td class='py-2 px-4'>{$row['date_added']}</td>
                                         <td class='py-2 px-4'>
                                             <a href='secretary_view.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
+                                            
                                         </td>
                                       </tr>";
                             }

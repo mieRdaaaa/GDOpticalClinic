@@ -37,7 +37,12 @@ if ($patient_id <= 0) {
 }
 
 // Fetch existing certificates for the patient
-$certificate_sql = "SELECT * FROM certificate WHERE patients_id = ?";
+$certificate_sql = "
+    SELECT c.*, e.eye_result_id 
+    FROM certificate c 
+    LEFT JOIN eye_result e ON c.eye_result_id = e.eye_result_id 
+    WHERE c.patients_id = ?
+";
 $stmt = $conn->prepare($certificate_sql);
 $stmt->bind_param("i", $patient_id);
 $stmt->execute();
@@ -56,6 +61,7 @@ $conn->close();
     <title>View Patient Details</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../images/ico.png" />
 </head>
 <body class="bg-gray-100">
 <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
@@ -89,7 +95,7 @@ $conn->close();
     </div>
 
     <div class="results-container px-6 py-4">
-        <h2 class="text-xl font-semibold mb-4">Existing Certificates</h2>
+        <h2 class="text-3xl font-semibold mb-4">Existing Certificates</h2>
         <?php if ($certificate_result->num_rows > 0): ?>
             <div class="overflow-x-auto bg-white rounded-lg shadow">
                 <table class="min-w-full bg-white border border-gray-300">
@@ -105,12 +111,14 @@ $conn->close();
                             <th class="py-2 px-4">Odadd</th>
                             <th class="py-2 px-4">Odbcva</th>
                             <th class="py-2 px-4">Osbcva</th>
-                            <th class="py-2 px-4">Generate Certificate</th>
+                            <th class="py-2 px-4">Eye Result ID</th>
+                            <th class="py-2 px-4">Date Added</th>
+                            <th class="py-2 px-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while ($row = $certificate_result->fetch_assoc()): ?>
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            <tr class="border-b border-gray-200 hover:bg-gray-100 text-xl">
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['certificate_id']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['symptoms']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['examination']); ?></td>
@@ -121,9 +129,12 @@ $conn->close();
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['odadd']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['odbcva']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['osbcva']); ?></td>
+                                <td class="py-2 px-4"><?php echo htmlspecialchars($row['eye_result_id']); ?></td>
+                                <td><?php echo htmlspecialchars($row['date_added']); ?></td>
                                 <td class="py-2 px-4">
-                                    <a href="certificate.php?id=<?php echo $row['certificate_id']; ?>&patient_id=<?php echo $patient_id; ?>" class="text-blue-500 hover:text-green-700">
-                                        <i class="fas fa-file-download"></i> Generate
+                                    
+                                    <a href="secretary_certificate_details.php?id=<?php echo $row['certificate_id']; ?>" class="text-green-500 hover:text-green-700 ml-2">
+                                        <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
                             </tr>
