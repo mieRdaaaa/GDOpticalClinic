@@ -179,10 +179,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="text" id="middle_name" name="middle_name" class="border border-gray-300 rounded-md py-2 px-4 w-full" placeholder="Enter middle name">
             </div>
 
-            <div class="mb-4">
-                <label for="medication_history" class="block text-sm font-medium mb-1">Medication History:</label>
-                <textarea id="medication_history" name="medication_history" class="border border-gray-300 rounded-md py-2 px-4 w-full" placeholder="Enter medication history"></textarea>
-            </div>
+            <!-- Medical History Section -->
+<h2 class="text-xl font-semibold mb-4 mt-6">Medical History</h2>
+
+<div class="mb-4">
+    <label class="block text-sm font-medium mb-1">Do you have any known allergies?</label>
+    <div class="flex items-center mb-2">
+        <input type="radio" id="allergies_yes" name="allergies" value="Yes" class="mr-2" required>
+        <label for="allergies_yes" class="text-sm">Yes (Please specify):</label>
+        <input type="text" id="allergy_specify" name="allergy_specify" class="border border-gray-300 rounded-md py-2 px-4 ml-2" placeholder="Specify allergies">
+    </div>
+    <div class="flex items-center">
+        <input type="radio" id="allergies_no" name="allergies" value="No" class="mr-2">
+        <label for="allergies_no" class="text-sm">No</label>
+    </div>
+</div>
+
+<div class="mb-4">
+    <label class="block text-sm font-medium mb-1">Have you had any previous eye conditions or surgeries?</label>
+    <div class="flex items-center mb-2">
+        <input type="radio" id="eye_conditions_yes" name="eye_conditions" value="Yes" class="mr-2" required>
+        <label for="eye_conditions_yes" class="text-sm">Yes (Please specify):</label>
+        <input type="text" id="eye_conditions_specify" name="eye_conditions_specify" class="border border-gray-300 rounded-md py-2 px-4 ml-2" placeholder="Specify conditions">
+    </div>
+    <div class="flex items-center">
+        <input type="radio" id="eye_conditions_no" name="eye_conditions" value="No" class="mr-2">
+        <label for="eye_conditions_no" class="text-sm">No</label>
+    </div>
+</div>
+
+<div class="mb-4">
+    <label for="additional_notes" class="block text-sm font-medium mb-1">Additional Notes:</label>
+    <textarea id="additional_notes" name="additional_notes" class="border border-gray-300 rounded-md py-2 px-4 w-full" placeholder="Enter any additional notes"></textarea>
+</div>
+
+
             <div class="mb-4">
                 <label for="date_of_birth" class="block text-sm font-medium mb-1">Date of Birth:</label>
                 <input type="date" id="date_of_birth" name="date_of_birth" class="border border-gray-300 rounded-md py-2 px-4 w-full" required>

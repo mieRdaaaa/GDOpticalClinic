@@ -126,23 +126,27 @@ $conn->close();
                     <span class="detail-title font-bold text-lg">Address:</span>
                     <span class="detail-value text-lg"><?php echo $row['address']; ?></span>
                 </div>
-                <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">Medication History:</span>
-                    <span class="detail-value text-lg"><?php echo $row['medication_history']; ?></span>
-                </div>
+
                 <div class="detail-row mb-4">
                     <span class="detail-title font-bold text-lg">Date Added:</span>
                     <span class="detail-value text-lg"><?php echo $row['date_added']; ?></span>
                 </div>
             </div>
-            <div class="action-buttons mt-6">
-                <a href="doctor_edit.php?id=<?php echo $row['patients_id']; ?>" class="action-btn edit-btn bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg"><i class="fa fa-edit"></i> Edit</a>
-                <a href="doctor_table.php" class="action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg"><i class="fa fa-undo"></i> Back to List</a>
-                <a href="doctor_eye_test_results.php?id=<?php echo $row['patients_id']; ?>" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">
-  <i class="fa fa-eye"></i> Eye Test Results
+            <div class="action-buttons mt-6 flex space-x-4"> <!-- Use flex and space-x-4 for spacing -->
+    <a href="doctor_edit.php?id=<?php echo $row['patients_id']; ?>" class="action-btn edit-btn bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg">
+        <i class="fa fa-edit"></i> Edit
+    </a>
+    <a href="doctor_eye_test_results.php?id=<?php echo $row['patients_id']; ?>" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">
+        <i class="fa fa-eye"></i> Eye Test Results
+    </a>
+    <a href="doctor_initial_consultation_view.php?id=<?php echo $row['patients_id']; ?>" class="action-btn back-btn bg-yellow-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
+    <i class="fas fa-handshake"></i> Initial Consultation
 </a>
+    <a href="doctor_table.php" class="action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
+        <i class="fa fa-undo"></i> Back to List
+    </a>
+</div>
 
-            </div>
         </div>
     </main>
 </body>
