@@ -1,5 +1,5 @@
 <?php
-include('db.php');
+include('db.php'); // Make sure to include your database connection
 
 // User info
 $user_fullname = '';
@@ -28,15 +28,19 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
+// Fetching patient details
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-
-    // Fetch the record based on the ID
     $sql = "SELECT * FROM patients WHERE patients_id = $id";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        
+        // Medical history variables
+        $allergies = $row['allergies'] === 'Yes' ? htmlspecialchars($row['allergy_specify']) : 'No';
+        $eye_conditions = $row['eye_conditions'] === 'Yes' ? htmlspecialchars($row['eye_conditions_specify']) : 'No';
+        $additional_notes = htmlspecialchars($row['additional_notes']);
     } else {
         echo "Record not found";
         exit;
@@ -46,7 +50,7 @@ if (isset($_GET['id'])) {
     exit;
 }
 
-$conn->close();
+$conn->close(); // Close the database connection
 ?>
 
 <!DOCTYPE html>
@@ -54,10 +58,10 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Patient Details</title>
+    <title>Patient Medical History</title>
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Start: Main -->
@@ -91,68 +95,38 @@ $conn->close();
             </div>
         </div>
 
-        <div class="container mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
-            <h2 class="text-3xl font-semibold mb-6">Patient Details</h2>
-            <div class="details-table">
+        <!-- Patient Details Section -->
+        <div class="px-6 py-4">
+            <div class="flex items-center mb-6">
+                <h2 class="text-4xl font-semibold">Patient Medical History</h2> 
+                <a href="secretary_patient_medical_edit.php?id=<?php echo htmlspecialchars($row['patients_id']); ?>" class="ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg inline-block">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a href="secretary_view.php?id=<?php echo htmlspecialchars($row['patients_id']); ?>" class="ml-4 action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
+                    <i class="fa fa-undo"></i> Back to List
+                </a>
+            </div>
+            
+            <div class="details-table bg-white p-4 rounded-md shadow-md">
                 <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">ID:</span>
-                    <span class="detail-value text-lg"><?php echo $row['patients_id']; ?></span>
+                    <span class="detail-title font-bold text-xl">Known Allergies:</span> 
+                    <div class="detail-value text-xl"><?php echo $allergies; ?></div> 
                 </div>
                 <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">Last Name:</span>
-                    <span class="detail-value text-lg"><?php echo $row['last_name']; ?></span>
+                    <span class="detail-title font-bold text-xl">Previous Eye Conditions or Surgeries:</span> 
+                    <div class="detail-value text-xl"><?php echo $eye_conditions; ?></div> 
                 </div>
-                <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">First Name:</span>
-                    <span class="detail-value text-lg"><?php echo $row['first_name']; ?></span>
-                </div>
-                <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">Middle Name:</span>
-                    <span class="detail-value text-lg"><?php echo $row['middle_name']; ?></span>
-                </div>
-                <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">Gender:</span>
-                    <span class="detail-value text-lg"><?php echo $row['gender']; ?></span>
-                </div>
-                <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">Date of Birth:</span>
-                    <span class="detail-value text-lg"><?php echo $row['date_of_birth']; ?></span>
-                </div>
-                <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">Contact Number:</span>
-                    <span class="detail-value text-lg"><?php echo $row['contact_no']; ?></span>
-                </div>
-                <div class="detail-row mb-4 border-b border-gray-300 pb-2">
-                    <span class="detail-title font-bold text-lg">Address:</span>
-                    <span class="detail-value text-lg"><?php echo $row['address']; ?></span>
-                </div>
-
                 <div class="detail-row mb-4">
-                    <span class="detail-title font-bold text-lg">Date Added:</span>
-                    <span class="detail-value text-lg"><?php echo $row['date_added']; ?></span>
+                    <span class="detail-title font-bold text-xl">Additional Notes:</span> 
+                    <div class="detail-value text-xl"><?php echo $additional_notes; ?></div> 
                 </div>
             </div>
-            <div class="action-buttons mt-6 flex space-x-4"> <!-- Use flex and space-x-4 for spacing -->
-    <a href="secretary_edit.php?id=<?php echo $row['patients_id']; ?>" class="action-btn edit-btn bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg">
-        <i class="fa fa-edit"></i> Edit
-    </a>
-    <a href="secretary_eye_test_results.php?id=<?php echo $row['patients_id']; ?>" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">
-        <i class="fa fa-eye"></i> Eye Test Results
-    </a>
-    <a href="secretary_initial_consultation_view.php?id=<?php echo $row['patients_id']; ?>" class="action-btn back-btn bg-yellow-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
-        <i class="fas fa-handshake"></i> Initial Consultation
-    </a>
-    <a href="secretary_table.php" class="action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
-        <i class="fa fa-undo"></i> Back to List
-    </a>
-</div>
-
-
         </div>
+
     </main>
-</body>
-<?php include('secretary_homepage.php'); ?>
+    <?php include('secretary_homepage.php'); ?>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../dist/js/script.js"></script>
+</body>
 </html>

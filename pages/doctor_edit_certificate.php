@@ -99,39 +99,39 @@ $conn->close();
             <form action="doctor_update_certificate.php?id=<?php echo $certificate['certificate_id']; ?>" method="POST">
                 <div class="mb-4">
                     <label for="symptoms" class="block text-lg font-medium text-gray-700">Symptoms:</label>
-                    <textarea id="symptoms" name="symptoms" class="border border-black-300 rounded-md p-2 w-full text-lg" required><?php echo htmlspecialchars($certificate['symptoms']); ?></textarea>
+                    <textarea id="symptoms" name="symptoms" class="border border-black-300 rounded-md p-2 w-full text-lg" ><?php echo htmlspecialchars($certificate['symptoms']); ?></textarea>
                 </div>
                 <div class="mb-4">
                     <label for="examination" class="block text-lg font-medium text-gray-700">Examination:</label>
-                    <textarea id="examination" name="examination" class="border border-black-300 rounded-md p-2 w-full text-lg" required><?php echo htmlspecialchars($certificate['examination']); ?></textarea>
+                    <textarea id="examination" name="examination" class="border border-black-300 rounded-md p-2 w-full text-lg" ><?php echo htmlspecialchars($certificate['examination']); ?></textarea>
                 </div>
                 <div class="mb-4">
                     <label for="recommendation" class="block text-lg font-medium text-gray-700">Recommendation:</label>
-                    <textarea id="recommendation" name="recommendation" class="border border-black-300 rounded-md p-2 w-full text-lg" required><?php echo htmlspecialchars($certificate['recommendation']); ?></textarea>
+                    <textarea id="recommendation" name="recommendation" class="border border-black-300 rounded-md p-2 w-full text-lg" ><?php echo htmlspecialchars($certificate['recommendation']); ?></textarea>
                 </div>
                 <div class="mb-4">
                     <label for="osuva" class="block text-lg font-medium text-gray-700">Osuva:</label>
-                    <input type="text" id="osuva" name="osuva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osuva']); ?>" required>
+                    <input type="text" id="osuva" name="osuva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osuva']); ?>" >
                 </div>
                 <div class="mb-4">
                     <label for="oduva" class="block text-lg font-medium text-gray-700">Oduva:</label>
-                    <input type="text" id="oduva" name="oduva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['oduva']); ?>" required>
+                    <input type="text" id="oduva" name="oduva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['oduva']); ?>" >
                 </div>
                 <div class="mb-4">
                     <label for="osadd" class="block text-lg font-medium text-gray-700">Osadd:</label>
-                    <input type="text" id="osadd" name="osadd" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osadd']); ?>" required>
+                    <input type="text" id="osadd" name="osadd" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osadd']); ?>" >
                 </div>
                 <div class="mb-4">
                     <label for="odadd" class="block text-lg font-medium text-gray-700">Odadd:</label>
-                    <input type="text" id="odadd" name="odadd" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['odadd']); ?>" required>
+                    <input type="text" id="odadd" name="odadd" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['odadd']); ?>" >
                 </div>
                 <div class="mb-4">
                     <label for="odbcva" class="block text-lg font-medium text-gray-700">Odbcva:</label>
-                    <input type="text" id="odbcva" name="odbcva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['odbcva']); ?>" required>
+                    <input type="text" id="odbcva" name="odbcva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['odbcva']); ?>" >
                 </div>
                 <div class="mb-4">
                     <label for="osbcva" class="block text-lg font-medium text-gray-700">Osbcva:</label>
-                    <input type="text" id="osbcva" name="osbcva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osbcva']); ?>" required>
+                    <input type="text" id="osbcva" name="osbcva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osbcva']); ?>" >
                 </div>
                 <div class="action-buttons mt-6">
                     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg">Update Certificate</button>

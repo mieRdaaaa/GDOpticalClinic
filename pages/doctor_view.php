@@ -140,12 +140,16 @@ $conn->close();
         <i class="fa fa-eye"></i> Eye Test Results
     </a>
     <a href="doctor_initial_consultation_view.php?id=<?php echo $row['patients_id']; ?>" class="action-btn back-btn bg-yellow-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
-    <i class="fas fa-handshake"></i> Initial Consultation
-</a>
+        <i class="fas fa-handshake"></i> Initial Consultation
+    </a>
+    <a href="doctor_eyeresult.php?id=<?php echo $row['patients_id']; ?>" class="action-btn bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-600 transition duration-200">
+        <i class="fa fa-plus"></i> Add Eye Result
+    </a>
     <a href="doctor_table.php" class="action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
         <i class="fa fa-undo"></i> Back to List
     </a>
 </div>
+
 
         </div>
     </main>

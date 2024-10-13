@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <div class="container mx-auto px-4 py-8">
-            <h2 class="text-2xl font-bold mb-6">Eye Examination Form</h2>
+        <h3 class="text-3xl text-black-600 mr-2 font-medium">Eye Examination for ID: <?php echo $patient_id; ?></h3>
             <form method="POST" action="" class="bg-white p-6 rounded shadow-md">
                 <div class="mb-4">
                     <label for="right_sphere" class="block text-gray-700"><i class="fa fa-eye"></i> Right Sphere:</label>
@@ -161,8 +161,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="flex justify-between">
                     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onclick="alert('New eye record added')"><i class="fas fa-check"></i> Submit</button>
-                    <button type="button" class="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400" onclick="window.location.href='doctor_table.php';"><i class="fas fa-times"></i> Cancel</button>
-                </div>
+                    <button type="button" class="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400" onclick="window.location.href='doctor_view.php?id=<?php echo $patient_id; ?>';"><i class="fas fa-times"></i> Cancel</button>
+
             </form>
         </div>
     </main>

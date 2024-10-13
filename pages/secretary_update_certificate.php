@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if ($stmt->execute()) {
         // Redirect to the certificate view page after successful update
-        header("Location: doctor_certificate_view.php?id=" . htmlspecialchars($certificate['patients_id']));
+        header("Location: secretary_certificate_view.php?id=" . htmlspecialchars($certificate['patients_id']));
         exit();
     } else {
         echo "Error updating record: " . $stmt->error;

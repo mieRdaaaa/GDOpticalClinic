@@ -177,10 +177,7 @@ $conn->close();
             <label for="address" class="block text-sm font-medium text-gray-700"><i class="fa fa-home"></i> Address:</label>
             <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($row['address']); ?>" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
         </div>
-                <div class="mb-4">
-                    <label for="medication_history" class="block text-sm font-medium text-gray-700"><i class="fa fa-notes-medical"></i> Medication History:</label>
-                    <textarea id="medication_history" name="medication_history" rows="3" class="mt-1 p-2 border border-gray-300 rounded-md w-full"><?php echo htmlspecialchars($row['medication_history']); ?></textarea>
-                </div>
+
                 <button type="submit" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded">Update Patient</button>
             </form>
         </div>

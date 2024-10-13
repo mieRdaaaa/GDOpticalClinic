@@ -152,17 +152,20 @@ $total_stmt->close();
             </div>
         </div>
 
-        <!-- Search form -->
-<form method="GET" action="" class="px-6 py-4">
-    <div class="flex">
+    <!-- Header and Search form -->
+<div class="flex items-center justify-between px-6 py-4">
+    <h2 class="text-3xl font-semibold text-gray-800">Patients Table</h2>
+    <form method="GET" action="" class="flex">
         <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
         <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>
-    </div>
-</form>
+    </form>
+</div>
+
 
 
         <!-- Table container -->
         <div class="table-container px-6 py-4">
+            
             <div class="overflow-x-auto bg-white rounded-lg shadow">
                 <table class="min-w-full bg-white border border-gray-300">
                     <thead>
@@ -195,7 +198,6 @@ $total_stmt->close();
                                         <td class='py-2 px-4'>
                                             <a href='doctor_view.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
                                             <a href='?delete_id={$row['patients_id']}' class='action-btn delete text-red-500 hover:text-red-700' onclick='return confirm(\"Are you sure you want to delete this record?\")'><i class='fa fa-trash'></i></a>
-                                            <a href='doctor_eyeresult.php?id={$row['patients_id']}' class='action-btn add text-green-500 hover:text-green-700'><i class='fa fa-plus'></i></a>
                                         </td>
                                       </tr>";
                             }

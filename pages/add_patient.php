@@ -161,7 +161,11 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     </div>
-
+    <div class="p-6">
+    <!-- Dashboard Header with Flexbox Alignment -->
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-semibold text-gray-800">Add Patients</h1>
+    </div>
     <div class="form-container bg-white p-8 rounded shadow-md m-4">
         <h2 class="text-2xl font-semibold mb-4">Patient Information</h2>
 

@@ -106,6 +106,9 @@ $total_pages = ceil($total_rows / $limit);
         </div>
 
         <!-- Search form -->
+        <div class="flex items-center justify-between px-6 py-4">
+        <h2 class="text-3xl font-semibold text-gray-800">Patients History</h2>
+        </div>
         <form method="GET" action="" class="px-6 py-4">
             <div class="flex">
                 <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">

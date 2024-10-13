@@ -148,13 +148,17 @@ $conn->close();
     <h3 class="text-2xl font-semibold mb-4 flex justify-between items-center">
         Certificate Details ID: <?php echo htmlspecialchars($certificate['certificate_id']); ?>
         <div class="flex space-x-2">
-            <a href="certificate.php?id=<?php echo htmlspecialchars($certificate['certificate_id']); ?>&patient_id=<?php echo htmlspecialchars($patient_id); ?>" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg">
-                <i class="fas fa-file-download"></i> Generate
-            </a>
-            <a href="secretary_edit_certificate.php?id=<?php echo htmlspecialchars($certificate['certificate_id']); ?>" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg">
-                <i class="fa fa-edit"></i> Edit
-            </a>
-        </div>
+    <a href="certificate.php?id=<?php echo htmlspecialchars($certificate['certificate_id']); ?>&patient_id=<?php echo htmlspecialchars($patient_id); ?>" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg">
+        <i class="fas fa-file-download"></i> Generate
+    </a>
+    <a href="secretary_edit_certificate.php?id=<?php echo htmlspecialchars($certificate['certificate_id']); ?>" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg">
+        <i class="fa fa-edit"></i> Edit
+    </a>
+    <a href="secretary_delete_certificate.php?id=<?php echo htmlspecialchars($certificate['certificate_id']); ?>" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 text-lg" onclick="return confirm('Are you sure you want to delete this certificate?');">
+        <i class="fa fa-trash"></i> Delete
+    </a>
+</div>
+
     </h3>
             <p><strong>Symptoms:</strong> <?php echo htmlspecialchars($certificate['symptoms']); ?></p>
             <p><strong>Examination:</strong> <?php echo htmlspecialchars($certificate['examination']); ?></p>
