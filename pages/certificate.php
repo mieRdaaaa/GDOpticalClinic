@@ -105,14 +105,14 @@ $osadd=htmlspecialchars($certificate_data['osadd']);
 $ospd=htmlspecialchars($eye_result['pd']);
 $osbcva=htmlspecialchars($certificate_data['osbcva']);
 $doctor='glen';
-imagettftext($image, 27 , 0 ,295, 364, $color, $font, $formatted_date1);
+imagettftext($image, 36 , 0 ,475, 549, $color, $font, $formatted_date1);
                         ///size   angle   x   y
 
-imagettftext($image, 28 , 0 ,613, 517, $color, $font, $name1);
+imagettftext($image, 36 , 0 ,953, 779, $color, $font, $name1);
 
-imagettftext($image, 27 , 0 ,405, 558, $color, $font, $formatted_date2);
+imagettftext($image, 36 , 0 ,650, 833, $color, $font, $formatted_date2);
 
-imagettftext($image, 27 , 0 ,1130, 558, $color, $font, $symptoms);
+imagettftext($image, 36 , 0 ,1688, 833, $color, $font, $symptoms);
 
 
 
@@ -122,9 +122,9 @@ imagettftext($image, 27 , 0 ,1130, 558, $color, $font, $symptoms);
 {
     // Define a maximum width for the text block
     $maxWidth = 700; // Adjust this to your image width constraints
-    $fontSize = 28;
-    $xPosition1 = 710;
-    $yPosition1 = 712;
+    $fontSize = 36;
+    $xPosition1 = 1063;
+    $yPosition1 = 1065;
     $lineHeight = 77; // Vertical space between lines
     
     // Split the examination text into lines
@@ -158,9 +158,9 @@ imagettftext($image, 27 , 0 ,1130, 558, $color, $font, $symptoms);
     {
     
     $maxWidth = 700; // Adjust this to your image width constraints
-    $fontSize = 28;
-    $xPosition2 = 710;
-    $yPosition2 = 942;
+    $fontSize = 36;
+    $xPosition2 = 1063;
+    $yPosition2 = 1410;
     $lineHeight = 77; // Vertical space between lines
     
     // Split the diagnosis text into lines
@@ -192,9 +192,9 @@ imagettftext($image, 27 , 0 ,1130, 558, $color, $font, $symptoms);
 //recommendation
 {
     $maxWidth = 700; // Adjust this to your image width constraints
-    $fontSize = 28;
-    $xPosition = 710;
-    $yPosition = 1175;
+    $fontSize = 36;
+    $xPosition = 1063;
+    $yPosition = 1760;
     $lineHeight = 77; // Vertical space between lines
     
     // Split the recommendation text into lines
@@ -226,47 +226,46 @@ imagettftext($image, 27 , 0 ,1130, 558, $color, $font, $symptoms);
 ///spectacle rx
 //od
 
-imagettftext($image, 28 , 0 ,394, 1567, $color, $font, $oduva);
-imagettftext($image, 28 , 0 ,553, 1567, $color, $font, $odsphere);
-imagettftext($image, 28 , 0 ,730, 1567, $color, $font, $odcylinder);
-imagettftext($image, 28 , 0 ,915, 1567, $color, $font, $odaxis);
-imagettftext($image, 28 , 0 ,1071, 1567, $color, $font, $odadd);
-imagettftext($image, 28 , 0 ,1225, 1567, $color, $font, $odpd);
-imagettftext($image, 28 , 0 ,1379, 1567, $color, $font, $odbcva);
+imagettftext($image, 36 , 0 ,599, 2117, $color, $font, $oduva);
+imagettftext($image, 36 , 0 ,859, 2117, $color, $font, $odsphere);
+imagettftext($image, 36 , 0 ,1109, 2117, $color, $font, $odcylinder);
+imagettftext($image, 36 , 0 ,1407, 2117, $color, $font, $odaxis);
+imagettftext($image, 36 , 0 ,1607, 2117, $color, $font, $odadd);
+imagettftext($image, 36 , 0 ,1867, 2117, $color, $font, $odpd);
+imagettftext($image, 36 , 0 ,2099, 2117, $color, $font, $odbcva);
 
 //os
 
-imagettftext($image, 28 , 0 ,394, 1607, $color, $font, $osuva);
-imagettftext($image, 28 , 0 ,553, 1607, $color, $font, $ossphere);
-imagettftext($image, 28 , 0 ,730, 1607, $color, $font, $oscylinder);
-imagettftext($image, 28 , 0 ,915, 1607, $color, $font, $osaxis);
-imagettftext($image, 28 , 0 ,1071, 1607, $color, $font, $osadd);
-imagettftext($image, 28 , 0 ,1225, 1607, $color, $font, $ospd);
-imagettftext($image, 28 , 0 ,1379, 1607, $color, $font, $osbcva);
+imagettftext($image, 36 , 0 ,599, 2181, $color, $font, $osuva);
+imagettftext($image, 36 , 0 ,859, 2181, $color, $font, $ossphere);
+imagettftext($image, 36 , 0 ,1109, 2181, $color, $font, $oscylinder);
+imagettftext($image, 36 , 0 ,1407, 2181, $color, $font, $osaxis);
+imagettftext($image, 36 , 0 ,1607, 2181, $color, $font, $osadd);
+imagettftext($image, 36 , 0 ,1867, 2181, $color, $font, $ospd);
+imagettftext($image, 36 , 0 ,2099, 2181, $color, $font, $osbcva);
 
 
 //DOCTOR
-imagettftext($image, 28, 0, 278, 2030, $color, $font, strtoupper($doctor));
-
-
-
-
-// Save the generated image
-imagejpeg($image);
-imagedestroy($image);   
-
-
+imagettftext($image, 36, 0, 320, 2635, $color, $font, strtoupper($doctor));
 
 
 
 /*
 // Save the generated image
+imagejpeg($image);
+imagedestroy($image); */
+
+
+
+
+
+// Save the generated image
 imagejpeg($image, 'output_image.jpg');
 imagedestroy($image);
 
 // Create a new PDF document
-$pdf = new FPDF('P', 'mm', 'Legal' );
+$pdf = new FPDF('P', 'mm', 'Letter' );
 $pdf->AddPage();
-$pdf->Image('output_image.jpg', 0, 0, 216, 356); // Adjust dimensions as needed
-$pdf->Output('D', 'output.pdf'); // Download the PDF file */
-?>
+$pdf->Image('output_image.jpg', 0, 0, 216, 279); // Adjust dimensions as needed
+$pdf->Output('D', 'output.pdf'); // Download the PDF file  
+?> 
