@@ -124,94 +124,107 @@ if ($result && $result->num_rows > 0) {
     </div>
 
     <div class="p-6">
-        <!-- Dashboard Header with Flexbox Alignment -->
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-semibold text-gray-800">Dashboard</h1>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-            <!-- Metric Card for Patients Today -->
-            <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5">
-                <div class="flex flex-row items-center">
-                    <div class="flex-shrink pr-4">
-                        <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
-                    </div>
-                    <div class="flex-1 text-right md:text-center">
-                        <h5 class="font-bold uppercase text-gray-600">Patients Today</h5>
-                        <h3 class="font-bold text-3xl"><?php echo $patients_today; ?></h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Metric Card for Patients Yesterday with Indigo Colors -->
-            <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5">
-                <div class="flex flex-row items-center">
-                    <div class="flex-shrink pr-4">
-                        <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
-                    </div>
-                    <div class="flex-1 text-right md:text-center">
-                        <h5 class="font-bold uppercase text-gray-600">Patients Yesterday</h5>
-                        <h3 class="font-bold text-3xl"><?php echo $patients_yesterday; ?></h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Metric Card for Total Patients -->
-            <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5">
-                <div class="flex flex-row items-center">
-                    <div class="flex-shrink pr-4">
-                        <div class="rounded-full p-5 bg-green-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
-                    </div>
-                    <div class="flex-1 text-right md:text-center">
-                        <h5 class="font-bold uppercase text-gray-600">Total Patients</h5>
-                        <h3 class="font-bold text-3xl"><?php echo $total_patients; ?></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-<!-- Patient Comparison (Today vs. Yesterday) and Newly Added Patients -->
-<div class="flex gap-x-4 mt-6"> <!-- Adjust gap size here -->
-    <!-- Patient Comparison -->
-    <div class="bg-white p-6 rounded-lg shadow-md w-2/3 h-2/4"> <!-- 66% width -->
-    <h2 class="text-lg font-semibold mb-4">
-    <i class="ri-line-chart-fill text-2xl mr-2"></i>
-    Patient Insights: Comparing Today and Yesterday
-</h2>
-        <canvas id="patientChart" height="400" style="max-width: 100%;"></canvas> <!-- Set a specific height -->
+    <!-- Dashboard Header with Flexbox Alignment -->
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-semibold text-gray-800">Dashboard</h1>
     </div>
 
-<!-- Newly Added Patients List -->
-<div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-3/4"> <!-- 33% width -->
-    <h2 class="text-lg font-semibold mb-4">
-        <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
-    </h2>
-
-    <ul>
-        <?php foreach ($newly_added_patients as $patient): ?>
-            <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
-                <!-- Conditional image based on gender -->
-                <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
-                     alt="Patient Photo" 
-                     class="w-8 h-8 rounded-full mr-3"> <!-- Adjust size as needed -->
-
-                <!-- Patient Name and Date -->
-                <div class="flex items-center justify-between flex-grow">
-                    <div class="flex items-center">
-                        <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
-                        <!-- NEW Badge -->
-                        <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">
-                            NEW
-                        </span>
-                    </div>
-                    <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        <!-- Metric Card for Patients Today -->
+        <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
+            <div class="flex flex-row items-center">
+                <div class="flex-shrink pr-4">
+                    <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
                 </div>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+                <div class="flex-1 text-right md:text-center">
+                    <h5 class="font-bold uppercase text-gray-600">Patients Today</h5>
+                    <h3 class="font-bold text-3xl">
+                        <?php echo $patients_today; ?> 
+                        <span class="text-sm text-green-500 font-bold">
+                            <?php 
+                            $patients_today_percentage = $total_patients > 0 ? ($patients_today / $total_patients) * 100 : 0; 
+                            echo round($patients_today_percentage, 2) . '% +'; 
+                            ?>
+                        </span>
+                    </h3>
+                </div>
+            </div>
+        </div>
 
+        <!-- Metric Card for Patients Yesterday with Indigo Colors -->
+        <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
+            <div class="flex flex-row items-center">
+                <div class="flex-shrink pr-4">
+                    <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                </div>
+                <div class="flex-1 text-right md:text-center">
+                    <h5 class="font-bold uppercase text-gray-600">Patients Yesterday</h5>
+                    <h3 class="font-bold text-3xl">
+                        <?php echo $patients_yesterday; ?> 
+                        <span class="text-sm text-green-500 font-bold">
+                            <?php 
+                            $patients_yesterday_percentage = $total_patients > 0 ? ($patients_yesterday / $total_patients) * 100 : 0; 
+                            echo round($patients_yesterday_percentage, 2) . '% +'; 
+                            ?>
+                        </span>
+                    </h3>
+                </div>
+            </div>
+        </div>
 
+        <!-- Metric Card for Total Patients -->
+        <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
+            <div class="flex flex-row items-center">
+                <div class="flex-shrink pr-4">
+                    <div class="rounded-full p-5 bg-green-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                </div>
+                <div class="flex-1 text-right md:text-center">
+                    <h5 class="font-bold uppercase text-gray-600">Total Patients</h5>
+                    <h3 class="font-bold text-3xl">
+                        <?php echo $total_patients; ?> 
+                        <span class="text-sm text-green-500"></span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Comparison (Today vs. Yesterday) and Newly Added Patients -->
+    <div class="flex gap-x-4 mt-6 w-full">
+        <!-- Patient Comparison with Reduced Height -->
+        <div class="bg-white p-6 rounded-lg shadow-md w-2/3" style="height: 38rem;">  <!-- Set height to 64 units -->
+            <h2 class="text-lg font-semibold mb-4">
+                <i class="ri-line-chart-fill text-2xl mr-2"></i>
+                Patient Insights: Comparing Today and Yesterday
+            </h2>
+            <canvas id="patientChart" style="max-width: 100%; height: 100%;"></canvas>
+        </div>
+
+        <!-- Newly Added Patients List -->
+        <div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-2/3">
+            <h2 class="text-lg font-semibold mb-4">
+                <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
+            </h2>
+            <ul>
+                <?php foreach ($newly_added_patients as $patient): ?>
+                    <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
+                        <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
+                             alt="Patient Photo" 
+                             class="w-8 h-8 rounded-full mr-3">
+                        <div class="flex items-center justify-between flex-grow">
+                            <div class="flex items-center">
+                                <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
+                                <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">NEW</span>
+                            </div>
+                            <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
 </div>
+
 
 
 
@@ -233,7 +246,7 @@ if ($result && $result->num_rows > 0) {
         },
         options: {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     scales: {
         y: {
             beginAtZero: true,
