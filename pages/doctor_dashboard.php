@@ -59,7 +59,7 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 // Retrieve the latest 5 patients for the "Newly Added Patients" list
-$sql = "SELECT first_name, middle_name, last_name, date_added FROM patients ORDER BY date_added DESC LIMIT 9";
+$sql = "SELECT first_name, middle_name, last_name, gender, date_added FROM patients ORDER BY date_added DESC LIMIT 10";
 $result = $conn->query($sql);
 
 $newly_added_patients = [];
@@ -67,6 +67,7 @@ if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $newly_added_patients[] = [
             'name' => $row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'],
+            'gender' => $row['gender'],
             'date_added' => $row['date_added']
         ];
     }
@@ -78,8 +79,9 @@ if ($result && $result->num_rows > 0) {
 <head>
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> <!--Replace with your tailwind.css once created-->
-    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
+    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/remixicon/fonts/remixicon.css"></script>
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
 </head>
@@ -172,22 +174,43 @@ if ($result && $result->num_rows > 0) {
 <div class="flex gap-x-4 mt-6"> <!-- Adjust gap size here -->
     <!-- Patient Comparison -->
     <div class="bg-white p-6 rounded-lg shadow-md w-2/3 h-2/4"> <!-- 66% width -->
-        <h2 class="text-lg font-semibold mb-4">Patient Insights: Comparing Today and Yesterday</h2>
+    <h2 class="text-lg font-semibold mb-4">
+    <i class="ri-line-chart-fill text-2xl mr-2"></i>
+    Patient Insights: Comparing Today and Yesterday
+</h2>
         <canvas id="patientChart" height="400" style="max-width: 100%;"></canvas> <!-- Set a specific height -->
     </div>
 
-    <!-- Newly Added Patients List -->
-    <div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-3/4"> <!-- 33% width -->
-        <h2 class="text-lg font-semibold mb-4">Newly Added Patients</h2>
-        <ul>
-            <?php foreach ($newly_added_patients as $patient): ?>
-                <li class="mb-2 border-b border-gray-200 pb-2">
-                    <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
+<!-- Newly Added Patients List -->
+<div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-3/4"> <!-- 33% width -->
+    <h2 class="text-lg font-semibold mb-4">
+        <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
+    </h2>
+
+    <ul>
+        <?php foreach ($newly_added_patients as $patient): ?>
+            <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
+                <!-- Conditional image based on gender -->
+                <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
+                     alt="Patient Photo" 
+                     class="w-8 h-8 rounded-full mr-3"> <!-- Adjust size as needed -->
+
+                <!-- Patient Name and Date -->
+                <div class="flex items-center justify-between flex-grow">
+                    <div class="flex items-center">
+                        <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
+                        <!-- NEW Badge -->
+                        <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">
+                            NEW
+                        </span>
+                    </div>
                     <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+
+
 </div>
 
 
