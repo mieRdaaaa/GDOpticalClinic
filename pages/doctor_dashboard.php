@@ -58,6 +58,21 @@ if (isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
+// Retrieve the latest 5 patients for the "Newly Added Patients" list
+$sql = "SELECT first_name, middle_name, last_name, date_added FROM patients ORDER BY date_added DESC LIMIT 9";
+$result = $conn->query($sql);
+
+$newly_added_patients = [];
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $newly_added_patients[] = [
+            'name' => $row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'],
+            'date_added' => $row['date_added']
+        ];
+    }
+} else {
+    echo "Error retrieving recent patients: " . $conn->error;
+}
 
 ?>
 <head>
@@ -152,11 +167,30 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
         </div>
-        <!-- Patient Comparison (Today vs. Yesterday) -->
-        <div class="bg-white p-6 rounded-lg shadow-md mt-6"style="max-width: 66%;">
-    <h2 class="text-lg font-semibold mb-4">Patient Insights: Comparing Today and Yesterday</h2>
-    <canvas id="patientChart" height="400" style="max-width: 100%;"></canvas> <!-- Set a specific height -->
+
+<!-- Patient Comparison (Today vs. Yesterday) and Newly Added Patients -->
+<div class="flex gap-x-4 mt-6"> <!-- Adjust gap size here -->
+    <!-- Patient Comparison -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-2/3 h-2/4"> <!-- 66% width -->
+        <h2 class="text-lg font-semibold mb-4">Patient Insights: Comparing Today and Yesterday</h2>
+        <canvas id="patientChart" height="400" style="max-width: 100%;"></canvas> <!-- Set a specific height -->
+    </div>
+
+    <!-- Newly Added Patients List -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-3/4"> <!-- 33% width -->
+        <h2 class="text-lg font-semibold mb-4">Newly Added Patients</h2>
+        <ul>
+            <?php foreach ($newly_added_patients as $patient): ?>
+                <li class="mb-2 border-b border-gray-200 pb-2">
+                    <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
+                    <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 </div>
+
+
 
 <!-- Add this script at the bottom before closing the body -->
 <script>
