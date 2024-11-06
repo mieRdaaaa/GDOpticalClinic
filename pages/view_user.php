@@ -165,7 +165,7 @@ $total_stmt->close();
                                         <td class='py-2 px-4'>{$row['birthdate']}</td>
                                         <td class='py-2 px-4'>{$row['contact_number']}</td>
                                         <td class='py-2 px-4'>{$row['address']}</td>
-                                        <td class='py-2 px-4'>{$row['account_type']}</td>
+                                         <td class='py-2 px-4'>" . strtoupper($row['account_type']) . "</td>
                                         <td class='py-2 px-4'>
                                             <a href='doctor_usersedit.php?id={$row['accounts_id']}' class='text-blue-500 hover:text-blue-700'><i class='fa fa-edit'></i></a>
                                             <a href='?delete_id={$row['accounts_id']}' class='text-red-500 hover:text-red-700' onclick='return confirm(\"Are you sure you want to delete this record?\")'><i class='fa fa-trash'></i></a>

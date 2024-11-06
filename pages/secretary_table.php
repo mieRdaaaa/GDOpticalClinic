@@ -184,17 +184,24 @@ $total_stmt->close();
                     <tbody>
                         <?php
                         if ($result->num_rows > 0) {
-                            // Output data of each row
                             while($row = $result->fetch_assoc()) {
+                                // Format the date of birth
+                                $dob = new DateTime($row['date_of_birth']);
+                                $formatted_dob = $dob->format('F j, Y'); // e.g., December 4, 2021
+                    
+                                // Format the date added
+                                $date_added = new DateTime($row['date_added']);
+                                $formatted_date_added = $date_added->format('F j, Y'); // e.g., December 4, 2021
+                    
                                 echo "<tr class='border-b border-gray-200 hover:bg-gray-100 text-lg'>
                                         <td class='py-2 px-4'>{$row['last_name']}</td>
                                         <td class='py-2 px-4'>{$row['first_name']}</td>
                                         <td class='py-2 px-4'>{$row['middle_name']}</td>
                                         <td class='py-2 px-4'>{$row['gender']}</td>
-                                        <td class='py-2 px-4'>{$row['date_of_birth']}</td>
+                                        <td class='py-2 px-4'>{$formatted_dob}</td>
                                         <td class='py-2 px-4'>{$row['contact_no']}</td>
                                         <td class='py-2 px-4'>{$row['address']}</td>
-                                        <td class='py-2 px-4'>{$row['date_added']}</td>
+                                        <td class='py-2 px-4'>{$formatted_date_added}</td>
                                         <td class='py-2 px-4'>
                                             <a href='secretary_view.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
     

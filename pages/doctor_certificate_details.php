@@ -163,12 +163,12 @@ $conn->close();
             <p><strong>Symptoms:</strong> <?php echo htmlspecialchars($certificate['symptoms']); ?></p>
             <p><strong>Examination:</strong> <?php echo htmlspecialchars($certificate['examination']); ?></p>
             <p><strong>Recommendation:</strong> <?php echo htmlspecialchars($certificate['recommendation']); ?></p>
-            <p><strong>Osuva:</strong> <?php echo htmlspecialchars($certificate['osuva']); ?></p>
-            <p><strong>Oduva:</strong> <?php echo htmlspecialchars($certificate['oduva']); ?></p>
-            <p><strong>Osadd:</strong> <?php echo htmlspecialchars($certificate['osadd']); ?></p>
-            <p><strong>Odadd:</strong> <?php echo htmlspecialchars($certificate['odadd']); ?></p>
-            <p><strong>Odbcva:</strong> <?php echo htmlspecialchars($certificate['odbcva']); ?></p>
-            <p><strong>Osbcva:</strong> <?php echo htmlspecialchars($certificate['osbcva']); ?></p>
+            <p><strong>Right/OD UVA:</strong> <?php echo htmlspecialchars($certificate['oduva']); ?></p>
+            <p><strong>Left/OS UVA:</strong> <?php echo htmlspecialchars($certificate['osuva']); ?></p>
+            <p><strong>Right/OD Reading Add:</strong> <?php echo htmlspecialchars($certificate['odadd']); ?></p>
+            <p><strong>Left/OS Reading add:</strong> <?php echo htmlspecialchars($certificate['osadd']); ?></p>
+            <p><strong>Right/OD Best Corrected Visual Activity:</strong> <?php echo htmlspecialchars($certificate['odbcva']); ?></p>
+            <p><strong>Left/OD Best Corrected Visual Activity:</strong> <?php echo htmlspecialchars($certificate['osbcva']); ?></p>
             <p><strong>Eye Result ID:</strong> <?php echo htmlspecialchars($certificate['eye_result_id']); ?></p>
             <p><strong>Date Added:</strong> <?php echo htmlspecialchars($certificate['date_added']); ?></p>
         </div>

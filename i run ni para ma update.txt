@@ -1,0 +1,4 @@
+git status
+git add .
+git commit -m "ilisa ang text dre para mabal an unsa imo gi add bsag unsa ra"
+git push origin master

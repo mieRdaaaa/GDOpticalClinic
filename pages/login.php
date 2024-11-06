@@ -3,11 +3,11 @@ session_start();
 include 'db.php';
 
 $showWarning = false; 
+$errorMessage = ""; // Initialize the error message variable
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
-
 
     $stmt = $conn->prepare("SELECT * FROM accounts WHERE username=? AND password=?");
     $stmt->bind_param("ss", $username, $password);
@@ -27,7 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         exit();
     } else {
+        // Set the warning message if login fails
         $showWarning = true;
+        $errorMessage = "Invalid username or password. Please try again.";
     }
 }
 ?>
@@ -53,6 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p class="text-gray-600 mt-2">Welcome back! Please log in to your account.</p>
         </div>
 
+        <!-- Show Warning Message if login fails -->
+        <?php if ($showWarning): ?>
+            <div class="mb-4 p-4 bg-red-200 text-red-800 border border-red-400 rounded">
+                <?= htmlspecialchars($errorMessage) ?>
+            </div>
+        <?php endif; ?>
+
         <form method="POST" action="">
             <div class="mb-4">
                 <input name="username" class="w-full px-4 py-3 text-sm text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" placeholder="Username" required>
@@ -74,10 +83,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-

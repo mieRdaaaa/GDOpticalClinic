@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </head>
-<body>
+<body class="bg-gray-100">
 
 <!-- Start: Main -->
 <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="p-6">
     <!-- Dashboard Header with Flexbox Alignment -->
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-semibold text-gray-800">Add Patients</h1>
+        <h1 class="text-3xl font-semibold text-gray-800">Add Patient Form</h1>
     </div>
     <div class="form-container bg-white p-8 rounded shadow-md m-4">
         <h2 class="text-2xl font-semibold mb-4">Patient Information</h2>

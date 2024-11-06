@@ -110,27 +110,27 @@ $conn->close();
                     <textarea id="recommendation" name="recommendation" class="border border-black-300 rounded-md p-2 w-full text-lg" ><?php echo htmlspecialchars($certificate['recommendation']); ?></textarea>
                 </div>
                 <div class="mb-4">
-                    <label for="osuva" class="block text-lg font-medium text-gray-700">Osuva:</label>
-                    <input type="text" id="osuva" name="osuva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osuva']); ?>" >
+                    <label for="osuva" class="block text-lg font-medium text-gray-700">Right/OD UVA:</label>
+                    <input type="text" id="oduva" name="oduva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osuva']); ?>" >
                 </div>
                 <div class="mb-4">
-                    <label for="oduva" class="block text-lg font-medium text-gray-700">Oduva:</label>
-                    <input type="text" id="oduva" name="oduva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['oduva']); ?>" >
+                    <label for="oduva" class="block text-lg font-medium text-gray-700">Left/OD UVA:</label>
+                    <input type="text" id="osuva" name="osuva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['oduva']); ?>" >
                 </div>
                 <div class="mb-4">
-                    <label for="osadd" class="block text-lg font-medium text-gray-700">Osadd:</label>
-                    <input type="text" id="osadd" name="osadd" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osadd']); ?>" >
+                    <label for="osadd" class="block text-lg font-medium text-gray-700">Right/OD Reading Add:</label>
+                    <input type="text" id="odadd" name="odadd" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osadd']); ?>" >
                 </div>
                 <div class="mb-4">
-                    <label for="odadd" class="block text-lg font-medium text-gray-700">Odadd:</label>
-                    <input type="text" id="odadd" name="odadd" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['odadd']); ?>" >
+                    <label for="odadd" class="block text-lg font-medium text-gray-700">Left/OS Reading Add:</label>
+                    <input type="text" id="osadd" name="osadd" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['odadd']); ?>" >
                 </div>
                 <div class="mb-4">
-                    <label for="odbcva" class="block text-lg font-medium text-gray-700">Odbcva:</label>
+                    <label for="odbcva" class="block text-lg font-medium text-gray-700">Right/OD Best Corrected Visual Activity:</label>
                     <input type="text" id="odbcva" name="odbcva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['odbcva']); ?>" >
                 </div>
                 <div class="mb-4">
-                    <label for="osbcva" class="block text-lg font-medium text-gray-700">Osbcva:</label>
+                    <label for="osbcva" class="block text-lg font-medium text-gray-700">Left/OS Best Corrected Visual Activity:</label>
                     <input type="text" id="osbcva" name="osbcva" class="border border-black-300 rounded-md p-2 w-full text-lg" value="<?php echo htmlspecialchars($certificate['osbcva']); ?>" >
                 </div>
                 <div class="action-buttons mt-6">

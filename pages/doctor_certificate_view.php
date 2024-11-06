@@ -36,11 +36,12 @@ if ($patient_id <= 0) {
     die("Invalid patient ID.");
 }
 
-// Fetch existing certificates for the patient
+// Fetch existing certificates for the patient, including doctor's name
 $certificate_sql = "
-    SELECT c.*, e.eye_result_id 
+    SELECT c.*, e.eye_result_id, a.fullname AS doctor_name 
     FROM certificate c 
     LEFT JOIN eye_result e ON c.eye_result_id = e.eye_result_id 
+    LEFT JOIN accounts a ON c.created_by = a.accounts_id
     WHERE c.patients_id = ?
 ";
 $stmt = $conn->prepare($certificate_sql);
@@ -50,7 +51,6 @@ $certificate_result = $stmt->get_result();
 
 // Close the MySQLi connection
 $conn->close();
-
 ?>
 
 <!DOCTYPE html>
@@ -105,14 +105,15 @@ $conn->close();
                             <th class="py-2 px-4">Symptoms</th>
                             <th class="py-2 px-4">Examination</th>
                             <th class="py-2 px-4">Recommendation</th>
-                            <th class="py-2 px-4">Osuva</th>
                             <th class="py-2 px-4">Oduva</th>
-                            <th class="py-2 px-4">Osadd</th>
+                            <th class="py-2 px-4">Osuva</th>
                             <th class="py-2 px-4">Odadd</th>
+                            <th class="py-2 px-4">Osadd</th>
                             <th class="py-2 px-4">Odbcva</th>
                             <th class="py-2 px-4">Osbcva</th>
                             <th class="py-2 px-4">Eye Result ID</th>
                             <th class="py-2 px-4">Date Added</th>
+                            <th class="py-2 px-4">Doctor</th> <!-- New column for Doctor -->
                             <th class="py-2 px-4">Actions</th>
                         </tr>
                     </thead>
@@ -123,14 +124,15 @@ $conn->close();
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['symptoms']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['examination']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['recommendation']); ?></td>
-                                <td class="py-2 px-4"><?php echo htmlspecialchars($row['osuva']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['oduva']); ?></td>
-                                <td class="py-2 px-4"><?php echo htmlspecialchars($row['osadd']); ?></td>
+                                <td class="py-2 px-4"><?php echo htmlspecialchars($row['osuva']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['odadd']); ?></td>
+                                <td class="py-2 px-4"><?php echo htmlspecialchars($row['osadd']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['odbcva']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['osbcva']); ?></td>
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($row['eye_result_id']); ?></td>
                                 <td><?php echo htmlspecialchars($row['date_added']); ?></td>
+                                <td class="py-2 px-4"><?php echo htmlspecialchars($row['doctor_name']); ?></td> <!-- Display Doctor's Name -->
                                 <td class="py-2 px-4">
                                     
                                     <a href="doctor_certificate_details.php?id=<?php echo $row['certificate_id']; ?>" class="text-green-500 hover:text-green-700 ml-2">

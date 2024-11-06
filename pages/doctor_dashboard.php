@@ -1,4 +1,5 @@
 <?php
+// Database connection settings
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -14,31 +15,19 @@ if ($conn->connect_error) {
 
 // Get the number of patients added today
 $result = $conn->query("SELECT COUNT(*) as count FROM patients WHERE DATE(date_added) = CURDATE()");
-if ($result) {
-    $patients_today = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving patients today: " . $conn->error);
-}
+$patients_today = $result ? $result->fetch_assoc()['count'] : 0;
 
 // Get the number of patients added yesterday
 $result = $conn->query("SELECT COUNT(*) as count FROM patients WHERE DATE(date_added) = CURDATE() - INTERVAL 1 DAY");
-if ($result) {
-    $patients_yesterday = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving patients yesterday: " . $conn->error);
-}
+$patients_yesterday = $result ? $result->fetch_assoc()['count'] : 0;
 
 // Get the total number of patients
 $result = $conn->query("SELECT COUNT(*) as count FROM patients");
-if ($result) {
-    $total_patients = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving total patients: " . $conn->error);
-}
+$total_patients = $result ? $result->fetch_assoc()['count'] : 0;
 
 $conn->close();
 
-// userinfo
+// userinfo session
 session_start();
 include 'db.php';
 
@@ -58,6 +47,7 @@ if (isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
+
 // Retrieve the latest 5 patients for the "Newly Added Patients" list
 $sql = "SELECT first_name, middle_name, last_name, gender, date_added FROM patients ORDER BY date_added DESC LIMIT 10";
 $result = $conn->query($sql);
@@ -75,7 +65,56 @@ if ($result && $result->num_rows > 0) {
     echo "Error retrieving recent patients: " . $conn->error;
 }
 
+
+// Define the start of the month and today’s date for better clarity
+// Define the start and end of the current month
+$start_of_month = date('Y-m-01'); // First day of the month
+$end_of_month = date('Y-m-t'); // Last day of the month
+
+// Generate a list of all dates in the current month
+$month_dates = [];
+$current_date = $start_of_month;
+while ($current_date <= $end_of_month) {
+    $month_dates[] = $current_date;
+    if (!isset($income_data[$current_date])) {
+        $income_data[$current_date] = 0;  // Default to zero if no income for this day
+    }
+    $current_date = date('Y-m-d', strtotime($current_date . ' +1 day'));
+}
+
+// Query to fetch income data from the start of the month until today
+$query = "
+    SELECT DATE(date_added) as date, SUM(price) as total_income
+    FROM services
+    WHERE DATE(date_added) BETWEEN ? AND ?
+    GROUP BY DATE(date_added)";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ss", $start_of_month, $today); // Bind end date as today instead of month-end
+
+$stmt->execute();
+$result = $stmt->get_result();  // Get the result set for this query
+
+// Prepare income data for the graph
+$income_data = [];
+while ($row = $result->fetch_assoc()) {
+    $income_data[$row['date']] = $row['total_income'];
+}
+$stmt->close();
+
+// Generate a list of all dates in the current month
+$month_dates = [];
+$current_date = $start_of_month;
+while ($current_date <= $end_of_month) {
+    $month_dates[] = $current_date;
+    if (!isset($income_data[$current_date])) {
+        $income_data[$current_date] = 0;  // Default to zero if no income for this day
+    }
+    $current_date = date('Y-m-d', strtotime($current_date . ' +1 day'));
+}
+
+// The `$income_data` and `$month_dates` arrays are now ready to be used for generating a monthly income graph.
 ?>
+
 <head>
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
@@ -189,92 +228,119 @@ if ($result && $result->num_rows > 0) {
         </div>
     </div>
 
-    <!-- Patient Comparison (Today vs. Yesterday) and Newly Added Patients -->
     <div class="flex gap-x-4 mt-6 w-full">
-        <!-- Patient Comparison with Reduced Height -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-2/3" style="height: 38rem;">  <!-- Set height to 64 units -->
-            <h2 class="text-lg font-semibold mb-4">
-                <i class="ri-line-chart-fill text-2xl mr-2"></i>
-                Patient Insights: Comparing Today and Yesterday
-            </h2>
-            <canvas id="patientChart" style="max-width: 100%; height: 100%;"></canvas>
-        </div>
+    <!-- Monthly Income Report on the Left -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-1/2 h-2/3">
+        <h2 class="text-lg font-semibold mb-4">
+            <i class="ri-money-dollar-circle-line mr-2"></i> Monthly Income Report
+        </h2>
+        <canvas id="incomeChart" style="max-width: 100%; height: 100%;"></canvas>
+    </div>
 
-        <!-- Newly Added Patients List -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-2/3">
-            <h2 class="text-lg font-semibold mb-4">
-                <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
-            </h2>
-            <ul>
-                <?php foreach ($newly_added_patients as $patient): ?>
-                    <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
-                        <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
-                             alt="Patient Photo" 
-                             class="w-8 h-8 rounded-full mr-3">
-                        <div class="flex items-center justify-between flex-grow">
-                            <div class="flex items-center">
-                                <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
-                                <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">NEW</span>
-                            </div>
-                            <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+    <!-- Newly Added Patients List on the Right -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-1/2 h-2/3">
+        <h2 class="text-lg font-semibold mb-4">
+            <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
+        </h2>
+        <ul>
+            <?php foreach ($newly_added_patients as $patient): ?>
+                <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
+                    <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
+                         alt="Patient Photo" 
+                         class="w-8 h-8 rounded-full mr-3">
+                    <div class="flex items-center justify-between flex-grow">
+                        <div class="flex items-center">
+                            <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
+                            <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">NEW</span>
                         </div>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+                        <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 </div>
 
 
 
-
-<!-- Add this script at the bottom before closing the body -->
 <script>
-    const ctx = document.getElementById('patientChart').getContext('2d');
-    const patientChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Yesterday', 'Today'],
-            datasets: [{
-                label: 'Number of Patients',
-                data: [<?php echo $patients_yesterday; ?>, <?php echo $patients_today; ?>],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                fill: true
-            }]
-        },
-        options: {
-    responsive: true,
-    maintainAspectRatio: true,
-    scales: {
-        y: {
-            beginAtZero: true,
-            title: {
+// Month labels for the graph (days of the month with date)
+const monthLabels = <?php echo json_encode(array_map(fn($date) => date('M d', strtotime($date)), $month_dates)); ?>;
+
+// Income data for the graph (with zero for days without income)
+const incomeData = <?php echo json_encode(array_values($income_data)); ?>;
+
+// Check if incomeData length matches monthLabels (for debugging purposes)
+if (incomeData.length !== monthLabels.length) {
+    console.warn("Warning: The number of income data points does not match the number of month labels.");
+    console.log("Income Data:", incomeData);
+    console.log("Month Labels:", monthLabels);
+}
+
+// Create the line chart for the income
+const ctx = document.getElementById('incomeChart').getContext('2d');
+const incomeChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: monthLabels,  // Display days with dates on the X-axis
+        datasets: [{
+            label: 'Total Income (₱) - Monthly',
+            data: incomeData,  // Income values per day of the month
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderWidth: 2,
+            fill: true,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
                 display: true,
-                text: 'Number of Patients'
+                position: 'top',
             },
-            ticks: {
-                stepSize: 1, // Set step size to 1 for Y-axis
-                min: 0, // Set minimum value
-                max: 50, // Set maximum value
-            },
-            afterBuildTicks: function(scale) {
-                // Generate ticks from 0 to 50 in steps of 1
-                scale.ticks = Array.from({ length: 51 }, (_, i) => i);
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return `Income: ₱${context.raw.toLocaleString()}`;
+                    }
+                }
             }
         },
-        x: {
-            title: {
-                display: true,
-                text: 'Days'
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Date',
+                },
+                ticks: {
+                    maxRotation: 0,
+                    minRotation: 0,
+                    maxTicksLimit: 31,
+                }
+            },
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Income (₱)'
+                },
+                ticks: {
+                    callback: function(value) {
+                        return '₱' + value.toLocaleString();
+                    }
+                }
             }
         }
     }
-}
-
-    });
+});
 </script>
+
+
+
+
 
     </main>
     <?php include('doctor_homepage.php'); ?>

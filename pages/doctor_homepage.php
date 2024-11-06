@@ -45,9 +45,15 @@
             </a>
         </li>
         <li class="mb-1 group">
-            <a href="#" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+            <a href="doctor_services.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
                 <i class="ri-service-line mr-3 text-lg "style="color: #F25959;"></i>
                 <span class="text-sm">Services</span>
+            </a>
+        </li>
+        <li class="mb-1 group">
+            <a href="doctor_reports.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+                <i class="ri-file-chart-line mr-3 text-lg "style="color: #25B453;"></i>
+                <span class="text-sm">Reports</span>
             </a>
         </li>
         <ul class="sidebar-menu">

@@ -144,22 +144,30 @@ $result = $stmt->get_result();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<tr class='border-b border-gray-200 hover:bg-gray-100 text-lg'>
-                                    <td class='py-2 px-4'>{$row['last_name']}</td>
-                                    <td class='py-2 px-4'>{$row['first_name']}</td>
-                                    <td class='py-2 px-4'>{$row['middle_name']}</td>
-                                    <td class='py-2 px-4'>{$row['gender']}</td>
-                                    <td class='py-2 px-4'>{$row['date_of_birth']}</td>
-                                    <td class='py-2 px-4'>{$row['contact_no']}</td>
-                                    <td class='py-2 px-4'>{$row['date_added']}</td>
-                                    <td class='py-2 px-4'>
-                                        <a href='doctor_certificate_view.php?id={$row['patients_id']}' class='action-btn add text-blue-500 hover:text-green-700'><i class='fa fa-eye'></i></a>
-                                        <a href='doctor_certificate_add.php?id={$row['patients_id']}' class='action-btn view text-green-500 hover:text-blue-700'><i class='fa fa-plus'></i></a>
-                                    </td>
-                                  </tr>";
+                <?php
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            // Format the date of birth
+            $dob = new DateTime($row['date_of_birth']);
+            $formatted_dob = $dob->format('F j, Y'); // e.g., December 4, 2021
+
+            // Format the date added
+            $date_added = new DateTime($row['date_added']);
+            $formatted_date_added = $date_added->format('F j, Y'); // e.g., December 4, 2021
+
+            echo "<tr class='border-b border-gray-200 hover:bg-gray-100 text-lg'>
+                    <td class='py-2 px-4'>{$row['last_name']}</td>
+                    <td class='py-2 px-4'>{$row['first_name']}</td>
+                    <td class='py-2 px-4'>{$row['middle_name']}</td>
+                    <td class='py-2 px-4'>{$row['gender']}</td>
+                    <td class='py-2 px-4'>{$formatted_dob}</td> <!-- Use formatted date of birth -->
+                    <td class='py-2 px-4'>{$row['contact_no']}</td>
+                    <td class='py-2 px-4'>{$formatted_date_added}</td> <!-- Use formatted date added -->
+                    <td class='py-2 px-4'>
+                        <a href='doctor_certificate_view.php?id={$row['patients_id']}' class='action-btn add text-blue-500 hover:text-green-700'><i class='fa fa-eye'></i></a>
+                        <a href='doctor_certificate_add.php?id={$row['patients_id']}' class='action-btn view text-green-500 hover:text-blue-700'><i class='fa fa-plus'></i></a>
+                    </td>
+                  </tr>";
                         }
                     } else {
                         echo "<tr><td colspan='8' class='py-2 px-4 text-center text-gray-500'>No records found</td></tr>";

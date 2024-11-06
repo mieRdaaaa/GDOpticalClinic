@@ -1,4 +1,5 @@
 <?php
+// Database connection settings
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -14,31 +15,19 @@ if ($conn->connect_error) {
 
 // Get the number of patients added today
 $result = $conn->query("SELECT COUNT(*) as count FROM patients WHERE DATE(date_added) = CURDATE()");
-if ($result) {
-    $patients_today = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving patients today: " . $conn->error);
-}
+$patients_today = $result ? $result->fetch_assoc()['count'] : 0;
 
 // Get the number of patients added yesterday
 $result = $conn->query("SELECT COUNT(*) as count FROM patients WHERE DATE(date_added) = CURDATE() - INTERVAL 1 DAY");
-if ($result) {
-    $patients_yesterday = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving patients yesterday: " . $conn->error);
-}
+$patients_yesterday = $result ? $result->fetch_assoc()['count'] : 0;
 
 // Get the total number of patients
 $result = $conn->query("SELECT COUNT(*) as count FROM patients");
-if ($result) {
-    $total_patients = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving total patients: " . $conn->error);
-}
+$total_patients = $result ? $result->fetch_assoc()['count'] : 0;
 
 $conn->close();
 
-// userinfo
+// userinfo session
 session_start();
 include 'db.php';
 
@@ -58,6 +47,7 @@ if (isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
+
 // Retrieve the latest 5 patients for the "Newly Added Patients" list
 $sql = "SELECT first_name, middle_name, last_name, gender, date_added FROM patients ORDER BY date_added DESC LIMIT 10";
 $result = $conn->query($sql);
@@ -73,6 +63,37 @@ if ($result && $result->num_rows > 0) {
     }
 } else {
     echo "Error retrieving recent patients: " . $conn->error;
+}
+
+// Determine the start and end dates for the current week (Monday to Sunday)
+$start_of_week = date('Y-m-d', strtotime('monday this week'));
+$end_of_week = date('Y-m-d', strtotime('sunday this week'));
+
+// Prepare SQL query to fetch daily total income for the current week
+$query = "
+    SELECT DATE(date_added) as date, SUM(price) as total_income
+    FROM services
+    WHERE date_added BETWEEN ? AND ?
+    GROUP BY DATE(date_added)";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ss", $start_of_week, $end_of_week);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$income_data = [];
+while ($row = $result->fetch_assoc()) {
+    $income_data[$row['date']] = $row['total_income'];
+}
+$stmt->close();
+
+// Fill missing days with zero income
+$week_dates = [];
+for ($i = 0; $i < 7; $i++) {
+    $date = date('Y-m-d', strtotime("$start_of_week +$i days"));
+    $week_dates[] = $date;
+    if (!isset($income_data[$date])) {
+        $income_data[$date] = 0;
+    }
 }
 
 ?>
@@ -189,92 +210,75 @@ if ($result && $result->num_rows > 0) {
         </div>
     </div>
 
-    <!-- Patient Comparison (Today vs. Yesterday) and Newly Added Patients -->
     <div class="flex gap-x-4 mt-6 w-full">
-        <!-- Patient Comparison with Reduced Height -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-2/3" style="height: 38rem;">  <!-- Set height to 64 units -->
-            <h2 class="text-lg font-semibold mb-4">
-                <i class="ri-line-chart-fill text-2xl mr-2"></i>
-                Patient Insights: Comparing Today and Yesterday
-            </h2>
-            <canvas id="patientChart" style="max-width: 100%; height: 100%;"></canvas>
-        </div>
+    <!-- Weekly Income Report on the Left -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-1/2 h-2/3">
+        <h2 class="text-lg font-semibold mb-4">
+            <i class="ri-money-dollar-circle-line mr-2"></i> Weekly Income Report
+        </h2>
+        <canvas id="incomeChart" style="max-width: 100%; height: 100%;"></canvas>
+    </div>
 
-        <!-- Newly Added Patients List -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-2/3">
-            <h2 class="text-lg font-semibold mb-4">
-                <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
-            </h2>
-            <ul>
-                <?php foreach ($newly_added_patients as $patient): ?>
-                    <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
-                        <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
-                             alt="Patient Photo" 
-                             class="w-8 h-8 rounded-full mr-3">
-                        <div class="flex items-center justify-between flex-grow">
-                            <div class="flex items-center">
-                                <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
-                                <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">NEW</span>
-                            </div>
-                            <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+    <!-- Newly Added Patients List on the Right -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-1/2 h-2/3">
+        <h2 class="text-lg font-semibold mb-4">
+            <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
+        </h2>
+        <ul>
+            <?php foreach ($newly_added_patients as $patient): ?>
+                <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
+                    <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
+                         alt="Patient Photo" 
+                         class="w-8 h-8 rounded-full mr-3">
+                    <div class="flex items-center justify-between flex-grow">
+                        <div class="flex items-center">
+                            <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
+                            <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">NEW</span>
                         </div>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+                        <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 </div>
 
-
-
-
-<!-- Add this script at the bottom before closing the body -->
 <script>
-    const ctx = document.getElementById('patientChart').getContext('2d');
-    const patientChart = new Chart(ctx, {
+    const weekLabels = <?php echo json_encode(array_map(fn($date) => date('D', strtotime($date)), $week_dates)); ?>;
+    const incomeData = <?php echo json_encode(array_values($income_data)); ?>;
+</script>
+
+<script>
+    const ctx = document.getElementById('incomeChart').getContext('2d');
+    const incomeChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Yesterday', 'Today'],
+            labels: weekLabels,
             datasets: [{
-                label: 'Number of Patients',
-                data: [<?php echo $patients_yesterday; ?>, <?php echo $patients_today; ?>],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                label: 'Total Income (₱)',
+                data: incomeData,
                 borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderWidth: 2,
                 fill: true
             }]
         },
         options: {
-    responsive: true,
-    maintainAspectRatio: true,
-    scales: {
-        y: {
-            beginAtZero: true,
-            title: {
-                display: true,
-                text: 'Number of Patients'
-            },
-            ticks: {
-                stepSize: 1, // Set step size to 1 for Y-axis
-                min: 0, // Set minimum value
-                max: 50, // Set maximum value
-            },
-            afterBuildTicks: function(scale) {
-                // Generate ticks from 0 to 50 in steps of 1
-                scale.ticks = Array.from({ length: 51 }, (_, i) => i);
-            }
-        },
-        x: {
-            title: {
-                display: true,
-                text: 'Days'
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Income (₱)'
+                    }
+                }
             }
         }
-    }
-}
-
     });
 </script>
+
+
 
     </main>
     <?php include('secretary_homepage.php'); ?>
