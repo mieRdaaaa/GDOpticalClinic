@@ -25,6 +25,37 @@ $patients_yesterday = $result ? $result->fetch_assoc()['count'] : 0;
 $result = $conn->query("SELECT COUNT(*) as count FROM patients");
 $total_patients = $result ? $result->fetch_assoc()['count'] : 0;
 
+// Query to calculate the overall weekly income
+$query = "SELECT SUM(price) as total_weekly_income 
+          FROM services 
+          WHERE WEEK(date_added) = WEEK(CURDATE())";
+$result = $conn->query($query);
+$weekly_income = $result ? $result->fetch_assoc()['total_weekly_income'] : 0;
+
+// Query to calculate the overall monthly income
+$query = "SELECT SUM(price) as total_monthly_income 
+          FROM services 
+          WHERE MONTH(date_added) = MONTH(CURDATE())";
+$result = $conn->query($query);
+$total_monthly_income = $result ? $result->fetch_assoc()['total_monthly_income'] : 0; // Initialize variable
+
+// Query to calculate the overall income from last month
+$query = "SELECT SUM(price) as total_last_month_income 
+          FROM services 
+          WHERE MONTH(date_added) = MONTH(CURDATE()) - 1";
+$result = $conn->query($query);
+$last_month_income = $result ? $result->fetch_assoc()['total_last_month_income'] : 0;
+
+// Calculate percentage change in monthly income
+$monthly_income_percentage = 0;
+if ($last_month_income > 0) {
+    $monthly_income_percentage = (($total_monthly_income - $last_month_income) / $last_month_income) * 100;
+} else if ($total_monthly_income > 0) {
+    $monthly_income_percentage = 100; // If last month income is 0, but this month has income, consider it a 100% increase
+}
+
+// Display the percentage with the plus sign if positive
+$monthly_income_percentage_display = $monthly_income_percentage > 0 ? '+' . round($monthly_income_percentage, 2) . '%' : round($monthly_income_percentage, 2) . '%';
 
 $conn->close();
 
@@ -50,7 +81,7 @@ if (isset($_SESSION['username'])) {
 }
 
 // Retrieve the latest 5 patients for the "Newly Added Patients" list
-$sql = "SELECT first_name, middle_name, last_name, gender, date_added FROM patients ORDER BY date_added DESC LIMIT 10";
+$sql = "SELECT first_name, middle_name, last_name, gender, date_added FROM patients ORDER BY date_added DESC LIMIT 11";
 $result = $conn->query($sql);
 
 $newly_added_patients = [];
@@ -87,10 +118,13 @@ if ($result) {
         }
     }
 }
+$total_weekly_income = array_sum($weekly_income);
 
 // Close the connection
 $conn->close();
 ?>
+
+
 
 <head>
     <link rel="shortcut icon" href="../images/ico.png" />
@@ -135,87 +169,114 @@ $conn->close();
                 <span class="name text-sm font-semibold text-grey-900 block"><?php echo $user_fullname; ?></span>
                 <span class="role text-xs text-grey-500"><?php echo ucwords($user_role); ?></span>
             </div>
-
         </div>
     </div>
 
     <div class="p-6">
-    <!-- Dashboard Header with Flexbox Alignment -->
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-semibold text-gray-800">Dashboard</h1>
-    </div>
+        <!-- Dashboard Header with Flexbox Alignment -->
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-semibold text-gray-800">Dashboard</h1>
+        </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        <!-- Metric Card for Patients Today -->
-        <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
-            <div class="flex flex-row items-center">
-                <div class="flex-shrink pr-4">
-                    <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+        <!-- Flexbox Container for the Cards (Side-by-Side) -->
+        <div class="flex gap-6 mb-6">
+            <!-- Metric Card for Patients Today -->
+            <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+                <div class="flex flex-row items-center">
+                    <div class="flex-shrink pr-4">
+                        <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                    </div>
+                    <div class="flex-1 text-right md:text-center">
+                        <h5 class="font-bold uppercase text-gray-600">Patients Today</h5>
+                        <h3 class="font-bold text-3xl">
+                            <?php echo $patients_today; ?> 
+                            <span class="text-sm text-green-500 font-bold">
+                                <?php 
+                                $patients_today_percentage = $total_patients > 0 ? ($patients_today / $total_patients) * 100 : 0; 
+                                echo round($patients_today_percentage, 2) . '% +'; 
+                                ?>
+                            </span>
+                        </h3>
+                    </div>
                 </div>
-                <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Patients Today</h5>
-                    <h3 class="font-bold text-3xl">
-                        <?php echo $patients_today; ?> 
-                        <span class="text-sm text-green-500 font-bold">
-                            <?php 
-                            $patients_today_percentage = $total_patients > 0 ? ($patients_today / $total_patients) * 100 : 0; 
-                            echo round($patients_today_percentage, 2) . '% +'; 
-                            ?>
-                        </span>
-                    </h3>
+            </div>
+
+            <!-- Metric Card for Patients Yesterday with Indigo Colors -->
+            <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+                <div class="flex flex-row items-center">
+                    <div class="flex-shrink pr-4">
+                        <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                    </div>
+                    <div class="flex-1 text-right md:text-center">
+                        <h5 class="font-bold uppercase text-gray-600">Patients Yesterday</h5>
+                        <h3 class="font-bold text-3xl">
+                            <?php echo $patients_yesterday; ?> 
+                            <span class="text-sm text-green-500 font-bold">
+                                <?php 
+                                $patients_yesterday_percentage = $total_patients > 0 ? ($patients_yesterday / $total_patients) * 100 : 0; 
+                                echo round($patients_yesterday_percentage, 2) . '% +'; 
+                                ?>
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric Card for Total Patients -->
+            <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+                <div class="flex flex-row items-center">
+                    <div class="flex-shrink pr-4">
+                        <div class="rounded-full p-5 bg-green-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                    </div>
+                    <div class="flex-1 text-right md:text-center">
+                        <h5 class="font-bold uppercase text-gray-600">Total Patients</h5>
+                        <h3 class="font-bold text-3xl">
+                            <?php echo $total_patients; ?> 
+                            <span class="text-sm text-green-500"></span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Display Monthly Income with Percentage Change -->
+            <div class="bg-gradient-to-b from-yellow-200 to-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+                <div class="flex flex-row items-center">
+                    <div class="flex-shrink pr-4">
+                        <div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-wallet fa-2x fa-inverse"></i></div>
+                    </div>
+                    <div class="flex-1 text-right md:text-center">
+                        <h5 class="font-bold uppercase text-gray-600">Monthly Income</h5>
+                        <h3 class="font-bold text-3xl">
+                            ₱<?php echo number_format($total_monthly_income, 2); ?> 
+                            <span class="text-sm 
+                                <?php echo ($monthly_income_percentage > 0) ? 'text-green-500' : 'text-red-500'; ?> font-bold">
+                                <?php echo $monthly_income_percentage_display; ?>
+                            </span>
+                        </h3>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Metric Card for Patients Yesterday with Indigo Colors -->
-        <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
-            <div class="flex flex-row items-center">
-                <div class="flex-shrink pr-4">
-                    <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
-                </div>
-                <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Patients Yesterday</h5>
-                    <h3 class="font-bold text-3xl">
-                        <?php echo $patients_yesterday; ?> 
-                        <span class="text-sm text-green-500 font-bold">
-                            <?php 
-                            $patients_yesterday_percentage = $total_patients > 0 ? ($patients_yesterday / $total_patients) * 100 : 0; 
-                            echo round($patients_yesterday_percentage, 2) . '% +'; 
-                            ?>
-                        </span>
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- Metric Card for Total Patients -->
-        <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
-            <div class="flex flex-row items-center">
-                <div class="flex-shrink pr-4">
-                    <div class="rounded-full p-5 bg-green-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
-                </div>
-                <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Total Patients</h5>
-                    <h3 class="font-bold text-3xl">
-                        <?php echo $total_patients; ?> 
-                        <span class="text-sm text-green-500"></span>
-                    </h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="flex gap-x-4 mt-6 w-full">
-    <!-- Weekly Income Report on the Left -->
-    <div class="bg-white p-6 rounded-lg shadow-md w-1/2 h-2/3">
+        <div class="flex gap-x-4 mt-6 w-full">
+    <!-- Weekly Income Report (Wider Graph) -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-2/3" style="height: 40rem;">
         <h2 class="text-lg font-semibold mb-4">
             <i class="ri-money-dollar-circle-line mr-2"></i> Weekly Income Report
         </h2>
+
+        <!-- Display total weekly income -->
+        <div class="text-base font-bold text-center mb-1">
+            <p>Total Weekly Income:</p>
+            <h3 class="text-xl text-green-600">₱<?php echo number_format($total_weekly_income, 2); ?></h3>
+        </div>
+
+        <!-- Chart -->
         <canvas id="weeklyIncomeChart" style="max-width: 100%; height: 100%;"></canvas>
     </div>
 
-    <!-- Newly Added Patients List on the Right -->
-    <div class="bg-white p-6 rounded-lg shadow-md w-1/2 h-2/3">
+    <!-- Newly Added Patients List (Make it a bit thinner) -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-2/3">
         <h2 class="text-lg font-semibold mb-4">
             <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
         </h2>
@@ -238,6 +299,9 @@ $conn->close();
     </div>
 </div>
 
+</main>
+
+
 <script>
     const dailyData = <?php echo json_encode($daily_data); ?>;
 </script>
@@ -245,37 +309,40 @@ $conn->close();
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    // Pass the PHP array data to JavaScript
     const weeklyIncomeData = <?php echo json_encode(array_values($weekly_income)); ?>;
 
     const ctx = document.getElementById('weeklyIncomeChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        datasets: [{
-            label: 'Daily Income (₱)',
-            data: weeklyIncomeData,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',  // Light fill color for the area under the line
-            borderColor: 'rgba(54, 162, 235, 1)',  // Border color for the line
-            borderWidth: 1,
-            fill: true,  // Fill the area under the line
-            lineTension: 0.4
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], // Daily labels
+            datasets: [{
+                label: 'Daily Income (₱)',
+                data: weeklyIncomeData, // Daily income data
+                backgroundColor: 'rgba(54, 162, 235, 0.6)', // Light fill color for the area under the line
+                borderColor: 'rgba(54, 162, 235, 1)', // Border color for the line
+                borderWidth: 1,
+                fill: true, // Fill the area under the line
+                lineTension: 0.4
             }]
         },
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true // Start the y-axis from zero
                 }
-            }
+            },
+            responsive: true // Ensure the chart is responsive
         }
     });
 </script>
+
 
 
 <script src="jquery-3.7.1.js"></script>
 <script src="chat.min.js"></script>
 
     </main>
-    <?php include('secretary_homepage.php'); ?>
+    <?php include('doctor_homepage.php'); ?>
     <!-- end: Main -->
