@@ -25,6 +25,7 @@ $patients_yesterday = $result ? $result->fetch_assoc()['count'] : 0;
 $result = $conn->query("SELECT COUNT(*) as count FROM patients");
 $total_patients = $result ? $result->fetch_assoc()['count'] : 0;
 
+
 $conn->close();
 
 // userinfo session
@@ -65,38 +66,32 @@ if ($result && $result->num_rows > 0) {
     echo "Error retrieving recent patients: " . $conn->error;
 }
 
-// Determine the start and end dates for the current week (Monday to Sunday)
-$start_of_week = date('Y-m-d', strtotime('monday this week'));
-$end_of_week = date('Y-m-d', strtotime('sunday this week'));
+// Automatically retrieve weekly income from database for each day (Monday to Saturday)
+$weekly_income = array_fill_keys(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], 0);
 
-// Prepare SQL query to fetch daily total income for the current week
 $query = "
-    SELECT DATE(date_added) as date, SUM(price) as total_income
+    SELECT DAYNAME(date_added) AS day_name, SUM(price) AS total_price
     FROM services
-    WHERE date_added BETWEEN ? AND ?
-    GROUP BY DATE(date_added)";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("ss", $start_of_week, $end_of_week);
-$stmt->execute();
-$result = $stmt->get_result();
+    WHERE YEARWEEK(date_added, 1) = YEARWEEK(CURDATE(), 1)
+    GROUP BY DAYNAME(date_added)
+";
+$result = $conn->query($query);
 
-$income_data = [];
-while ($row = $result->fetch_assoc()) {
-    $income_data[$row['date']] = $row['total_income'];
-}
-$stmt->close();
-
-// Fill missing days with zero income
-$week_dates = [];
-for ($i = 0; $i < 7; $i++) {
-    $date = date('Y-m-d', strtotime("$start_of_week +$i days"));
-    $week_dates[] = $date;
-    if (!isset($income_data[$date])) {
-        $income_data[$date] = 0;
+// Populate the $weekly_income array with data from the query
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $day_name = $row['day_name'];
+        $total_price = $row['total_price'];
+        if (isset($weekly_income[$day_name])) {
+            $weekly_income[$day_name] = $total_price;
+        }
     }
 }
 
+// Close the connection
+$conn->close();
 ?>
+
 <head>
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
@@ -216,7 +211,7 @@ for ($i = 0; $i < 7; $i++) {
         <h2 class="text-lg font-semibold mb-4">
             <i class="ri-money-dollar-circle-line mr-2"></i> Weekly Income Report
         </h2>
-        <canvas id="incomeChart" style="max-width: 100%; height: 100%;"></canvas>
+        <canvas id="weeklyIncomeChart" style="max-width: 100%; height: 100%;"></canvas>
     </div>
 
     <!-- Newly Added Patients List on the Right -->
@@ -244,34 +239,33 @@ for ($i = 0; $i < 7; $i++) {
 </div>
 
 <script>
-    const weekLabels = <?php echo json_encode(array_map(fn($date) => date('D', strtotime($date)), $week_dates)); ?>;
-    const incomeData = <?php echo json_encode(array_values($income_data)); ?>;
+    const dailyData = <?php echo json_encode($daily_data); ?>;
 </script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('incomeChart').getContext('2d');
-    const incomeChart = new Chart(ctx, {
+    const weeklyIncomeData = <?php echo json_encode(array_values($weekly_income)); ?>;
+
+    const ctx = document.getElementById('weeklyIncomeChart').getContext('2d');
+    new Chart(ctx, {
         type: 'line',
         data: {
-            labels: weekLabels,
-            datasets: [{
-                label: 'Total Income (₱)',
-                data: incomeData,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderWidth: 2,
-                fill: true
+        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        datasets: [{
+            label: 'Daily Income (₱)',
+            data: weeklyIncomeData,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',  // Light fill color for the area under the line
+            borderColor: 'rgba(54, 162, 235, 1)',  // Border color for the line
+            borderWidth: 1,
+            fill: true,  // Fill the area under the line
+            lineTension: 0.4
             }]
         },
         options: {
-            responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Income (₱)'
-                    }
+                    beginAtZero: true
                 }
             }
         }
@@ -279,6 +273,8 @@ for ($i = 0; $i < 7; $i++) {
 </script>
 
 
+<script src="jquery-3.7.1.js"></script>
+<script src="chat.min.js"></script>
 
     </main>
     <?php include('secretary_homepage.php'); ?>

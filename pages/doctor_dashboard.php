@@ -25,6 +25,14 @@ $patients_yesterday = $result ? $result->fetch_assoc()['count'] : 0;
 $result = $conn->query("SELECT COUNT(*) as count FROM patients");
 $total_patients = $result ? $result->fetch_assoc()['count'] : 0;
 
+// Query to calculate the overall weekly income
+$query = "SELECT SUM(price) as total_weekly_income 
+          FROM services 
+          WHERE WEEK(date_added) = WEEK(CURDATE())";
+$result = $conn->query($query);
+$weekly_income = $result ? $result->fetch_assoc()['total_weekly_income'] : 0;
+
+
 $conn->close();
 
 // userinfo session
@@ -65,54 +73,31 @@ if ($result && $result->num_rows > 0) {
     echo "Error retrieving recent patients: " . $conn->error;
 }
 
+// Automatically retrieve weekly income from database for each day (Monday to Saturday)
+$weekly_income = array_fill_keys(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], 0);
 
-// Define the start of the month and today’s date for better clarity
-// Define the start and end of the current month
-$start_of_month = date('Y-m-01'); // First day of the month
-$end_of_month = date('Y-m-t'); // Last day of the month
-
-// Generate a list of all dates in the current month
-$month_dates = [];
-$current_date = $start_of_month;
-while ($current_date <= $end_of_month) {
-    $month_dates[] = $current_date;
-    if (!isset($income_data[$current_date])) {
-        $income_data[$current_date] = 0;  // Default to zero if no income for this day
-    }
-    $current_date = date('Y-m-d', strtotime($current_date . ' +1 day'));
-}
-
-// Query to fetch income data from the start of the month until today
 $query = "
-    SELECT DATE(date_added) as date, SUM(price) as total_income
+    SELECT DAYNAME(date_added) AS day_name, SUM(price) AS total_price
     FROM services
-    WHERE DATE(date_added) BETWEEN ? AND ?
-    GROUP BY DATE(date_added)";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("ss", $start_of_month, $today); // Bind end date as today instead of month-end
+    WHERE YEARWEEK(date_added, 1) = YEARWEEK(CURDATE(), 1)
+    GROUP BY DAYNAME(date_added)
+";
+$result = $conn->query($query);
 
-$stmt->execute();
-$result = $stmt->get_result();  // Get the result set for this query
-
-// Prepare income data for the graph
-$income_data = [];
-while ($row = $result->fetch_assoc()) {
-    $income_data[$row['date']] = $row['total_income'];
-}
-$stmt->close();
-
-// Generate a list of all dates in the current month
-$month_dates = [];
-$current_date = $start_of_month;
-while ($current_date <= $end_of_month) {
-    $month_dates[] = $current_date;
-    if (!isset($income_data[$current_date])) {
-        $income_data[$current_date] = 0;  // Default to zero if no income for this day
+// Populate the $weekly_income array with data from the query
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $day_name = $row['day_name'];
+        $total_price = $row['total_price'];
+        if (isset($weekly_income[$day_name])) {
+            $weekly_income[$day_name] = $total_price;
+        }
     }
-    $current_date = date('Y-m-d', strtotime($current_date . ' +1 day'));
 }
+$total_weekly_income = array_sum($weekly_income);
 
-// The `$income_data` and `$month_dates` arrays are now ready to be used for generating a monthly income graph.
+// Close the connection
+$conn->close();
 ?>
 
 <head>
@@ -168,9 +153,10 @@ while ($current_date <= $end_of_month) {
         <h1 class="text-3xl font-semibold text-gray-800">Dashboard</h1>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+    <!-- Flexbox Container for the Cards (Side-by-Side) -->
+    <div class="flex gap-6 mb-6">
         <!-- Metric Card for Patients Today -->
-        <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
+        <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
             <div class="flex flex-row items-center">
                 <div class="flex-shrink pr-4">
                     <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
@@ -191,7 +177,7 @@ while ($current_date <= $end_of_month) {
         </div>
 
         <!-- Metric Card for Patients Yesterday with Indigo Colors -->
-        <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
+        <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
             <div class="flex flex-row items-center">
                 <div class="flex-shrink pr-4">
                     <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
@@ -212,7 +198,7 @@ while ($current_date <= $end_of_month) {
         </div>
 
         <!-- Metric Card for Total Patients -->
-        <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
+        <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
             <div class="flex flex-row items-center">
                 <div class="flex-shrink pr-4">
                     <div class="rounded-full p-5 bg-green-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
@@ -226,15 +212,40 @@ while ($current_date <= $end_of_month) {
                 </div>
             </div>
         </div>
+
+        <!-- Metric Card for Overall Weekly Income (Positioned Right of Total Patients) -->
+        <div class="bg-gradient-to-b from-yellow-200 to-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+            <div class="flex flex-row items-center">
+                <div class="flex-shrink pr-4">
+                    <div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-wallet fa-2x fa-inverse"></i></div>
+                </div>
+                <div class="flex-1 text-right md:text-center">
+                    <h5 class="font-bold uppercase text-gray-600">Monthly Income</h5>
+                    <h3 class="font-bold text-3xl">
+                        ₱<?php echo number_format($total_weekly_income, 2); ?> 
+                        <span class="text-sm text-green-500 font-bold">
+                            <?php 
+                            $weekly_income_percentage = $total_patients > 0 ? ($total_weekly_income / $total_patients) * 100 : 0; 
+                            echo round($weekly_income_percentage, 2) . '% +'; 
+                            ?>
+                        </span>
+                    </h3>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+
+
 
     <div class="flex gap-x-4 mt-6 w-full">
-    <!-- Monthly Income Report on the Left -->
+    <!-- Weekly Income Report on the Left -->
     <div class="bg-white p-6 rounded-lg shadow-md w-1/2 h-2/3">
         <h2 class="text-lg font-semibold mb-4">
-            <i class="ri-money-dollar-circle-line mr-2"></i> Monthly Income Report
+            <i class="ri-money-dollar-circle-line mr-2"></i> Weekly Income Report
         </h2>
-        <canvas id="incomeChart" style="max-width: 100%; height: 100%;"></canvas>
+        <canvas id="weeklyIncomeChart" style="max-width: 100%; height: 100%;"></canvas>
     </div>
 
     <!-- Newly Added Patients List on the Right -->
@@ -261,86 +272,43 @@ while ($current_date <= $end_of_month) {
     </div>
 </div>
 
-
-
 <script>
-// Month labels for the graph (days of the month with date)
-const monthLabels = <?php echo json_encode(array_map(fn($date) => date('M d', strtotime($date)), $month_dates)); ?>;
-
-// Income data for the graph (with zero for days without income)
-const incomeData = <?php echo json_encode(array_values($income_data)); ?>;
-
-// Check if incomeData length matches monthLabels (for debugging purposes)
-if (incomeData.length !== monthLabels.length) {
-    console.warn("Warning: The number of income data points does not match the number of month labels.");
-    console.log("Income Data:", incomeData);
-    console.log("Month Labels:", monthLabels);
-}
-
-// Create the line chart for the income
-const ctx = document.getElementById('incomeChart').getContext('2d');
-const incomeChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: monthLabels,  // Display days with dates on the X-axis
-        datasets: [{
-            label: 'Total Income (₱) - Monthly',
-            data: incomeData,  // Income values per day of the month
-            borderColor: 'rgba(54, 162, 235, 1)',
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderWidth: 2,
-            fill: true,
-            pointRadius: 3,
-            pointHoverRadius: 6,
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: true,
-                position: 'top',
-            },
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        return `Income: ₱${context.raw.toLocaleString()}`;
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: 'Date',
-                },
-                ticks: {
-                    maxRotation: 0,
-                    minRotation: 0,
-                    maxTicksLimit: 31,
-                }
-            },
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Income (₱)'
-                },
-                ticks: {
-                    callback: function(value) {
-                        return '₱' + value.toLocaleString();
-                    }
-                }
-            }
-        }
-    }
-});
+    const dailyData = <?php echo json_encode($daily_data); ?>;
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const weeklyIncomeData = <?php echo json_encode(array_values($weekly_income)); ?>;
+
+    const ctx = document.getElementById('weeklyIncomeChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        datasets: [{
+            label: 'Daily Income (₱)',
+            data: weeklyIncomeData,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',  // Light fill color for the area under the line
+            borderColor: 'rgba(54, 162, 235, 1)',  // Border color for the line
+            borderWidth: 1,
+            fill: true,  // Fill the area under the line
+            lineTension: 0.4
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 
 
+<script src="jquery-3.7.1.js"></script>
+<script src="chat.min.js"></script>
 
     </main>
     <?php include('doctor_homepage.php'); ?>
