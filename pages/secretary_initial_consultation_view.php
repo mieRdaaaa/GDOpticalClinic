@@ -72,7 +72,7 @@ $conn->close(); // Close the database connection
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="secretary_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients Table</a>
+                    <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients List</a>
                 </li>
                 <li class="text-gray-600 mr-2 font-medium">/</li>
                 <li class="text-black-600 mr-2 font-medium">View Patient Details</li>
@@ -99,10 +99,10 @@ $conn->close(); // Close the database connection
         <div class="px-6 py-4">
             <div class="flex items-center mb-6">
                 <h2 class="text-4xl font-semibold">Patient Medical History</h2> 
-                <a href="secretary_patient_medical_edit.php?id=<?php echo htmlspecialchars($row['patients_id']); ?>" class="ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg inline-block">
+                <a href="doctor_patient_medical_edit.php?id=<?php echo htmlspecialchars($row['patients_id']); ?>" class="ml-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg inline-block">
                     <i class="fa fa-edit"></i> Edit
                 </a>
-                <a href="secretary_view.php?id=<?php echo htmlspecialchars($row['patients_id']); ?>" class="ml-4 action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
+                <a href="doctor_view.php?id=<?php echo htmlspecialchars($row['patients_id']); ?>" class="ml-4 action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
                     <i class="fa fa-undo"></i> Back to List
                 </a>
             </div>

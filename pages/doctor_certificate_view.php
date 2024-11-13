@@ -71,10 +71,10 @@ $conn->close();
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="doctor_certificate.php" class="text-gray-400 hover:text-gray-600 font-medium">Certificate</a>
+                <a href="doctor_certificate.php" class="text-gray-400 hover:text-gray-600 font-medium">Medical Certificate</a>
             </li>
             <li class="text-black-600 mr-2 font-medium">/</li>
-            <li class="text-black-600 mr-2 font-medium">View Existing Certificates</li>
+            <li class="text-black-600 mr-2 font-medium">See Available Certificates</li>
         </ul>
         <div class="ml-auto flex items-center">
             <div class="dropdown ml-3">
@@ -95,7 +95,7 @@ $conn->close();
     </div>
 
     <div class="results-container px-6 py-4">
-        <h2 class="text-3xl font-semibold mb-4">Existing Certificates</h2>
+        <h2 class="text-3xl font-semibold mb-4">Available Certificates</h2>
         <?php if ($certificate_result->num_rows > 0): ?>
             <div class="overflow-x-auto bg-white rounded-lg shadow">
                 <table class="min-w-full bg-white border border-gray-300">
@@ -145,7 +145,7 @@ $conn->close();
                 </table>
             </div>
         <?php else: ?>
-            <p class="text-gray-500">No existing certificates found for this patient.</p>
+            <p class="text-gray-500">No Available Certificates found for this patient.</p>
         <?php endif; ?>
     </div>
 </main>

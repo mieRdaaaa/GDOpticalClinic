@@ -84,12 +84,12 @@ $conn->close();
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="secretary_certificate.php" class="text-gray-400 hover:text-gray-600 font-medium">Certificate Details</a>
+                <a href="secretary_certificate.php" class="text-gray-400 hover:text-gray-600 font-medium">Medical Certificate</a>
             </li>
             <li class="text-black-600 mr-2 font-medium">/</li>
-            <li class="text-gray-600 mr-2 font-medium">View Existing Certificates</li>
+            <li class="text-gray-600 mr-2 font-medium">Available Certificates</li>
             <li class="text-gray-600 mr-2 font-medium">/</li>
-            <li class="text-black-600 mr-2 font-medium">View Details</li>
+            <li class="text-black-600 mr-2 font-medium">View Certificate Information</li>
         </ul>
         <div class="ml-auto flex items-center">
             <div class="dropdown ml-3">
@@ -110,9 +110,9 @@ $conn->close();
     </div>
 
     <div class="results-container px-6 py-4">
-        <h2 class="text-3xl font-semibold mb-4">View Certificate Details</h2>
+        <h2 class="text-3xl font-semibold mb-4">Certificate Information</h2>
         <div class="bg-white rounded-lg shadow p-4">
-            <h3 class="text-xl font-semibold mb-4">Patient Details ID: <?php echo htmlspecialchars($certificate['certificate_id']); ?></h3>
+            <h3 class="text-xl font-semibold mb-4">Patient Information for ID: <?php echo htmlspecialchars($certificate['certificate_id']); ?></h3>
             <table class="w-full border-collapse border border-blue-500 mt-4">
                 <thead>
                     <tr class="bg-blue-500 text-white">
@@ -146,7 +146,7 @@ $conn->close();
         <h2 class="text-2xl font-semibold mb-4 mt-8"></h2>
         <div class="bg-white rounded-lg shadow p-4 border border-black-300">
     <h3 class="text-2xl font-semibold mb-4 flex justify-between items-center">
-        Certificate Details ID: <?php echo htmlspecialchars($certificate['certificate_id']); ?>
+    Certificate Information for Patient ID: <?php echo htmlspecialchars($certificate['certificate_id']); ?>
         <div class="flex space-x-2">
     <a href="certificate.php?id=<?php echo htmlspecialchars($certificate['certificate_id']); ?>&patient_id=<?php echo htmlspecialchars($patient_id); ?>" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-lg">
         <i class="fas fa-file-download"></i> Generate
@@ -163,12 +163,12 @@ $conn->close();
             <p><strong>Symptoms:</strong> <?php echo htmlspecialchars($certificate['symptoms']); ?></p>
             <p><strong>Examination:</strong> <?php echo htmlspecialchars($certificate['examination']); ?></p>
             <p><strong>Recommendation:</strong> <?php echo htmlspecialchars($certificate['recommendation']); ?></p>
-            <p><strong>Osuva:</strong> <?php echo htmlspecialchars($certificate['osuva']); ?></p>
-            <p><strong>Oduva:</strong> <?php echo htmlspecialchars($certificate['oduva']); ?></p>
-            <p><strong>Osadd:</strong> <?php echo htmlspecialchars($certificate['osadd']); ?></p>
-            <p><strong>Odadd:</strong> <?php echo htmlspecialchars($certificate['odadd']); ?></p>
-            <p><strong>Odbcva:</strong> <?php echo htmlspecialchars($certificate['odbcva']); ?></p>
-            <p><strong>Osbcva:</strong> <?php echo htmlspecialchars($certificate['osbcva']); ?></p>
+            <p><strong>Right/OD UVA:</strong> <?php echo htmlspecialchars($certificate['oduva']); ?></p>
+            <p><strong>Left/OS UVA:</strong> <?php echo htmlspecialchars($certificate['osuva']); ?></p>
+            <p><strong>Right/OD Reading Add:</strong> <?php echo htmlspecialchars($certificate['odadd']); ?></p>
+            <p><strong>Left/OS Reading add:</strong> <?php echo htmlspecialchars($certificate['osadd']); ?></p>
+            <p><strong>Right/OD Best Corrected Visual Activity:</strong> <?php echo htmlspecialchars($certificate['odbcva']); ?></p>
+            <p><strong>Left/OD Best Corrected Visual Activity:</strong> <?php echo htmlspecialchars($certificate['osbcva']); ?></p>
             <p><strong>Eye Result ID:</strong> <?php echo htmlspecialchars($certificate['eye_result_id']); ?></p>
             <p><strong>Date Added:</strong> <?php echo htmlspecialchars($certificate['date_added']); ?></p>
         </div>
@@ -176,7 +176,7 @@ $conn->close();
         <div class="action-buttons mt-6">
         </div>
         <a href="secretary_certificate_view.php?id=<?php echo $certificate['patients_id']; ?>" class="text-blue-500 hover:text-green-700 mt-4 inline-block">
-            <i class="fas fa-arrow-left"></i> Back to Existing Certificates
+            <i class="fas fa-arrow-left"></i> Back to Available Certificates
         </a>
     </div>
 </main>

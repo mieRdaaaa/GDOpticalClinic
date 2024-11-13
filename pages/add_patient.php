@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Add Patients</a>
+                <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Patient Registration </a>
             </li>
         </ul>
         <div class="ml-auto flex items-center">
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="p-6">
     <!-- Dashboard Header with Flexbox Alignment -->
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-semibold text-gray-800">Add Patient Form</h1>
+        <h1 class="text-3xl font-semibold text-gray-800">Patient Registration</h1>
     </div>
     <div class="form-container bg-white p-8 rounded shadow-md m-4">
         <h2 class="text-2xl font-semibold mb-4">Patient Information</h2>
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="text" id="contact_no" name="contact_no" class="border border-gray-300 rounded-md py-2 px-4 w-full" placeholder="Enter contact number" required>
             </div>
             <div class="mb-4">
-                <button type="submit" class="bg-blue-500 text-white rounded-md py-2 px-4">Add Patient</button>
+                <button type="submit" class="bg-blue-500 text-white rounded-md py-2 px-4">Register Patient</button>
             </div>
         </form>
     </div>

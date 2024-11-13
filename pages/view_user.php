@@ -90,7 +90,7 @@ $total_stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View User</title>
+    <title>View Registered User</title>
     <link rel="stylesheet" href="css/doctor_users.css">
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -105,7 +105,7 @@ $total_stmt->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">View User</a>
+                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Registered User</a>
                 </li>
             </ul>
             <div class="ml-auto flex items-center">
@@ -128,7 +128,7 @@ $total_stmt->close();
 
 <!-- Search form -->
 <div class="flex items-center justify-between px-6 py-4">
-    <h2 class="text-3xl font-semibold text-gray-800">View User</h2>
+    <h2 class="text-3xl font-semibold text-gray-800">Registered User</h2>
     <form method="GET" action="" class="flex">
         <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
         <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>

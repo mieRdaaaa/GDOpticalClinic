@@ -117,10 +117,10 @@ $options_result = $options_stmt->get_result();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="doctor_certificate.php" class="text-gray-400 hover:text-gray-600 font-medium">Certificate</a>
+                    <a href="doctor_certificate.php" class="text-gray-400 hover:text-gray-600 font-medium">Medical Certificate</a>
                 </li>
                 <li class="text-black-600 mr-2 font-medium">/</li>
-                <li class="text-black-600 mr-2 font-medium">Add Certificate</li>
+                <li class="text-black-600 mr-2 font-medium">Create Medical Report</li>
             </ul>
             <div class="ml-auto flex items-center">
                 <div class="dropdown ml-3">
@@ -141,7 +141,7 @@ $options_result = $options_stmt->get_result();
         </div>
 
         <div class="max-w-full mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-            <h2 class="text-2xl font-bold mb-4">Add Certificate</h2>
+            <h2 class="text-2xl font-bold mb-4">Create Medical Report</h2>
 
             <form action="" method="POST">
                 <div class="flex space-x-4 mb-4">

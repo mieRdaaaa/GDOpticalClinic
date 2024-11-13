@@ -15,14 +15,15 @@ if (isset($_GET['id'])) {
         exit;
     }
 
-    // Fetch all eye results for the patient
-    $sql_eye_results = "SELECT * FROM eye_result WHERE patients_id = $id ORDER BY date_added DESC";
-    $eye_results_result = $conn->query($sql_eye_results);
+   // Fetch all eye results for the patient, including the diagnosis
+$sql_eye_results = "SELECT * FROM eye_result WHERE patients_id = $id ORDER BY date_added DESC";
+$eye_results_result = $conn->query($sql_eye_results);
 
-    if ($eye_results_result === false) {
-        echo "Error fetching eye results";
-        exit;
-    }
+if ($eye_results_result === false) {
+    echo "Error fetching eye results";
+    exit;
+}
+
 } else {
     echo "Invalid request";
     exit;
@@ -130,7 +131,7 @@ $conn->close();
             </tbody>
         </table>
         
-        <h2 class="text-2xl font-bold mt-8">Eye Results History</h2>
+        <h2 class="text-2xl font-bold mt-8">Previous Eye Results</h2>
 <div class="eye-results-container mt-4">
     <?php if ($eye_results_result->num_rows > 0): ?>
         <?php while ($eye_row = $eye_results_result->fetch_assoc()): ?>
@@ -143,13 +144,14 @@ $conn->close();
                 <p><strong>Right Cylinder:</strong> <?php echo $eye_row['r_cylinder']; ?></p>
                 <p><strong>Left Cylinder:</strong> <?php echo $eye_row['l_cylinder']; ?></p>
                 <p><strong>Pupillary Distance:</strong> <?php echo $eye_row['pd']; ?></p>
+                <p><strong>Diagnosis:</strong> <?php echo $eye_row['diagnosis']; ?></p>
                 <p><strong>Eye Result ID:</strong> <?php echo $eye_row['eye_result_id']; ?></p>
             </div>
             <!-- Separator -->
             <div class="h-px bg-gray-200"></div>
         <?php endwhile; ?>
     <?php else: ?>
-        <p>No eye results found</p>
+        <p>No Previous Eye Results found for this patient.</p>
     <?php endif; ?>
 </div>
 

@@ -94,7 +94,6 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Patient</title>
-    <link rel="stylesheet" href="css/doctor_edit.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
@@ -106,7 +105,7 @@ $conn->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients Table</a>
+                <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients List</a>
                 </li>
                 <li class="text-gray-600 mr-2 font-medium">/</li>
                 <li class="text-black-600 mr-2 font-medium">Edit Patient</li>

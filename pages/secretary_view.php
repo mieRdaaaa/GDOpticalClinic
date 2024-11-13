@@ -54,7 +54,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Patient Details</title>
+    <title>View Patient Information</title>
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
@@ -68,10 +68,10 @@ $conn->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="secretary_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients Table</a>
+                    <a href="secretary_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients List</a>
                 </li>
                 <li class="text-gray-600 mr-2 font-medium">/</li>
-                <li class="text-black-600 mr-2 font-medium">View Patient Details</li>
+                <li class="text-black-600 mr-2 font-medium">View Patient Information</li>
             </ul>
             <div class="ml-auto flex items-center">
                 <div class="dropdown ml-3">
@@ -92,7 +92,7 @@ $conn->close();
         </div>
 
         <div class="container mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
-            <h2 class="text-3xl font-semibold mb-6">Patient Details</h2>
+            <h2 class="text-3xl font-semibold mb-6">Patient Information</h2>
             <div class="details-table">
                 <div class="detail-row mb-4 border-b border-gray-300 pb-2">
                     <span class="detail-title font-bold text-lg">ID:</span>
@@ -142,8 +142,9 @@ $conn->close();
     <a href="secretary_initial_consultation_view.php?id=<?php echo $row['patients_id']; ?>" class="action-btn back-btn bg-yellow-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
         <i class="fas fa-handshake"></i> Initial Consultation
     </a>
+
     <a href="secretary_table.php" class="action-btn back-btn bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 text-lg">
-        <i class="fa fa-undo"></i> Back to List
+        <i class="fa fa-undo"></i> Back to Patient List
     </a>
 </div>
 

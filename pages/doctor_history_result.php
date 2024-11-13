@@ -131,7 +131,7 @@ $conn->close();
             </tbody>
         </table>
         
-        <h2 class="text-2xl font-bold mt-8">Eye Results History</h2>
+        <h2 class="text-2xl font-bold mt-8">Previous Eye Results</h2>
 <div class="eye-results-container mt-4">
     <?php if ($eye_results_result->num_rows > 0): ?>
         <?php while ($eye_row = $eye_results_result->fetch_assoc()): ?>
@@ -151,7 +151,7 @@ $conn->close();
             <div class="h-px bg-gray-200"></div>
         <?php endwhile; ?>
     <?php else: ?>
-        <p>No eye results found</p>
+        <p>No Previous Eye Results found for this patient.</p>
     <?php endif; ?>
 </div>
 

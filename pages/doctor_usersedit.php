@@ -110,7 +110,7 @@ $conn->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Edit User Details</a>
+                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Edit User Information</a>
                 </li>
             </ul>
             <div class="ml-auto flex items-center">
@@ -133,7 +133,7 @@ $conn->close();
 
         <!-- User Edit Form -->
         <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-6">
-            <h2 class="text-3xl font-semibold mb-6">Edit User Details</h2>
+            <h2 class="text-3xl font-semibold mb-6">Edit User Information</h2>
             <form method="POST" action="">
                 <div class="mb-4">
                     <label for="fullname" class="block text-lg font-medium text-gray-700">Full Name:</label>
