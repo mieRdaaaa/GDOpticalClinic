@@ -344,5 +344,5 @@ $conn->close();
 <script src="chat.min.js"></script>
 
     </main>
-    <?php include('doctor_homepage.php'); ?>
+    <?php include('secretary_homepage.php'); ?>
     <!-- end: Main -->

@@ -268,7 +268,7 @@ $conn->close();
         <!-- Display total weekly income -->
         <div class="text-base font-bold text-center mb-1">
             <p>Total Weekly Income:</p>
-            <h3 class="text-xl text-green-600">₱<?php echo number_format($total_weekly_income, 2); ?></h3>
+            <h3 class="text-lg text-green-600">₱<?php echo number_format($total_weekly_income, 2); ?></h3>
         </div>
 
         <!-- Chart -->
