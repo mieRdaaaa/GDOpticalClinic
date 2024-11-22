@@ -15,15 +15,14 @@ if (isset($_GET['id'])) {
         exit;
     }
 
-   // Fetch all eye results for the patient, including the diagnosis
-$sql_eye_results = "SELECT * FROM eye_result WHERE patients_id = $id ORDER BY date_added DESC";
-$eye_results_result = $conn->query($sql_eye_results);
+    // Fetch all eye results for the patient, including the diagnosis
+    $sql_eye_results = "SELECT * FROM eye_result WHERE patients_id = $id ORDER BY date_added DESC";
+    $eye_results_result = $conn->query($sql_eye_results);
 
-if ($eye_results_result === false) {
-    echo "Error fetching eye results";
-    exit;
-}
-
+    if ($eye_results_result === false) {
+        echo "Error fetching eye results";
+        exit;
+    }
 } else {
     echo "Invalid request";
     exit;
@@ -66,7 +65,6 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Patient History</title>
     <link rel="shortcut icon" href="../images/ico.png" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
@@ -81,7 +79,7 @@ $conn->close();
                 <a href="doctor_history.php" class="text-gray-400 hover:text-gray-600 font-medium">History</a>
             </li>
             <li class="text-gray-600 mr-2 font-medium">/</li>
-        <li class="text-gray-600 mr-2 font-medium">Results</li>
+            <li class="text-gray-600 mr-2 font-medium">Results</li>
         </ul>
         <div class="ml-auto flex items-center">
             <div class="dropdown ml-3">
@@ -90,7 +88,7 @@ $conn->close();
                 </button>
                 <ul class="dropdown-menu shadow-md z-30 hidden py-1.5 rounded-md bg-white border border-gray-100">
                     <li>
-                    <a href="../index.php" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-black-50">Logout</a>
+                        <a href="../index.php" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-black-50">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -126,37 +124,108 @@ $conn->close();
                     <td class="py-2 px-4"><?php echo $patient['date_of_birth']; ?></td>
                     <td class="py-2 px-4"><?php echo $patient['contact_no']; ?></td>
                     <td class="py-2 px-4"><?php echo $patient['medication_history']; ?></td>
-                    <td class="py-2 px-4"><?php echo $patient['date_added']; ?></td>
+                    <td class="py-2 px-4"><?php echo date("F j, Y", strtotime($patient['date_added'])); ?></td>
                 </tr>
             </tbody>
         </table>
         
         <h2 class="text-2xl font-bold mt-8">Previous Eye Results</h2>
-<div class="eye-results-container mt-4">
-    <?php if ($eye_results_result->num_rows > 0): ?>
+<div class="mt-4">
+    <label for="date-selector" class="block mb-2 text-lg font-semibold">Select Date</label>
+    <select id="date-selector" class="form-select block w-full bg-white border border-gray-300 p-2 rounded-md">
+        <option value="none" selected>Select a Date</option>
         <?php while ($eye_row = $eye_results_result->fetch_assoc()): ?>
-            <div class="eye-result-box border p-4 mb-4 bg-white shadow-md rounded">
-                <h3 class="text-lg font-semibold">Date Added: <?php echo $eye_row['date_added']; ?></h3>
-                <p><strong>Right Sphere:</strong> <?php echo $eye_row['r_sphere']; ?></p>
-                <p><strong>Left Sphere:</strong> <?php echo $eye_row['l_sphere']; ?></p>
-                <p><strong>Right Axis:</strong> <?php echo $eye_row['r_axis']; ?></p>
-                <p><strong>Left Axis:</strong> <?php echo $eye_row['l_axis']; ?></p>
-                <p><strong>Right Cylinder:</strong> <?php echo $eye_row['r_cylinder']; ?></p>
-                <p><strong>Left Cylinder:</strong> <?php echo $eye_row['l_cylinder']; ?></p>
-                <p><strong>Pupillary Distance:</strong> <?php echo $eye_row['pd']; ?></p>
-                <p><strong>Diagnosis:</strong> <?php echo $eye_row['diagnosis']; ?></p>
-                <p><strong>Other Conditions:</strong> <?php echo $eye_row['other_conditions']; ?></p>
-                <p><strong>Eye Result ID:</strong> <?php echo $eye_row['eye_result_id']; ?></p>
-            </div>
-            <!-- Separator -->
-            <div class="h-px bg-gray-200"></div>
+            <option value="<?php echo $eye_row['date_added']; ?>"><?php echo date("F j, Y", strtotime($eye_row['date_added'])); ?></option>
         <?php endwhile; ?>
-    <?php else: ?>
-        <p>No Previous Eye Results found for this patient.</p>
+    </select>
+</div>
+
+
+<div class="grid sm:grid-cols-1 gap-8 mt-4">
+    <?php
+    // Re-fetch the eye results and display them
+    $eye_results_result->data_seek(0); // Reset the pointer to the beginning of the result set
+    if ($eye_results_result->num_rows > 0): 
+        while ($eye_row = $eye_results_result->fetch_assoc()):
+    ?>
+            <div class="eye-result-box border p-6 mb-4 bg-white shadow-md rounded" data-date="<?php echo $eye_row['date_added']; ?>" style="display: none;">
+                <h3 class="text-lg font-semibold text-gray-800">Displaying Eye Results from: <?php echo date("F j, Y", strtotime($eye_row['date_added'])); ?></h3>
+                
+                <div class="border p-6 bg-gray-50 rounded-lg mt-4">
+                    <div class="grid sm:grid-cols-2 gap-8 mt-4">
+                        <div>
+                            <!-- Right Sphere Box -->
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Right Sphere:</strong> <?php echo $eye_row['r_sphere']; ?></p>
+                            </div>
+                            
+                            <!-- Left Sphere Box -->
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Left Sphere:</strong> <?php echo $eye_row['l_sphere']; ?></p>
+                            </div>
+
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Right Axis:</strong> <?php echo $eye_row['r_axis']; ?></p>
+                            </div>
+
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Left Axis:</strong> <?php echo $eye_row['l_axis']; ?></p>
+                            </div>
+
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Right Cylinder:</strong> <?php echo $eye_row['r_cylinder']; ?></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Result Information -->
+                        <div>
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Left Cylinder:</strong> <?php echo $eye_row['l_cylinder']; ?></p>
+                            </div>
+                            
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Pupillary Distance:</strong> <?php echo $eye_row['pd']; ?></p>
+                            </div>
+
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Diagnosis:</strong> <?php echo $eye_row['diagnosis']; ?></p>
+                            </div>
+                            
+                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
+                                <p class="text-lg text-gray-700"><strong>Other Conditions:</strong> <?php echo $eye_row['other_conditions']; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <?php 
+        endwhile;
+    else:
+    ?>
+        <div class="text-center text-xl text-gray-600">
+            <p>No previous eye results found</p>
+        </div>
     <?php endif; ?>
 </div>
 
-    </div>
-    <?php include('doctor_homepage.php'); ?>
+    
+</div>
+</main>
+<?php include('doctor_homepage.php'); ?>
+<script>
+    document.getElementById('date-selector').addEventListener('change', function() {
+        const selectedDate = this.value;
+        const results = document.querySelectorAll('.eye-result-box');
+        results.forEach(function(result) {
+            if (result.dataset.date === selectedDate) {
+                result.style.display = 'block';
+            } else {
+                result.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+
 </body>
 </html>
