@@ -57,15 +57,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $r_axis = $_POST['right_axis'];
     $l_axis = $_POST['left_axis'];
     $pd = $_POST['pupillary_distance'];
-    $diagnosis = $_POST['diagnosis']; // New field for diagnosis
+    $diagnosis = $_POST['diagnosis'] ?? null;
+    $other_conditions = $_POST['other_conditions'] ?? NULL;
 
     // Prepare the SQL statement to insert the data into the database
     $sql = "INSERT INTO eye_result
-            (r_sphere, l_sphere, r_cylinder, l_cylinder, r_axis, l_axis, pd, diagnosis, patients_id) 
-            VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ddddddssi", $r_sphere, $l_sphere, $r_cylinder, $l_cylinder, $r_axis, $l_axis, $pd, $diagnosis, $patient_id);
+        (r_sphere, l_sphere, r_cylinder, l_cylinder, r_axis, l_axis, pd, diagnosis, other_conditions, patients_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+$stmt = $conn->prepare($sql);
+
+$stmt->bind_param("ddddddsssi", 
+$r_sphere, 
+$l_sphere, 
+$r_cylinder, 
+$l_cylinder, 
+$r_axis, 
+$l_axis, 
+$pd, 
+$diagnosis, 
+$other_conditions,  // other_conditions can now handle NULL or a string value
+$patient_id);
 
     // Execute the query and check if the insertion was successful
     if ($stmt->execute()) {
@@ -101,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients Table</a>
+                    <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients List</a>
                 </li>
                 <li class="text-gray-600 mr-2 font-medium">/</li>
                 <li class="text-black-600 mr-2 font-medium">Eye Examination</li>
@@ -156,9 +168,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="number" step="0.01" id="pupillary_distance" name="pupillary_distance" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
                 </div>
                 <div class="mb-4">
-                    <label for="diagnosis" class="block text-gray-700"><i class="fa fa-eye"></i> Diagnosis:</label>
-                    <textarea id="diagnosis" name="diagnosis" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"></textarea>
-                </div>
+    <label for="diagnosis" class="block text-gray-700"><i class="fa fa-eye"></i> Diagnosis:</label>
+    <select id="diagnosis" name="diagnosis" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+        <option value="" disabled selected>Select a diagnosis</option>
+        <option value="Myopia (Nearsightedness)">Myopia (Nearsightedness)</option>
+        <option value="Hyperopia (Farsightedness)">Hyperopia (Farsightedness)</option>
+        <option value="Astigmatism">Astigmatism</option>
+        <option value="Presbyopia">Presbyopia</option>
+        <option value="Cataracts">Cataracts</option>
+        <option value="Glaucoma">Glaucoma</option>
+        <option value="Macular Degeneration">Macular Degeneration</option>
+        <option value="Diabetic Retinopathy">Diabetic Retinopathy</option>
+        <option value="Conjunctivitis (Pink Eye)">Conjunctivitis (Pink Eye)</option>
+        <option value="Blepharitis">Blepharitis</option>
+        <option value="Dry Eye Syndrome">Dry Eye Syndrome</option>
+        <option value="Computer Vision Syndrome">Computer Vision Syndrome</option>
+    </select>
+</div>
+<div class="mb-4">
+    <label for="other_conditions" class="block text-gray-700"><i class="fa fa-pencil-alt"></i> Other Conditions:</label>
+    <input type="text" id="other_conditions" name="other_conditions" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+</div>
+
+
+
 
                 <div class="flex justify-between">
                     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onclick="alert('New eye record added')"><i class="fas fa-check"></i> Submit</button>

@@ -78,7 +78,7 @@ $conn->close();
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="secretary_history.php" class="text-gray-400 hover:text-gray-600 font-medium">History</a>
+                <a href="doctor_history.php" class="text-gray-400 hover:text-gray-600 font-medium">History</a>
             </li>
             <li class="text-gray-600 mr-2 font-medium">/</li>
         <li class="text-gray-600 mr-2 font-medium">Results</li>
@@ -145,6 +145,7 @@ $conn->close();
                 <p><strong>Left Cylinder:</strong> <?php echo $eye_row['l_cylinder']; ?></p>
                 <p><strong>Pupillary Distance:</strong> <?php echo $eye_row['pd']; ?></p>
                 <p><strong>Diagnosis:</strong> <?php echo $eye_row['diagnosis']; ?></p>
+                <p><strong>Other Conditions:</strong> <?php echo $eye_row['other_conditions']; ?></p>
                 <p><strong>Eye Result ID:</strong> <?php echo $eye_row['eye_result_id']; ?></p>
             </div>
             <!-- Separator -->
