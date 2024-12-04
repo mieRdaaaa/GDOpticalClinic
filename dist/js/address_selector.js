@@ -117,14 +117,14 @@ function loadProvinces() {
     { id: 1105, name: 'Misamis Oriental' }
 ],
 'Region XI – Davao Region' : [
-    { id: 1201, name: 'Davao de Oro (formerly Compostela Valley)' },
+    { id: 1201, name: 'Davao de Oro' },
     { id: 1202, name: 'Davao del Norte' },
     { id: 1203, name: 'Davao del Sur' },
     { id: 1204, name: 'Davao Occidental' },
     { id: 1205, name: 'Davao Oriental' }
 ],
 'Region XII – SOCCSKSARGEN' : [
-    { id: 1301, name: 'Cotabato (North Cotabato)' },
+    { id: 1301, name: 'North Cotabato' },
     { id: 1302, name: 'Sarangani' },
     { id: 1303, name: 'South Cotabato' },
     { id: 1304, name: 'Sultan Kudarat' }
@@ -965,13 +965,27 @@ function loadCities() {
 ],
 'Zamboanga del Sur': [
     { id: 10021, name: 'Pagadian City' },
-    { id: 10022, name: 'Dipolog City' },
+    { id: 10022, name: 'Molave' },
     { id: 10023, name: 'Alicia' },
-    { id: 10024, name: 'Guipos' },
-    { id: 10025, name: 'Molave' }
+    { id: 10024, name: 'Guipos' }
 ],
-'Zamboanga City': [
-    { id: 10031, name: 'Zamboanga City' }
+'Zamboanga Sibugay': [
+  { id: 10031, name: 'Ipil' },
+  { id: 10032, name: 'Alicia' },
+  { id: 10033, name: 'Buug' },
+  { id: 10034, name: 'Diplahan' },
+  { id: 10035, name: 'Imelda' },
+  { id: 10036, name: 'Kabasalan' },
+  { id: 10037, name: 'Mabuhay' },
+  { id: 10038, name: 'Malangas' },
+  { id: 10039, name: 'Naga' },
+  { id: 10040, name: 'Olutanga' },
+  { id: 10041, name: 'Payao' },
+  { id: 10042, name: 'Roseller T. Lim' },
+  { id: 10043, name: 'Siay' },
+  { id: 10044, name: 'Talusan' },
+  { id: 10045, name: 'Titay' },
+  { id: 10046, name: 'Tungawan' }  
 ],
 
 // Region X - Northern Mindanao
@@ -1013,7 +1027,7 @@ function loadCities() {
 
 
         // Region XI - Davao Region
-'Compostela Valley': [
+'Davao de Oro': [
     { id: 12011, name: 'Monkayo' },
     { id: 12012, name: 'Nabunturan' },
     { id: 12013, name: 'Pantukan' },
@@ -1027,15 +1041,24 @@ function loadCities() {
     { id: 12024, name: 'Kapalong' },
     { id: 12025, name: 'Asuncion' }
 ],
-'Davao City': [
-    { id: 12031, name: 'Davao City' }
+'Davao del Sur': [
+    { id: 12031, name: 'Digos City' },
+    { id: 12032, name: 'Bansalan' },
+    { id: 12033, name: 'Hagonoy' },
+    { id: 12034, name: 'Kiblawan' },
+    { id: 12035, name: 'Magsaysay' },
+    { id: 12036, name: 'Malalag' },
+    { id: 12037, name: 'Matanao' },
+    { id: 12038, name: 'Padada' },
+    { id: 12039, name: 'Santa Cruz' },
+    { id: 12040, name: 'Sulop' }
 ],
+
 'Davao Occidental': [
     { id: 12041, name: 'Malita' },
     { id: 12042, name: 'Santa Maria' },
     { id: 12043, name: 'Don Marcelino' },
-    { id: 12044, name: 'Jose Abad Santos' },
-    { id: 12045, name: 'Sarangani' }
+    { id: 12044, name: 'Jose Abad Santos' }
 ],
 'Davao Oriental': [
     { id: 12051, name: 'Mati City' },
@@ -3743,7 +3766,1308 @@ function loadBarangays() {
       { "id": 1068, "name": "Barangay 1" },
       { "id": 1069, "name": "Barangay 2" },
       { "id": 1070, "name": "Barangay 3" }
-    ]
+    ],
+    'Dipolog City': [
+    { "id": 1877, "name": "Barra" },
+    { "id": 1878, "name": "Biasong" },
+    { "id": 1879, "name": "Central" },
+    { "id": 1880, "name": "Cogon" },
+    { "id": 1881, "name": "Diwan" },
+    { "id": 1882, "name": "Galas" },
+    { "id": 1883, "name": "Gulayon" },
+    { "id": 1884, "name": "Lawa-an" },
+    { "id": 1885, "name": "Minaog" },
+    { "id": 1886, "name": "Olingan" },
+    { "id": 1887, "name": "San Jose" },
+    { "id": 1888, "name": "Sicayab" },
+    { "id": 1889, "name": "Sinaman" },
+    { "id": 1890, "name": "Sta. Filomena" },
+    { "id": 1891, "name": "Sta. Isabel" },
+    { "id": 1892, "name": "Sta. Maria" },
+    { "id": 1893, "name": "Sulangon" },
+    { "id": 1894, "name": "Turno" }
+],
+'Dapitan City': [
+    { "id": 1895, "name": "Banonong" },
+    { "id": 1896, "name": "Burgos" },
+    { "id": 1897, "name": "Canlucani" },
+    { "id": 1898, "name": "Carang" },
+    { "id": 1899, "name": "Dampalan" },
+    { "id": 1900, "name": "Ilaya" },
+    { "id": 1901, "name": "Larayan" },
+    { "id": 1902, "name": "Owaon" },
+    { "id": 1903, "name": "Polo" },
+    { "id": 1904, "name": "Potol" },
+    { "id": 1905, "name": "San Francisco" },
+    { "id": 1906, "name": "San Nicolas" },
+    { "id": 1907, "name": "Sicayab Bucana" },
+    { "id": 1908, "name": "Sulangon" },
+    { "id": 1909, "name": "Taguilon" }
+],
+'Polanco': [
+    { "id": 1910, "name": "Anastacio" },
+    { "id": 1911, "name": "Bandera" },
+    { "id": 1912, "name": "Bethlehem" },
+    { "id": 1913, "name": "Gumahan" },
+    { "id": 1914, "name": "Kinangay Sur" },
+    { "id": 1915, "name": "Letapan" },
+    { "id": 1916, "name": "Macleodes" },
+    { "id": 1917, "name": "Milad" },
+    { "id": 1918, "name": "Poblacion North" },
+    { "id": 1919, "name": "Sianib" }
+],
+'Sergio Osmeña Sr.': [
+    { "id": 1920, "name": "Balatakan" },
+    { "id": 1921, "name": "Calabayan" },
+    { "id": 1922, "name": "Kinuman Norte" },
+    { "id": 1923, "name": "Labrador" },
+    { "id": 1924, "name": "Luzvilla" },
+    { "id": 1925, "name": "Sebod" },
+    { "id": 1926, "name": "Venus" }
+],
+'Salug': [
+    { "id": 1927, "name": "Bacong" },
+    { "id": 1928, "name": "Binoni" },
+    { "id": 1929, "name": "Caracol" },
+    { "id": 1930, "name": "Ecuan" },
+    { "id": 1931, "name": "Pukay" },
+    { "id": 1932, "name": "Tapalan" },
+    { "id": 1933, "name": "San Miguel" }
+],
+'Pagadian City': [
+    { "id": 1934, "name": "Alegria" },
+    { "id": 1935, "name": "Balangasan" },
+    { "id": 1936, "name": "Balanagan" },
+    { "id": 1937, "name": "Baloyboan" },
+    { "id": 1938, "name": "Buenavista" },
+    { "id": 1939, "name": "Dao" },
+    { "id": 1940, "name": "Ditoray" },
+    { "id": 1941, "name": "Gatas" },
+    { "id": 1942, "name": "Lala" },
+    { "id": 1943, "name": "Muricay" },
+    { "id": 1944, "name": "Napolan" },
+    { "id": 1945, "name": "San Jose" },
+    { "id": 1946, "name": "Santa Lucia" },
+    { "id": 1947, "name": "Santa Maria" },
+    { "id": 1948, "name": "Santiago" },
+    { "id": 1949, "name": "Tiguma" },
+    { "id": 1950, "name": "Tuburan" }
+],
+'Molave': [
+    { "id": 1951, "name": "Blancia" },
+    { "id": 1952, "name": "Culo" },
+    { "id": 1953, "name": "Dipolo" },
+    { "id": 1954, "name": "Gonosan" },
+    { "id": 1955, "name": "Madasigon" },
+    { "id": 1956, "name": "Maloloy-on" },
+    { "id": 1957, "name": "Parasan" },
+    { "id": 1958, "name": "Pinalim" },
+    { "id": 1959, "name": "Simata" },
+    { "id": 1960, "name": "Silangit" },
+    { "id": 1961, "name": "Sudlon" }
+],
+'Alicia': [
+    { "id": 1962, "name": "Bagongbayan" },
+    { "id": 1963, "name": "Concepcion" },
+    { "id": 1964, "name": "Del Monte" },
+    { "id": 1965, "name": "Guinabot" },
+    { "id": 1966, "name": "Napo" },
+    { "id": 1967, "name": "Payag" },
+    { "id": 1968, "name": "Sibugay" },
+    { "id": 1969, "name": "Tomitom" }
+],
+'Guipos': [
+    { "id": 1970, "name": "Baguitan" },
+    { "id": 1971, "name": "Datagan" },
+    { "id": 1972, "name": "Lantungan" },
+    { "id": 1973, "name": "Magting" },
+    { "id": 1974, "name": "Poblacion" },
+    { "id": 1975, "name": "Sikatuna" },
+    { "id": 1976, "name": "Singclot" }
+],
+'Ipil': [
+    { "id": 1821, "name": "Bacalan" },
+    { "id": 1822, "name": "Bualan" },
+    { "id": 1823, "name": "Dacal" },
+    { "id": 1824, "name": "Domandan" },
+    { "id": 1825, "name": "Guituan" },
+    { "id": 1826, "name": "Lower Taway" },
+    { "id": 1827, "name": "Magsaysay" },
+    { "id": 1828, "name": "Pangi" },
+    { "id": 1829, "name": "Sanito" },
+    { "id": 1830, "name": "Tiayon" },
+    { "id": 1831, "name": "Upper Taway" }
+],
+'Alicia': [
+    { "id": 1832, "name": "Bagong Oslob" },
+    { "id": 1833, "name": "Concepcion" },
+    { "id": 1834, "name": "Dawa-Dawa" },
+    { "id": 1835, "name": "La Paz" },
+    { "id": 1836, "name": "Sampoli" }
+],
+'Buug': [
+    { "id": 1837, "name": "Bawang" },
+    { "id": 1838, "name": "Labrador" },
+    { "id": 1839, "name": "Pamintayan" },
+    { "id": 1840, "name": "Poblacion" },
+    { "id": 1841, "name": "Santa Cruz" }
+],
+'Diplahan': [
+    { "id": 1842, "name": "Butong" },
+    { "id": 1843, "name": "Camunga" },
+    { "id": 1844, "name": "Mejo" },
+    { "id": 1845, "name": "San Isidro" },
+    { "id": 1846, "name": "Songcuya" }
+],
+'Imelda': [
+    { "id": 1847, "name": "Balugo" },
+    { "id": 1848, "name": "Bengke" },
+    { "id": 1849, "name": "Dimalinao" },
+    { "id": 1850, "name": "La Libertad" },
+    { "id": 1851, "name": "Lower Baluran" }
+],
+'Kabasalan': [
+    { "id": 1852, "name": "Concepcion" },
+    { "id": 1853, "name": "Little Baguio" },
+    { "id": 1854, "name": "Poblacion" },
+    { "id": 1855, "name": "Salipyasin" },
+    { "id": 1856, "name": "Tampilisan" }
+],
+'Mabuhay': [
+    { "id": 1857, "name": "Baganipay" },
+    { "id": 1858, "name": "Catipan" },
+    { "id": 1859, "name": "Poblacion" },
+    { "id": 1860, "name": "Santo Niño" }
+],
+'Malangas': [
+    { "id": 1861, "name": "La Dicha" },
+    { "id": 1862, "name": "Lisap" },
+    { "id": 1863, "name": "Miasan" },
+    { "id": 1864, "name": "Sinusayan" }
+],
+'Naga': [
+    { "id": 1865, "name": "Bacong" },
+    { "id": 1866, "name": "Bayog" },
+    { "id": 1867, "name": "Bulao" },
+    { "id": 1868, "name": "Lower Talamimi" },
+    { "id": 1869, "name": "Poblacion" }
+],
+'Olutanga': [
+    { "id": 1870, "name": "Calais" },
+    { "id": 1871, "name": "Gaguil" },
+    { "id": 1872, "name": "Libertad" },
+    { "id": 1873, "name": "Paril" }
+],
+'Payao': [
+    { "id": 1874, "name": "Bulawan" },
+    { "id": 1875, "name": "Guinoman" },
+    { "id": 1876, "name": "Katipunan" },
+    { "id": 1877, "name": "Kima" }
+],
+'Roseller T. Lim': [
+    { "id": 1878, "name": "Canunan" },
+    { "id": 1879, "name": "Gatas" },
+    { "id": 1880, "name": "Katipunan" },
+    { "id": 1881, "name": "Poblacion" }
+],
+'Siay': [
+    { "id": 1882, "name": "Candis" },
+    { "id": 1883, "name": "Dalangin" },
+    { "id": 1884, "name": "Dumalian" },
+    { "id": 1885, "name": "Lood" }
+],
+'Talusan': [
+    { "id": 1886, "name": "Aurora" },
+    { "id": 1887, "name": "Maton-og" },
+    { "id": 1888, "name": "Poblacion" },
+    { "id": 1889, "name": "Samonte" }
+],
+'Titay': [
+    { "id": 1890, "name": "Bangco" },
+    { "id": 1891, "name": "Concepcion" },
+    { "id": 1892, "name": "Mambisig" },
+    { "id": 1893, "name": "Poblacion" }
+],
+'Tungawan': [
+    { "id": 1894, "name": "Banale" },
+    { "id": 1895, "name": "Libertad" },
+    { "id": 1896, "name": "Longilog" },
+    { "id": 1897, "name": "Lumbia" }
+],
+'Malaybalay City': [
+    { "id": 1901, "name": "Casisang" },
+    { "id": 1902, "name": "Dahilayan" },
+    { "id": 1903, "name": "Dalwangan" },
+    { "id": 1904, "name": "Imbayao" },
+    { "id": 1905, "name": "Labangon" },
+    { "id": 1906, "name": "Lumbayao" },
+    { "id": 1907, "name": "Minalungao" },
+    { "id": 1908, "name": "Poblacion" },
+    { "id": 1909, "name": "San Jose" },
+    { "id": 1910, "name": "San Isidro" }
+],
+'Valencia City': [
+    { "id": 1911, "name": "Bagontaas" },
+    { "id": 1912, "name": "Banlag" },
+    { "id": 1913, "name": "Bantuan" },
+    { "id": 1914, "name": "Bugas" },
+    { "id": 1915, "name": "Dalwangan" },
+    { "id": 1916, "name": "Dahilayan" },
+    { "id": 1917, "name": "Kilad-an" },
+    { "id": 1918, "name": "Labangon" },
+    { "id": 1919, "name": "Lumbayao" },
+    { "id": 1920, "name": "Poblacion" }
+],
+'Maramag': [
+    { "id": 1921, "name": "Bae" },
+    { "id": 1922, "name": "Bugcaon" },
+    { "id": 1923, "name": "Himbalagon" },
+    { "id": 1924, "name": "Lantapan" },
+    { "id": 1925, "name": "Lumbayao" },
+    { "id": 1926, "name": "Mabuhay" },
+    { "id": 1927, "name": "Magsaysay" },
+    { "id": 1928, "name": "Manolo Fortich" }
+],
+'Manolo Fortich': [
+    { "id": 1929, "name": "Aglayan" },
+    { "id": 1930, "name": "Bae" },
+    { "id": 1931, "name": "Bagontaas" },
+    { "id": 1932, "name": "Dalwangan" },
+    { "id": 1933, "name": "Imbayao" },
+    { "id": 1934, "name": "Kiling" },
+    { "id": 1935, "name": "Lumbayao" }
+],
+'Cabanglasan': [
+    { "id": 1936, "name": "Poblacion" },
+    { "id": 1937, "name": "Labangan" },
+    { "id": 1938, "name": "Pangabuan" },
+    { "id": 1939, "name": "San Isidro" }
+],
+'Mambajao': [
+    { "id": 1940, "name": "Anilao" },
+    { "id": 1941, "name": "Bagumbayan" },
+    { "id": 1942, "name": "Balete" },
+    { "id": 1943, "name": "Bato" },
+    { "id": 1944, "name": "Benoni" },
+    { "id": 1945, "name": "Cabuan" },
+    { "id": 1946, "name": "Catarman" },
+    { "id": 1947, "name": "Catugbacan" }
+],
+'Catarman': [
+    { "id": 1948, "name": "Antipolo" },
+    { "id": 1949, "name": "Bancao-Bancao" },
+    { "id": 1950, "name": "Banuyo" },
+    { "id": 1951, "name": "Barag" },
+    { "id": 1952, "name": "Cabilogan" }
+],
+'Guinsiliban': [
+    { "id": 1953, "name": "Guinsiliban" },
+    { "id": 1954, "name": "Luknayan" }
+],
+'Sagay': [
+    { "id": 1955, "name": "Balaring" },
+    { "id": 1956, "name": "Binalbagan" },
+    { "id": 1957, "name": "Bulod" },
+    { "id": 1958, "name": "Daga" },
+    { "id": 1959, "name": "Napacao" },
+    { "id": 1960, "name": "Poblacion" }
+],
+'Mahinog': [
+    { "id": 1961, "name": "Bonbon" },
+    { "id": 1962, "name": "Cahibunan" },
+    { "id": 1963, "name": "Catumbalon" },
+    { "id": 1964, "name": "Central" },
+    { "id": 1965, "name": "Jinalinan" }
+],
+'Iligan City': [
+    { "id": 1966, "name": "Poblacion" },
+    { "id": 1967, "name": "Bacolod" },
+    { "id": 1968, "name": "Bagumbayan" },
+    { "id": 1969, "name": "Burot" },
+    { "id": 1970, "name": "Santo Niño" }
+],
+'Tangub City': [
+    { "id": 1971, "name": "Bagumbayan" },
+    { "id": 1972, "name": "Dagsian" },
+    { "id": 1973, "name": "Dukay" },
+    { "id": 1974, "name": "Lumbayao" },
+    { "id": 1975, "name": "Poblacion" }
+],
+'Kapatagan': [
+    { "id": 1976, "name": "Bagumbayan" },
+    { "id": 1977, "name": "Bugsukan" },
+    { "id": 1978, "name": "Dahilayan" },
+    { "id": 1979, "name": "Kapatagan" },
+    { "id": 1980, "name": "Poblacion" }
+],
+'Kauswagan': [
+    { "id": 1981, "name": "Bagumbayan" },
+    { "id": 1982, "name": "Dugyanan" },
+    { "id": 1983, "name": "Mangat" },
+    { "id": 1984, "name": "Poblacion" }
+],
+'Linamon': [
+    { "id": 1985, "name": "Dacol" },
+    { "id": 1986, "name": "Baluno" },
+    { "id": 1987, "name": "Magtang" },
+    { "id": 1988, "name": "San Agustin" }
+],
+'Oroquieta City': [
+    { "id": 1989, "name": "Danao" },
+    { "id": 1990, "name": "Santo Niño" },
+    { "id": 1991, "name": "Lumbang" },
+    { "id": 1992, "name": "Lumbang" }
+],
+'Ozamiz City': [
+    { "id": 1993, "name": "Barangay 1" },
+    { "id": 1994, "name": "Barangay 2" },
+    { "id": 1995, "name": "Barangay 3" },
+    { "id": 1996, "name": "Barangay 4" }
+],
+'Tudela': [
+    { "id": 1997, "name": "Tudela" }
+],
+'Jimenez': [
+    { "id": 1998, "name": "Bacungan" },
+    { "id": 1999, "name": "Binuni" },
+    { "id": 2000, "name": "Poblacion" }
+],
+'Plaridel': [
+    { "id": 2001, "name": "Dinaigan" },
+    { "id": 2002, "name": "Dianalagan" }
+],
+'Gingoog City': [
+    { "id": 2003, "name": "Bal-ason" },
+    { "id": 2004, "name": "Bantug" },
+    { "id": 2005, "name": "Baño" },
+    { "id": 2006, "name": "Dumanjog" },
+    { "id": 2007, "name": "Santo Niño" }
+],
+'Jasaan': [
+    { "id": 2008, "name": "Barangay 1" },
+    { "id": 2009, "name": "Barangay 2" },
+    { "id": 2010, "name": "Barangay 3" }
+],
+'Gitagum': [
+    { "id": 2011, "name": "Bagtic" },
+    { "id": 2012, "name": "Baclayan" }
+],
+'Villanueva': [
+    { "id": 2013, "name": "Awihao" },
+    { "id": 2014, "name": "Maglipay" }
+],
+'Monkayo': [
+    { "id": 2015, "name": "Awihao" },
+    { "id": 2016, "name": "Maglipay" },
+    { "id": 2017, "name": "Malambo" },
+    { "id": 2018, "name": "Poblacion" },
+    { "id": 2019, "name": "Lower Baño" },
+    { "id": 2020, "name": "Upper Baño" },
+    { "id": 2021, "name": "Diwata" },
+    { "id": 2022, "name": "Mt. Diwata" }
+],
+
+'Nabunturan': [
+    { "id": 2023, "name": "Anislagan" },
+    { "id": 2024, "name": "Antequera" },
+    { "id": 2025, "name": "Basak" },
+    { "id": 2026, "name": "Bayabas" },
+    { "id": 2027, "name": "Bukal" },
+    { "id": 2028, "name": "Cabacungan" },
+    { "id": 2029, "name": "Cabidianan" },
+    { "id": 2030, "name": "Katipunan" },
+    { "id": 2031, "name": "Libasan" },
+    { "id": 2032, "name": "Linda" },
+    { "id": 2033, "name": "Magading" },
+    { "id": 2034, "name": "Magsaysay" },
+    { "id": 2035, "name": "Mainit" },
+    { "id": 2036, "name": "Manat" },
+    { "id": 2037, "name": "Matilo" },
+    { "id": 2038, "name": "Mipangi" },
+    { "id": 2039, "name": "New Dauis" },
+    { "id": 2040, "name": "New Sibonga" },
+    { "id": 2041, "name": "Ogao" },
+    { "id": 2042, "name": "Poblacion" },
+    { "id": 2043, "name": "San Isidro" },
+    { "id": 2044, "name": "San Roque" },
+    { "id": 2045, "name": "San Vicente" },
+    { "id": 2046, "name": "Santa Maria" },
+    { "id": 2047, "name": "Santo Niño" },
+    { "id": 2048, "name": "Sasa" },
+    { "id": 2049, "name": "Tagnocon" }
+],
+
+'Pantukan': [
+    { "id": 2050, "name": "Alagatan" },
+    { "id": 2051, "name": "Binondo" },
+    { "id": 2052, "name": "Datu Salumay" },
+    { "id": 2053, "name": "Don Martin Marundan" },
+    { "id": 2054, "name": "Magsaysay" },
+    { "id": 2055, "name": "Poblacion" },
+    { "id": 2056, "name": "Pundaguitan" },
+    { "id": 2057, "name": "San Isidro" },
+    { "id": 2058, "name": "San Jose" },
+    { "id": 2059, "name": "Wakwak" }
+],
+
+'New Bataan': [
+    { "id": 2060, "name": "Andap" },
+    { "id": 2061, "name": "Bañgo" },
+    { "id": 2062, "name": "Banlag" },
+    { "id": 2063, "name": "New Albay" },
+    { "id": 2064, "name": "Poblacion" },
+    { "id": 2065, "name": "San Isidro" }
+],
+
+'Maragusan': [
+    { "id": 2066, "name": "Anitapan" },
+    { "id": 2067, "name": "Badiang" },
+    { "id": 2068, "name": "Binucay" },
+    { "id": 2069, "name": "Cutog" },
+    { "id": 2070, "name": "Don Martin" },
+    { "id": 2071, "name": "Kauswagan" },
+    { "id": 2072, "name": "Poblacion" },
+    { "id": 2073, "name": "Rizal" }
+],
+
+'Tagum City': [
+    { "id": 2074, "name": "Apokon" },
+    { "id": 2075, "name": "Bincungan" },
+    { "id": 2076, "name": "Magugpo Poblacion" },
+    { "id": 2077, "name": "Mankilam" },
+    { "id": 2078, "name": "New Balamban" },
+    { "id": 2079, "name": "San Miguel" },
+    { "id": 2080, "name": "Santo Niño" },
+    { "id": 2081, "name": "Visayan" }
+],
+
+'Panabo City': [
+    { "id": 2082, "name": "Carmen" },
+    { "id": 2083, "name": "Datu Balong" },
+    { "id": 2084, "name": "Kasilak" },
+    { "id": 2085, "name": "New Katipunan" },
+    { "id": 2086, "name": "Old Tagpao" },
+    { "id": 2087, "name": "San Isidro" },
+    { "id": 2088, "name": "San Juan" }
+],
+
+'Island Garden City of Samal': [
+    { "id": 2089, "name": "Adecor" },
+    { "id": 2090, "name": "Anonang" },
+    { "id": 2091, "name": "Babak" },
+    { "id": 2092, "name": "Barangay Capital" },
+    { "id": 2093, "name": "Camudmud" },
+    { "id": 2094, "name": "Catagman" },
+    { "id": 2095, "name": "Dacudao" },
+    { "id": 2096, "name": "Mambago" },
+    { "id": 2097, "name": "Marfori" }
+],
+
+'Davao City': [
+    { "id": 2098, "name": "Davao City" }
+],
+
+'Malita': [
+
+    { "id": 2100, "name": "Sambon" },
+    { "id": 2101, "name": "Libudon" },
+    { "id": 2102, "name": "Tungao" },
+    { "id": 2103, "name": "Nagpan" },
+    { "id": 2104, "name": "Magdum" }
+],
+
+'Santa Maria': [
+
+    { "id": 2106, "name": "Pag-asa" },
+    { "id": 2107, "name": "Talisay" }
+],
+
+'Don Marcelino': [
+
+    { "id": 2109, "name": "Tuganay" },
+    { "id": 2110, "name": "Lambog" }
+],
+
+'Jose Abad Santos': [
+
+    { "id": 2112, "name": "San Roque" },
+    { "id": 2113, "name": "Poblacion" }
+],
+
+
+
+'Mati City': [
+
+    { "id": 2118, "name": "Sabang" },
+    { "id": 2119, "name": "San Isidro" }
+],
+
+'Baganga': [
+
+    { "id": 2121, "name": "Cagwait" },
+    { "id": 2122, "name": "Maligaya" }
+],
+
+'Cateel': [
+
+    { "id": 2124, "name": "Ibos" },
+    { "id": 2125, "name": "Poblacion" }
+],
+
+'Boston': [
+
+    { "id": 2127, "name": "San Jose" },
+    { "id": 2128, "name": "San Pedro" }
+],
+
+'Governor Generoso': [
+
+    { "id": 2130, "name": "Bangkalan" },
+    { "id": 2131, "name": "San Antonio" }
+],
+'Digos City': [
+        { "id": 2132, "name": "Aplaya" },
+        { "id": 2133, "name": "Cogon" },
+        { "id": 2134, "name": "Dulangan" },
+        { "id": 2135, "name": "Sinawilan" },
+        { "id": 2136, "name": "Rizal" },
+        { "id": 2137, "name": "San Jose" },
+        { "id": 2138, "name": "San Miguel" },
+        { "id": 2139, "name": "San Roque" },
+        { "id": 2140, "name": "San Isidro" },
+        { "id": 2141, "name": "Balabag" },
+        { "id": 2142, "name": "Binaton" },
+        { "id": 2143, "name": "Goma" },
+        { "id": 2144, "name": "Igpit" },
+        { "id": 2145, "name": "Kapatagan" },
+        { "id": 2146, "name": "Kiagot" },
+        { "id": 2147, "name": "Lungag" },
+        { "id": 2148, "name": "Magsaysay" },
+        { "id": 2149, "name": "Matina Biao" },
+        { "id": 2150, "name": "Ruparan" },
+        { "id": 2151, "name": "Soong" },
+        { "id": 2152, "name": "Tagabuli" },
+        { "id": 2153, "name": "Tres de Mayo" }
+    ],
+    'Bansalan': [
+        { "id": 2201, "name": "Managa" },
+        { "id": 2202, "name": "Kinuskusan" },
+        { "id": 2203, "name": "Villa Doneza" },
+        { "id": 2204, "name": "San Vicente" },
+        { "id": 2205, "name": "Sinapulan" },
+        { "id": 2206, "name": "Tabon" },
+        { "id": 2207, "name": "Santo Niño" },
+        { "id": 2208, "name": "Marilog" },
+        { "id": 2209, "name": "Don Marcelino" },
+        { "id": 2210, "name": "Padada" },
+        { "id": 2211, "name": "Lawigan" },
+        { "id": 2212, "name": "Langub" },
+        { "id": 2213, "name": "Parang" },
+        { "id": 2214, "name": "Mabuhay" },
+        { "id": 2215, "name": "Mendez" },
+        { "id": 2216, "name": "Nagbay" },
+        { "id": 2217, "name": "Pilan" },
+        { "id": 2218, "name": "Rizal" },
+        { "id": 2219, "name": "San Jose" },
+        { "id": 2220, "name": "Pogondol" },
+        { "id": 2221, "name": "Panabo" },
+        { "id": 2222, "name": "Marilog" },
+        { "id": 2223, "name": "Lico" }
+    ],
+    'Hagonoy': [
+        { "id": 2301, "name": "Clib" },
+        { "id": 2302, "name": "Guihing" },
+        { "id": 2303, "name": "San Guillermo" },
+        { "id": 2304, "name": "Kampung" },
+        { "id": 2305, "name": "Abo" },
+        { "id": 2306, "name": "Olap" },
+        { "id": 2307, "name": "Lumbayan" },
+        { "id": 2308, "name": "Concepcion" },
+        { "id": 2309, "name": "Bolo" },
+        { "id": 2310, "name": "Banaybanay" },
+        { "id": 2311, "name": "Quezon" },
+        { "id": 2312, "name": "Balundoni" },
+        { "id": 2313, "name": "Mansibang" },
+        { "id": 2314, "name": "Cawayan" },
+        { "id": 2315, "name": "Bugsukan" },
+        { "id": 2316, "name": "Sariaya" },
+        { "id": 2317, "name": "Lugos" },
+        { "id": 2318, "name": "Siambacan" },
+        { "id": 2319, "name": "Balatoc" },
+        { "id": 2320, "name": "Bacud" },
+        { "id": 2321, "name": "Pinto" }
+    ],
+    'Kiblawan': [
+        { "id": 2401, "name": "Bagumbayan" },
+        { "id": 2402, "name": "Kimlawis" },
+        { "id": 2403, "name": "Balasiao" },
+        { "id": 2404, "name": "Milan" },
+        { "id": 2405, "name": "Baganihan" },
+        { "id": 2406, "name": "Pangil" },
+        { "id": 2407, "name": "Datalblao" },
+        { "id": 2408, "name": "Salumay" },
+        { "id": 2409, "name": "New Esperanza" },
+        { "id": 2410, "name": "Kanipaan" },
+        { "id": 2411, "name": "Tambacan" },
+        { "id": 2412, "name": "Sta. Teresa" },
+        { "id": 2413, "name": "Quezon" },
+        { "id": 2414, "name": "Kabilan" },
+        { "id": 2415, "name": "Matundan" },
+        { "id": 2416, "name": "Pinto" },
+        { "id": 2417, "name": "Macario" },
+        { "id": 2418, "name": "Barangay" }
+    ],
+    'Magsaysay': [
+        { "id": 2501, "name": "Malawanit" },
+        { "id": 2502, "name": "San Isidro" },
+        { "id": 2503, "name": "Tacul" },
+        { "id": 2504, "name": "Panabo" },
+        { "id": 2505, "name": "Tampus" },
+        { "id": 2506, "name": "San Jose" },
+        { "id": 2507, "name": "Santo Niño" },
+        { "id": 2508, "name": "Bula" },
+        { "id": 2509, "name": "Sta. Fe" },
+        { "id": 2510, "name": "Malasila" },
+        { "id": 2511, "name": "Tuminog" },
+        { "id": 2512, "name": "Bagumbayan" },
+        { "id": 2513, "name": "Matimbag" }
+    ],
+    'Malalag': [
+        { "id": 2601, "name": "Baybay" },
+        { "id": 2602, "name": "Pitu" },
+        { "id": 2603, "name": "Tuban" },
+        { "id": 2604, "name": "Kalilangan" },
+        { "id": 2605, "name": "Pangil" },
+        { "id": 2606, "name": "Panang" },
+        { "id": 2607, "name": "San Carlos" },
+        { "id": 2608, "name": "Lipay" },
+        { "id": 2609, "name": "Tapos" },
+        { "id": 2610, "name": "Tabuk" },
+        { "id": 2611, "name": "Sinapulan" },
+        { "id": 2612, "name": "Suwant" },
+        { "id": 2613, "name": "Mahadlo" },
+        { "id": 2614, "name": "Parara" }
+    ],
+    'Matanao': [
+        { "id": 2701, "name": "Asbang" },
+        { "id": 2702, "name": "Buas" },
+        { "id": 2703, "name": "Mangaoang" },
+        { "id": 2704, "name": "Kansip" },
+        { "id": 2705, "name": "Bucana" },
+        { "id": 2706, "name": "Alo" },
+        { "id": 2707, "name": "Banana" },
+        { "id": 2708, "name": "Sampaguita" },
+        { "id": 2709, "name": "Managok" },
+        { "id": 2710, "name": "Mabuhay" },
+        { "id": 2711, "name": "Kalamag" },
+        { "id": 2712, "name": "Asbo" },
+        { "id": 2713, "name": "Tapon" },
+        { "id": 2714, "name": "Balisang" },
+        { "id": 2715, "name": "Matandang" }
+    ],
+    'Padada': [
+        { "id": 2801, "name": "Almendras" },
+        { "id": 2802, "name": "Palili" },
+        { "id": 2803, "name": "Tagabuli" },
+        { "id": 2804, "name": "Bansalan" },
+        { "id": 2805, "name": "Magsaysay" },
+        { "id": 2806, "name": "Rizal" },
+        { "id": 2807, "name": "Magkil" },
+        { "id": 2808, "name": "Banaba" },
+        { "id": 2809, "name": "Sumisan" },
+        { "id": 2810, "name": "Tabuy" }
+    ],
+    'Santa Cruz': [
+        { "id": 2901, "name": "Darong" },
+        { "id": 2902, "name": "Inawayan" },
+        { "id": 2903, "name": "Tibolo" },
+        { "id": 2904, "name": "Tungyawan" },
+        { "id": 2905, "name": "Aplaya" },
+        { "id": 2906, "name": "Tabon" },
+        { "id": 2907, "name": "Santo Niño" },
+        { "id": 2908, "name": "Magcuya" },
+        { "id": 2909, "name": "Kabilang" },
+        { "id": 2910, "name": "Mabuhay" },
+        { "id": 2911, "name": "Carasco" },
+        { "id": 2912, "name": "Mabilog" }
+    ],
+    'Sulop': [
+        { "id": 3001, "name": "Tadaw" },
+        { "id": 3002, "name": "Alangilan" },
+        { "id": 3003, "name": "Lunocan" },
+        { "id": 3004, "name": "Tabug" },
+        { "id": 3006, "name": "Sinapulang" },
+        { "id": 3007, "name": "Malinao" },
+        { "id": 3008, "name": "Balidong" },
+        { "id": 3009, "name": "Pangaan" },
+        { "id": 3010, "name": "Loma" }
+    ],
+    'Kidapawan City': [
+    { "id": 30011, "name": "Bagontapay" },
+    { "id": 30012, "name": "Balabag" },
+    { "id": 30013, "name": "Bano" },
+    { "id": 30014, "name": "Banisilan" },
+    { "id": 30015, "name": "Basak" },
+    { "id": 30016, "name": "Batasan" },
+    { "id": 30017, "name": "Malayan" },
+    { "id": 30018, "name": "Manubuan" },
+    { "id": 30019, "name": "Poblacion" },
+    { "id": 30020, "name": "San Isidro" },
+    { "id": 30021, "name": "San Jose" },
+    { "id": 30022, "name": "San Vicente" },
+    { "id": 30023, "name": "Sibsib" },
+    { "id": 30024, "name": "Singao" },
+    { "id": 30025, "name": "Malandag" },
+    { "id": 30026, "name": "Magsaysay" },
+    { "id": 30027, "name": "Matalam" },
+    { "id": 30028, "name": "Upper Malanday" }
+],
+'Midsayap': [
+    { "id": 30031, "name": "Bagumbayan" },
+    { "id": 30032, "name": "Bual" },
+    { "id": 30033, "name": "Dungguan" },
+    { "id": 30034, "name": "Kulambog" },
+    { "id": 30035, "name": "Kusiong" },
+    { "id": 30036, "name": "Lao" },
+    { "id": 30037, "name": "Laping" },
+    { "id": 30038, "name": "Malamote" },
+    { "id": 30039, "name": "Midsayap" },
+    { "id": 30040, "name": "Poblacion" },
+    { "id": 30041, "name": "Rajah Muda" },
+    { "id": 30042, "name": "San Isidro" },
+    { "id": 30043, "name": "San Mateo" },
+    { "id": 30044, "name": "Tangcal" },
+    { "id": 30045, "name": "Tumahubong" }
+],
+'Matalam': [
+    { "id": 30051, "name": "Bagumbayan" },
+    { "id": 30052, "name": "Balatikan" },
+    { "id": 30053, "name": "Banugao" },
+    { "id": 30054, "name": "Bualan" },
+    { "id": 30055, "name": "Kabasalan" },
+    { "id": 30056, "name": "Kabilan" },
+    { "id": 30057, "name": "Kanaan" },
+    { "id": 30058, "name": "Kapitan" },
+    { "id": 30059, "name": "Layon" },
+    { "id": 30060, "name": "Lumbayan" },
+    { "id": 30061, "name": "Luta" },
+    { "id": 30062, "name": "Magsaysay" },
+    { "id": 30063, "name": "Poblacion" },
+    { "id": 30064, "name": "Rarab" },
+    { "id": 30065, "name": "San Isidro" },
+    { "id": 30066, "name": "San Vicente" }
+],
+'Pikit': [
+    { "id": 30071, "name": "Bagumbayan" },
+    { "id": 30072, "name": "Balindog" },
+    { "id": 30073, "name": "Kudal" },
+    { "id": 30074, "name": "Lanao" },
+    { "id": 30075, "name": "Limbo" },
+    { "id": 30076, "name": "Malibago" },
+    { "id": 30077, "name": "Malingao" },
+    { "id": 30078, "name": "Manuang" },
+    { "id": 30079, "name": "Poblacion" },
+    { "id": 30080, "name": "Pulo" },
+    { "id": 30081, "name": "Saliao" },
+    { "id": 30082, "name": "San Isidro" },
+    { "id": 30083, "name": "San Jose" },
+    { "id": 30084, "name": "Santo Niño" },
+    { "id": 30085, "name": "Upper Poblacion" }
+],
+'Kabacan': [
+    { "id": 30091, "name": "Bagumbayan" },
+    { "id": 30092, "name": "Banate" },
+    { "id": 30093, "name": "Bangkilan" },
+    { "id": 30094, "name": "Bantuan" },
+    { "id": 30095, "name": "Poblacion" },
+    { "id": 30096, "name": "Saranay" },
+    { "id": 30097, "name": "Sampao" },
+    { "id": 30098, "name": "San Isidro" },
+    { "id": 30099, "name": "San Jose" },
+    { "id": 30100, "name": "San Vicente" },
+    { "id": 30101, "name": "Tapayan" }
+],
+'Alabel': [
+    { "id": 30102, "name": "Daliao" },
+    { "id": 30103, "name": "Lumatil" },
+    { "id": 30104, "name": "Maan" },
+    { "id": 30105, "name": "New Alabel" },
+    { "id": 30106, "name": "Poblacion" },
+    { "id": 30107, "name": "Suli" },
+    { "id": 30108, "name": "Tuyan" },
+    { "id": 30109, "name": "Upper Suyan" },
+    { "id": 30110, "name": "Napo" },
+    { "id": 30111, "name": "Maribulan" },
+    { "id": 30112, "name": "Pangyan" },
+    { "id": 30113, "name": "Limulan" }
+],
+'Malungon': [
+    { "id": 30201, "name": "Alkikan" },
+    { "id": 30202, "name": "Ampon" },
+    { "id": 30203, "name": "Atlae" },
+    { "id": 30204, "name": "B'Laan" },
+    { "id": 30205, "name": "Banahaw" },
+    { "id": 30206, "name": "Banate" },
+    { "id": 30207, "name": "Datal Batong" },
+    { "id": 30208, "name": "Datal Anggas" },
+    { "id": 30209, "name": "Datal Zuan" },
+    { "id": 30210, "name": "Gasi" },
+    { "id": 30211, "name": "Lagunde" },
+    { "id": 30212, "name": "Kauswagan" },
+    { "id": 30213, "name": "Manluy-a" },
+    { "id": 30214, "name": "Poblacion" },
+    { "id": 30215, "name": "Taguik" },
+    { "id": 30216, "name": "Tongtongan" },
+    { "id": 30217, "name": "Datal Lampan" },
+    { "id": 30218, "name": "Salus" }
+],
+'Kiamba': [
+    { "id": 30301, "name": "Badtasan" },
+    { "id": 30302, "name": "Datu Dani" },
+    { "id": 30303, "name": "Gasi" },
+    { "id": 30304, "name": "Kapate" },
+    { "id": 30305, "name": "Katubao" },
+    { "id": 30306, "name": "Kayupo" },
+    { "id": 30307, "name": "Kling" },
+    { "id": 30308, "name": "Lagundi" },
+    { "id": 30309, "name": "Lebe" },
+    { "id": 30310, "name": "Lomuyon" },
+    { "id": 30311, "name": "Luma" },
+    { "id": 30312, "name": "Maligang" },
+    { "id": 30313, "name": "Nalus" },
+    { "id": 30314, "name": "Poblacion" },
+    { "id": 30315, "name": "Salakit" },
+    { "id": 30316, "name": "Suli" },
+    { "id": 30317, "name": "Tablao" },
+    { "id": 30318, "name": "Tamadang" },
+    { "id": 30319, "name": "Tambilil" }
+],
+'Maasim': [
+    { "id": 30401, "name": "Amsipit" },
+    { "id": 30402, "name": "Bales" },
+    { "id": 30403, "name": "Colon" },
+    { "id": 30404, "name": "Daliao" },
+    { "id": 30405, "name": "Kabatiol" },
+    { "id": 30406, "name": "Kablacan" },
+    { "id": 30407, "name": "Kamanga" },
+    { "id": 30408, "name": "Kanalo" },
+    { "id": 30409, "name": "Lumasal" },
+    { "id": 30410, "name": "Lumatil" },
+    { "id": 30411, "name": "Malbang" },
+    { "id": 30412, "name": "Nomoh" },
+    { "id": 30413, "name": "Pananag" },
+    { "id": 30414, "name": "Poblacion" },
+    { "id": 30415, "name": "Seven Hills" },
+    { "id": 30416, "name": "Tinoto" }
+],
+'Glan': [
+    { "id": 30501, "name": "Calpidong" },
+    { "id": 30502, "name": "Congan" },
+    { "id": 30503, "name": "Cross" },
+    { "id": 30504, "name": "Datalbukay" },
+    { "id": 30505, "name": "E. Alegado" },
+    { "id": 30506, "name": "Glan Padidu" },
+    { "id": 30507, "name": "Gumasa" },
+    { "id": 30508, "name": "Ilaya" },
+    { "id": 30509, "name": "Kaltuad" },
+    { "id": 30510, "name": "Kapatan" },
+    { "id": 30511, "name": "Lago" },
+    { "id": 30512, "name": "Laguimit" },
+    { "id": 30513, "name": "Mudan" },
+    { "id": 30514, "name": "New Aklan" },
+    { "id": 30515, "name": "Pangyan" },
+    { "id": 30516, "name": "Poblacion" },
+    { "id": 30517, "name": "Rio del Pilar" },
+    { "id": 30518, "name": "San Jose" },
+    { "id": 30519, "name": "San Vicente" },
+    { "id": 30520, "name": "Small Margus" },
+    { "id": 30521, "name": "Sufatubo" },
+    { "id": 30522, "name": "Taluya" },
+    { "id": 30523, "name": "Tango" },
+    { "id": 30524, "name": "Tapon" }
+],
+'General Santos City': [
+  { "id": 30525, "name": "Apopong" },
+  { "id": 30526, "name": "Baluan" },
+  { "id": 30527, "name": "Batomelong" },
+  { "id": 30528, "name": "Buayan" },
+  { "id": 30529, "name": "Bula" },
+  { "id": 30530, "name": "Calumpang" },
+  { "id": 30531, "name": "City Heights" },
+  { "id": 30532, "name": "Conel" },
+  { "id": 30533, "name": "Dadiangas East" },
+  { "id": 30534, "name": "Dadiangas North" },
+  { "id": 30535, "name": "Dadiangas South" },
+  { "id": 30536, "name": "Dadiangas West" },
+  { "id": 30537, "name": "Fatima" },
+  { "id": 30538, "name": "Katangawan" },
+  { "id": 30539, "name": "Labangal" },
+  { "id": 30540, "name": "Lagao" },
+  { "id": 30541, "name": "Ligaya" },
+  { "id": 30542, "name": "Mabuhay" },
+  { "id": 30543, "name": "Olympog" },
+  { "id": 30544, "name": "San Isidro" },
+  { "id": 30545, "name": "San Jose" },
+  { "id": 30546, "name": "Siguel" },
+  { "id": 30547, "name": "Sinawal" },
+  { "id": 30548, "name": "Tambler" },
+  { "id": 30549, "name": "Tinagacan" },
+  { "id": 30550, "name": "Upper Labay" }
+],
+'Koronadal City': [
+    { "id": 30551, "name": "Assumption (Bulol)" },
+    { "id": 30552, "name": "Avanceña (Bo. 3)" },
+    { "id": 30553, "name": "Cacub" },
+    { "id": 30554, "name": "Caloocan" },
+    { "id": 30555, "name": "Carpenter Hill" },
+    { "id": 30556, "name": "Concepcion (Bo. 6)" },
+    { "id": 30557, "name": "Esperanza" },
+    { "id": 30558, "name": "General Paulino Santos (Bo. 1)" },
+    { "id": 30559, "name": "Mabini" },
+    { "id": 30560, "name": "Magsaysay" },
+    { "id": 30561, "name": "Mambucal" },
+    { "id": 30562, "name": "Morales (Urban)" },
+    { "id": 30563, "name": "Namnama" },
+    { "id": 30564, "name": "New Pangasinan (Bo. 4)" },
+    { "id": 30565, "name": "Paraiso" },
+    { "id": 30566, "name": "Rotonda" },
+    { "id": 30567, "name": "San Isidro" },
+    { "id": 30568, "name": "San Jose (Bo. 5)" },
+    { "id": 30569, "name": "San Roque" },
+    { "id": 30570, "name": "Santa Cruz (Urban)" },
+    { "id": 30571, "name": "Santo Niño (Bo. 2) (Urban)" },
+    { "id": 30572, "name": "Saravia (Bo. 8)" },
+    { "id": 30573, "name": "Topland (Bo. 7)" },
+    { "id": 30574, "name": "Zone 1 (Poblacion)" },
+    { "id": 30575, "name": "Zone 2 (Poblacion)" },
+    { "id": 30576, "name": "Zone 3 (Poblacion)" },
+    { "id": 30577, "name": "Zone 4 (Poblacion)" }
+],
+'Surallah': [ 
+    { "id": 30578, "name": "Buenavista" },
+    { "id": 30579, "name": "Centrala" },
+    { "id": 30580, "name": "Colongulo" },
+    { "id": 30581, "name": "Dajay" },
+    { "id": 30582, "name": "Duengas" },
+    { "id": 30583, "name": "Lambontong" },
+    { "id": 30584, "name": "Lamsugod" },
+    { "id": 30585, "name": "Libertad" },
+    { "id": 30586, "name": "Little Baguio" },
+    { "id": 30587, "name": "Moloy" },
+    { "id": 30588, "name": "Naci" },
+    { "id": 30589, "name": "Talahik" },
+    { "id": 30590, "name": "Tbolok" },
+    { "id": 30591, "name": "Upper Sepaka" },
+    { "id": 30592, "name": "Veterans" },
+    { "id": 30593, "name": "Poblacion" },
+    { "id": 30594, "name": "Canahay" }
+],
+'Tupi': [ 
+    { "id": 30594, "name": "Acmonan" },
+    { "id": 30595, "name": "Bololmala" },
+    { "id": 30596, "name": "Bunao" },
+    { "id": 30597, "name": "Crossing Rubber" },
+    { "id": 30598, "name": "Kablon" },
+    { "id": 30599, "name": "Linan" },
+    { "id": 30600, "name": "Lunen" },
+    { "id": 30601, "name": "Poblacion" },
+    { "id": 30602, "name": "Polonuling" },
+    { "id": 30603, "name": "Simbo" },
+    { "id": 30604, "name": "Tubeng" }
+],
+
+'Banga': [
+    { "id": 30605, "name": "Benitez (Poblacion)" },
+    { "id": 30606, "name": "Cabudian" },
+    { "id": 30607, "name": "Cabuling" },
+    { "id": 30608, "name": "Cinco (Barrio 5)" },
+    { "id": 30609, "name": "Derilon" },
+    { "id": 30610, "name": "El Nonok" },
+    { "id": 30611, "name": "Improgo Village (Poblacion)" },
+    { "id": 30612, "name": "Kusan (Barrio 8)" },
+    { "id": 30613, "name": "Lam-Apos" },
+    { "id": 30614, "name": "Lamba" },
+    { "id": 30615, "name": "Lambingi" },
+    { "id": 30616, "name": "Lampari" },
+    { "id": 30617, "name": "Liwanay (Barrio 1)" },
+    { "id": 30618, "name": "Malaya (Barrio 9)" },
+    { "id": 30619, "name": "Punong Grande (Barrio 2)" },
+    { "id": 30620, "name": "Rang-ay (Barrio 4)" },
+    { "id": 30621, "name": "Reyes (Poblacion)" },
+    { "id": 30622, "name": "Rizal (Barrio 3)" },
+    { "id": 30623, "name": "Rizal Poblacion" },
+    { "id": 30624, "name": "San Jose (Barrio 7)" },
+    { "id": 30625, "name": "San Vicente (Barrio 6)" },
+    { "id": 30626, "name": "Yangco Poblacion" }
+],
+'Tacurong City': [
+    { "id": 30627, "name": "Baras" },
+    { "id": 30628, "name": "Buenaflor" },
+    { "id": 30629, "name": "Calean" },
+    { "id": 30630, "name": "D'lotilla" },
+    { "id": 30631, "name": "Griño" },
+    { "id": 30632, "name": "Kalandagan" },
+    { "id": 30633, "name": "Lancheta" },
+    { "id": 30634, "name": "New Isabela" },
+    { "id": 30635, "name": "New Lagao" },
+    { "id": 30636, "name": "Poblacion" },
+    { "id": 30637, "name": "San Antonio" },
+    { "id": 30638, "name": "San Emmanuel" },
+    { "id": 30639, "name": "San Pablo" },
+    { "id": 30640, "name": "Upper Katungal" }
+],
+'Isulan': [
+    { "id": 30701, "name": "Bambad" },
+    { "id": 30702, "name": "Bual" },
+    { "id": 30703, "name": "Dansuli" },
+    { "id": 30704, "name": "Impao" },
+    { "id": 30705, "name": "Kalawag I" },
+    { "id": 30706, "name": "Kalawag II" },
+    { "id": 30707, "name": "Kalawag III" },
+    { "id": 30708, "name": "Kenram" },
+    { "id": 30709, "name": "Kudanding" },
+    { "id": 30710, "name": "Lagandang" },
+    { "id": 30711, "name": "Laguinding" },
+    { "id": 30712, "name": "Mapantig" },
+    { "id": 30713, "name": "New Pangasinan" },
+    { "id": 30714, "name": "Sampao" },
+    { "id": 30715, "name": "Tayugo" },
+    { "id": 30716, "name": "Villamor" }
+],
+'Lambayong': [
+    { "id": 30801, "name": "Baluan" },
+    { "id": 30802, "name": "Bilumin" },
+    { "id": 30803, "name": "Didtaras" },
+    { "id": 30804, "name": "Kapingkong" },
+    { "id": 30805, "name": "Madanding" },
+    { "id": 30806, "name": "Maligaya" },
+    { "id": 30807, "name": "Mamali" },
+    { "id": 30808, "name": "Midtapok" },
+    { "id": 30809, "name": "Pimbalayan" },
+    { "id": 30810, "name": "Poblacion" },
+    { "id": 30811, "name": "Sadsalan" },
+    { "id": 30812, "name": "Sigayan" },
+    { "id": 30813, "name": "Tinumigues" }
+],
+'Sen. Ninoy Aquino': [
+    { "id": 30901, "name": "Banali" },
+    { "id": 30902, "name": "Basag" },
+    { "id": 30903, "name": "Buenaflores" },
+    { "id": 30904, "name": "Kadi" },
+    { "id": 30905, "name": "Kapatagan" },
+    { "id": 30906, "name": "Kiadsam" },
+    { "id": 30907, "name": "Kulaman" },
+    { "id": 30908, "name": "Lagubang" },
+    { "id": 30909, "name": "Malegdeg" },
+    { "id": 30910, "name": "Midtungok" },
+    { "id": 30911, "name": "Nati" },
+    { "id": 30912, "name": "Sewod" },
+    { "id": 30913, "name": "Tacupis" },
+    { "id": 30914, "name": "Tinalon" }
+],
+'Palimbang': [
+    { "id": 31001, "name": "Baluan" },
+    { "id": 31002, "name": "Colongulo" },
+    { "id": 31003, "name": "Kanipaan" },
+    { "id": 31004, "name": "Kalatang" },
+    { "id": 31005, "name": "Kalian" },
+    { "id": 31006, "name": "Ligaya" },
+    { "id": 31007, "name": "Lumunod" },
+    { "id": 31008, "name": "Maganao" },
+    { "id": 31009, "name": "Malatunol" },
+    { "id": 31010, "name": "Matagobong" },
+    { "id": 31011, "name": "Mina" },
+    { "id": 31012, "name": "Milbuk" },
+    { "id": 31013, "name": "Napnapon" },
+    { "id": 31014, "name": "Pinol" },
+    { "id": 31015, "name": "Poblacion" },
+    { "id": 31016, "name": "Wal" }
+],
+'Butuan City': [
+    { "id": 31016, "name": "Agusan" },
+    { "id": 31017, "name": "Alubihid" },
+    { "id": 31018, "name": "Ambago" },
+    { "id": 31019, "name": "Balangay" },
+    { "id": 31020, "name": "Bayanihan" },
+    { "id": 31021, "name": "Baan" },
+    { "id": 31022, "name": "Doongan" },
+    { "id": 31023, "name": "Libertad" },
+    { "id": 31024, "name": "Magsaysay" },
+    { "id": 31025, "name": "Bancasi" },
+    { "id": 31026, "name": "Villa Kananga" }
+],
+'Cabadbaran City': [
+    { "id": 31026, "name": "Andanan" },
+    { "id": 31027, "name": "Banban" },
+    { "id": 31028, "name": "Batangan" },
+    { "id": 31029, "name": "Bonbon" },
+    { "id": 31030, "name": "Gango" },
+    { "id": 31031, "name": "Gusa" },
+    { "id": 31032, "name": "Imelda" },
+    { "id": 31033, "name": "Mabini" },
+    { "id": 31034, "name": "Mahayahay" },
+    { "id": 31035, "name": "Manlilisid" },
+    { "id": 31036, "name": "Poblacion" },
+    { "id": 31037, "name": "Salsalon" },
+    { "id": 31038, "name": "San Isidro" },
+    { "id": 31039, "name": "San Vicente" },
+    { "id": 31040, "name": "Santo Niño" }
+],
+
+'Bayugan City': [
+    { "id": 31041, "name": "Baño" },
+    { "id": 31042, "name": "Banban" },
+    { "id": 31043, "name": "Bantac" },
+    { "id": 31044, "name": "Bilangbilangan" },
+    { "id": 31045, "name": "Kalubihan" },
+    { "id": 31046, "name": "Mahayahay" },
+    { "id": 31047, "name": "Manlilisid" },
+    { "id": 31048, "name": "Poblacion" },
+    { "id": 31049, "name": "San Isidro" },
+    { "id": 31050, "name": "San Vicente" },
+    { "id": 31051, "name": "Santo Niño" }
+],
+
+'Surigao City': [
+    { "id": 31052, "name": "Alang-alang" },
+    { "id": 31053, "name": "Bagumbayan" },
+    { "id": 31054, "name": "Bancasi" },
+    { "id": 31055, "name": "Caño" },
+    { "id": 31056, "name": "Del Pilar" },
+    { "id": 31057, "name": "Doña Helen" },
+    { "id": 31058, "name": "Ipil" },
+    { "id": 31059, "name": "Mabini" },
+    { "id": 31060, "name": "Nagkahiusang Barangay" },
+    { "id": 31061, "name": "Poblacion" },
+    { "id": 31062, "name": "San Juan" },
+    { "id": 31063, "name": "San Vicente" },
+    { "id": 31064, "name": "Surigao" }
+],
+
+'Del Carmen': [
+    { "id": 31065, "name": "Cabadbaran" },
+    { "id": 31066, "name": "Magsaysay" },
+    { "id": 31067, "name": "Poblacion" },
+    { "id": 31068, "name": "San Isidro" },
+    { "id": 31069, "name": "San Vicente" },
+    { "id": 31070, "name": "Tagbuno" },
+    { "id": 31071, "name": "Tiningguian" }
+],
+
+'Sison': [
+    { "id": 31072, "name": "Ipil" },
+    { "id": 31073, "name": "Magsaysay" },
+    { "id": 31074, "name": "Poblacion" },
+    { "id": 31075, "name": "San Isidro" },
+    { "id": 31076, "name": "Santo Niño" }
+],
+
+'Claver': [
+    { "id": 31077, "name": "Bagumbayan" },
+    { "id": 31078, "name": "Baclag" },
+    { "id": 31079, "name": "Calabayan" },
+    { "id": 31080, "name": "Kasapa" },
+    { "id": 31081, "name": "Poblacion" },
+    { "id": 31082, "name": "San Vicente" }
+],
+
+'Tandag City': [
+    { "id": 31083, "name": "Alangan" },
+    { "id": 31084, "name": "Baculin" },
+    { "id": 31085, "name": "Del Pilar" },
+    { "id": 31086, "name": "Libertad" },
+    { "id": 31087, "name": "Poblacion" },
+    { "id": 31088, "name": "San Juan" },
+    { "id": 31089, "name": "San Vicente" },
+    { "id": 31090, "name": "San Isidro" }
+],
+
+'Bislig City': [
+    { "id": 31091, "name": "Awasian" },
+    { "id": 31092, "name": "Bagumbayan" },
+    { "id": 31093, "name": "Bananay" },
+    { "id": 31094, "name": "Ban-ao" },
+    { "id": 31095, "name": "Buhangin" },
+    { "id": 31096, "name": "Buhisan" },
+    { "id": 31097, "name": "Poblacion" },
+    { "id": 31098, "name": "San Isidro" },
+    { "id": 31099, "name": "San Vicente" },
+    { "id": 31100, "name": "Talisay" }
+],
+
+'Carrascal': [
+    { "id": 31101, "name": "Bayabas" },
+    { "id": 31102, "name": "Buhangin" },
+    { "id": 31103, "name": "San Vicente" },
+    { "id": 31104, "name": "Talisay" }
+],
+
+'Madrid': [
+    { "id": 31105, "name": "Antipolo" },
+    { "id": 31106, "name": "Calating" },
+    { "id": 31107, "name": "Guisijan" },
+    { "id": 31108, "name": "Libertad" },
+    { "id": 31109, "name": "Poblacion" },
+    { "id": 31110, "name": "San Isidro" }
+],
+
+'Dinagat': [
+    { "id": 31111, "name": "Albor" },
+    { "id": 31112, "name": "Bagumbayan" },
+    { "id": 31113, "name": "Cagdianao" },
+    { "id": 31114, "name": "Doña Helene" },
+    { "id": 31115, "name": "Justiniana" },
+    { "id": 31116, "name": "Magsaysay" },
+    { "id": 31117, "name": "Libjo" },
+    { "id": 31118, "name": "San Jose" },
+    { "id": 31119, "name": "San Vicente" }
+],
+
+'Cagdianao': [
+    { "id": 31120, "name": "Boa" },
+    { "id": 31121, "name": "Cabunga-an" },
+    { "id": 31122, "name": "Del Pilar" },
+    { "id": 31123, "name": "Laguna" },
+    { "id": 31124, "name": "Legaspi" },
+    { "id": 31125, "name": "Ma-atas" },
+    { "id": 31126, "name": "Mabini" },
+    { "id": 31127, "name": "Nueva Estrella" },
+    { "id": 31128, "name": "Poblacion" },
+    { "id": 31129, "name": "San Jose" },
+    { "id": 31130, "name": "Santa Rita" }
+],
+'Basilisa': [
+    { "id": 31131, "name": "Bangon" },
+    { "id": 31132, "name": "Bagumbayan" },
+    { "id": 31133, "name": "Barrio 1" },
+    { "id": 31134, "name": "Barrio 2" },
+    { "id": 31135, "name": "Poblacion" },
+    { "id": 31136, "name": "San Isidro" }
+],
+
+'San Jose': [
+    { "id": 31137, "name": "Barangay 1" },
+    { "id": 31138, "name": "Barangay 2" },
+    { "id": 31139, "name": "Barangay 3" },
+    { "id": 31140, "name": "Barangay 4" },
+    { "id": 31141, "name": "Barangay 5" },
+    { "id": 31142, "name": "Poblacion" }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 
 
