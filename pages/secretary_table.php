@@ -16,7 +16,7 @@ if (isset($_GET['delete_id'])) {
         echo "Error preparing statement: " . $conn->error;
     }
 
-    // Then, delete the record from the patients table
+    // Then, delete the record from the Patient List
     $delete_sql = "DELETE FROM patients WHERE patients_id = ?";
     if ($stmt = $conn->prepare($delete_sql)) {
         $stmt->bind_param("i", $delete_id);
@@ -62,7 +62,7 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 14; 
 $offset = ($page - 1) * $limit;
 
-// Updated SQL query to search patients table
+// Updated SQL query to search Patient List
 $sql = "SELECT patients_id, last_name, first_name, middle_name, gender, date_of_birth, contact_no, address, date_added FROM patients 
         WHERE last_name LIKE ? 
         OR first_name LIKE ? 
@@ -117,7 +117,7 @@ $total_stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patients Table</title>
+    <title>Patient List</title>
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -131,7 +131,7 @@ $total_stmt->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Patients Table</a>
+                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Patient List</a>
                 </li>
             </ul>
             <div class="ml-auto flex items-center">
@@ -154,10 +154,12 @@ $total_stmt->close();
 
     <!-- Header and Search form -->
 <div class="flex items-center justify-between px-6 py-4">
-    <h2 class="text-3xl font-semibold text-gray-800">Patients Table</h2>
-    <form method="GET" action="" class="flex">
+    <h2 class="text-3xl font-semibold text-gray-800">Patient List</h2>
+    <form method="GET" action="" class="px-6 py-4">
+    <div class="flex">
         <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
         <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>
+    </div>
     </form>
 </div>
 
@@ -184,17 +186,24 @@ $total_stmt->close();
                     <tbody>
                         <?php
                         if ($result->num_rows > 0) {
-                            // Output data of each row
                             while($row = $result->fetch_assoc()) {
+                                // Format the date of birth
+                                $dob = new DateTime($row['date_of_birth']);
+                                $formatted_dob = $dob->format('F j, Y'); // e.g., December 4, 2021
+                    
+                                // Format the date added
+                                $date_added = new DateTime($row['date_added']);
+                                $formatted_date_added = $date_added->format('F j, Y'); // e.g., December 4, 2021
+                    
                                 echo "<tr class='border-b border-gray-200 hover:bg-gray-100 text-lg'>
                                         <td class='py-2 px-4'>{$row['last_name']}</td>
                                         <td class='py-2 px-4'>{$row['first_name']}</td>
                                         <td class='py-2 px-4'>{$row['middle_name']}</td>
                                         <td class='py-2 px-4'>{$row['gender']}</td>
-                                        <td class='py-2 px-4'>{$row['date_of_birth']}</td>
+                                        <td class='py-2 px-4'>{$formatted_dob}</td>
                                         <td class='py-2 px-4'>{$row['contact_no']}</td>
                                         <td class='py-2 px-4'>{$row['address']}</td>
-                                        <td class='py-2 px-4'>{$row['date_added']}</td>
+                                        <td class='py-2 px-4'>{$formatted_date_added}</td>
                                         <td class='py-2 px-4'>
                                             <a href='secretary_view.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
     

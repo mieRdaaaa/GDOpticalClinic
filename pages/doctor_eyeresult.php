@@ -28,6 +28,7 @@ if (isset($_SESSION['username'])) {
     exit();
 }
 
+
 // Get the patient's ID from the query string
 $patient_id = intval($_GET['id'] ?? 0);
 
@@ -57,20 +58,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $r_axis = $_POST['right_axis'];
     $l_axis = $_POST['left_axis'];
     $pd = $_POST['pupillary_distance'];
-    $diagnosis = $_POST['diagnosis']; // New field for diagnosis
+    $diagnosis = $_POST['diagnosis'];
+    $other_conditions = $_POST['other_conditions'] ?? NULL;
 
     // Prepare the SQL statement to insert the data into the database
     $sql = "INSERT INTO eye_result
-            (r_sphere, l_sphere, r_cylinder, l_cylinder, r_axis, l_axis, pd, diagnosis, patients_id) 
-            VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ddddddssi", $r_sphere, $l_sphere, $r_cylinder, $l_cylinder, $r_axis, $l_axis, $pd, $diagnosis, $patient_id);
+        (r_sphere, l_sphere, r_cylinder, l_cylinder, r_axis, l_axis, pd, diagnosis, other_conditions, patients_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+$stmt = $conn->prepare($sql);
+
+$stmt->bind_param("sssssssssi", 
+$r_sphere, 
+$l_sphere, 
+$r_cylinder, 
+$l_cylinder, 
+$r_axis, 
+$l_axis, 
+$pd, 
+$diagnosis, 
+$other_conditions,  // other_conditions can now handle NULL or a string value
+$patient_id);
 
     // Execute the query and check if the insertion was successful
     if ($stmt->execute()) {
         // Redirect to the desired page after submission
-        header("Location: doctor_table.php");
+        header("Location: doctor_view.php?id=" . urlencode($patient_id)); // Correct redirection
         exit();
     } else {
         echo "Error: " . $stmt->error;
@@ -90,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Edit Patient</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="../images/ico.png" />
 </head>
 <body class="bg-gray-100">
     <!-- Start: Main -->
@@ -100,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients Table</a>
+                    <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients List</a>
                 </li>
                 <li class="text-gray-600 mr-2 font-medium">/</li>
                 <li class="text-black-600 mr-2 font-medium">Eye Examination</li>
@@ -123,45 +137,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
+        <form method="POST" action="" class="bg-white p-6 rounded shadow-md" onsubmit="return validateForm()"></form>
         <div class="container mx-auto px-4 py-8">
         <h3 class="text-3xl text-black-600 mr-2 font-medium">Eye Examination for ID: <?php echo $patient_id; ?></h3>
             <form method="POST" action="" class="bg-white p-6 rounded shadow-md">
                 <div class="mb-4">
                     <label for="right_sphere" class="block text-gray-700"><i class="fa fa-eye"></i> Right Sphere:</label>
-                    <input type="number" step="0.01" id="right_sphere" name="right_sphere" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="text" id="right_sphere" name="right_sphere"  class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" pattern="^[+-]?[0-9]*\.?[0-9]+$" title="Please enter a valid number (e.g., +1.00, -0.50)" required>
                 </div>
                 <div class="mb-4">
                     <label for="left_sphere" class="block text-gray-700"><i class="fa fa-eye"></i> Left Sphere:</label>
-                    <input type="number" step="0.01" id="left_sphere" name="left_sphere" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="text"  id="left_sphere" name="left_sphere"  class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" pattern="^[+-]?[0-9]*\.?[0-9]+$" title="Please enter a valid number (e.g., +1.00, -0.50)" required>
                 </div>
                 <div class="mb-4">
                     <label for="right_cylinder" class="block text-gray-700"><i class="fa fa-eye"></i> Right Cylinder:</label>
-                    <input type="number" step="0.01" id="right_cylinder" name="right_cylinder" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="text"  id="right_cylinder" name="right_cylinder"  class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" pattern="^[+-]?[0-9]*\.?[0-9]+$" title="Please enter a valid number (e.g., +1.00, -0.50)" required>
                 </div>
                 <div class="mb-4">
                     <label for="left_cylinder" class="block text-gray-700"><i class="fa fa-eye"></i> Left Cylinder:</label>
-                    <input type="number" step="0.01" id="left_cylinder" name="left_cylinder" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="text"  id="left_cylinder" name="left_cylinder"  class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" pattern="^[+-]?[0-9]*\.?[0-9]+$" title="Please enter a valid number (e.g., +1.00, -0.50)" required>
                 </div>
                 <div class="mb-4">
                     <label for="right_axis" class="block text-gray-700"><i class="fa fa-eye"></i> Right Axis:</label>
-                    <input type="number" step="0.01" id="right_axis" name="right_axis" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="text"  id="right_axis" name="right_axis"  class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" pattern="^[+-]?[0-9]*\.?[0-9]+$" title="Please enter a valid number (e.g., +1.00, -0.50)" required>
                 </div>
                 <div class="mb-4">
                     <label for="left_axis" class="block text-gray-700"><i class="fa fa-eye"></i> Left Axis:</label>
-                    <input type="number" step="0.01" id="left_axis" name="left_axis" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="text"  id="left_axis" name="left_axis"  class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" pattern="^[+-]?[0-9]*\.?[0-9]+$" title="Please enter a valid number (e.g., +1.00, -0.50)" required>
                 </div>
                 <div class="mb-4">
                     <label for="pupillary_distance" class="block text-gray-700"><i class="fa fa-eye"></i> Pupillary Distance:</label>
-                    <input type="number" step="0.01" id="pupillary_distance" name="pupillary_distance" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="text"  id="pupillary_distance" name="pupillary_distance"  class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" pattern="^[+-]?[0-9]*\.?[0-9]+$" title="Please enter a valid number (e.g., +1.00, -0.50)" required>
                 </div>
                 <div class="mb-4">
-                    <label for="diagnosis" class="block text-gray-700"><i class="fa fa-eye"></i> Diagnosis:</label>
-                    <textarea id="diagnosis" name="diagnosis" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"></textarea>
-                </div>
+                <label for="diagnosis" class="block text-gray-700"><i class="fa fa-eye"></i> Diagnosis:</label>
+<input list="diagnosis-options" id="diagnosis" name="diagnosis" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" required>
+<datalist id="diagnosis-options">
+    <option value="Myopia (Nearsightedness)">
+    <option value="Hyperopia (Farsightedness)">
+    <option value="Astigmatism">
+    <option value="Presbyopia">
+    <option value="Cataracts">
+    <option value="Glaucoma">
+    <option value="Macular Degeneration">
+    <option value="Diabetic Retinopathy">
+    <option value="Conjunctivitis (Pink Eye)">
+    <option value="Blepharitis">
+    <option value="Dry Eye Syndrome">
+    <option value="Computer Vision Syndrome">
+</datalist>
+</div>
+<div class="mb-4">
+    <label for="other_conditions" class="block text-gray-700"><i class="fa fa-pencil-alt"></i> Other Conditions:</label>
+    <input type="text" id="other_conditions" name="other_conditions" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+</div>
+
+
+
 
                 <div class="flex justify-between">
-                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onclick="alert('New eye record added')"><i class="fas fa-check"></i> Submit</button>
-                    <button type="button" class="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400" onclick="window.location.href='doctor_view.php?id=<?php echo $patient_id; ?>';"><i class="fas fa-times"></i> Cancel</button>
+                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"><i class="fas fa-check"></i> Submit</button>
+                    <button type="button" class="bg-red-500 text-black-700 py-2 px-4 rounded hover:bg-red-600" onclick="window.location.href='doctor_view.php?id=<?php echo $patient_id; ?>';"><i class="fas fa-times"></i> Cancel</button>
 
             </form>
         </div>
@@ -171,4 +207,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../dist/js/script.js"></script>
+
 </html>

@@ -10,7 +10,7 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
     // Prepare SQL statement to get user info
-    $stmt = $conn->prepare("SELECT fullname, account_type FROM accounts WHERE username = ?");
+    $stmt = $conn->prepare("SELECT accounts_id, fullname, account_type FROM accounts WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -59,27 +59,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $odadd = $_POST['odadd'];
     $odbcva = $_POST['odbcva'];
     $osbcva = $_POST['osbcva'];
+    $created_by = null;
 
-    // Prepare and execute an SQL statement to insert data
-    $sql = "INSERT INTO certificate (symptoms, examination, recommendation, osuva, oduva, osadd, odadd, odbcva, osbcva, patients_id, eye_result_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Ensure only doctors can create the certificate
+    if ($user_role === 'doctor') {
+        // Use the logged-in doctor's ID (assumed to be $row['accounts_id'])
+        $created_by = $row['accounts_id'];
 
-    // Prepare the statement
-    $stmt = $conn->prepare($sql);
-    // Bind parameters, including the patient_id and the eye_result_id
-    $stmt->bind_param('ssssssssiii', $symptoms, $examination, $recommendation, $osuva, $oduva, $osadd, $odadd, $odbcva, $osbcva, $patient_id, $eye_result_id);
+        // Prepare and execute an SQL statement to insert data
+        $sql = "INSERT INTO certificate (symptoms, examination, recommendation, osuva, oduva, osadd, odadd, odbcva, osbcva, patients_id, eye_result_id, created_by)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Execute the query and check if the insertion was successful
-    if ($stmt->execute()) {
-        // Redirect to the desired page after submission
-        header("Location: doctor_certificate.php");
-        exit();
+        // Prepare the statement
+        $stmt = $conn->prepare($sql);
+        // Bind parameters, including the patient_id, eye_result_id, and created_by (doctor's ID)
+        $stmt->bind_param('ssssssssiiii', $symptoms, $examination, $recommendation, $osuva, $oduva, $osadd, $odadd, $odbcva, $osbcva, $patient_id, $eye_result_id, $created_by);
+
+        // Execute the query and check if the insertion was successful
+        if ($stmt->execute()) {
+            // Redirect to the desired page after submission
+            header("Location: doctor_certificate.php");
+            exit();
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        // Close the statement
+        $stmt->close();
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Unauthorized action. Only doctors can add certificates.";
     }
-
-    // Close the statement
-    $stmt->close();
 }
 
 // Fetch available eye results for the patient
@@ -108,10 +117,10 @@ $options_result = $options_stmt->get_result();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="doctor_certificate.php" class="text-gray-400 hover:text-gray-600 font-medium">Certificate</a>
+                    <a href="doctor_certificate.php" class="text-gray-400 hover:text-gray-600 font-medium">Medical Certificate</a>
                 </li>
                 <li class="text-black-600 mr-2 font-medium">/</li>
-                <li class="text-black-600 mr-2 font-medium">Add Certificate</li>
+                <li class="text-black-600 mr-2 font-medium">Create Medical Report</li>
             </ul>
             <div class="ml-auto flex items-center">
                 <div class="dropdown ml-3">
@@ -132,7 +141,7 @@ $options_result = $options_stmt->get_result();
         </div>
 
         <div class="max-w-full mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-            <h2 class="text-2xl font-bold mb-4">Add Certificate</h2>
+            <h2 class="text-2xl font-bold mb-4">Create Medical Report</h2>
 
             <form action="" method="POST">
                 <div class="flex space-x-4 mb-4">
@@ -159,10 +168,19 @@ $options_result = $options_stmt->get_result();
                         <input type="text" id="symptoms" name="symptoms" placeholder="Enter symptoms" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
 
-                    <div class="input-box w-1/2">
-                        <label class="block text-sm font-semibold mb-1" for="examination">Examination:</label>
-                        <input type="text" id="examination" name="examination" required placeholder="Enter examination results" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
+                        <div class="input-box w-1/2">
+                <label class="block text-sm font-semibold mb-1" for="examination">Examination:</label>
+                <input list="examination-list" id="examination" name="examination" required placeholder="Select or type an examination" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <datalist id="examination-list">
+                    <option value="Subjective Refraction"></option>
+                    <option value="Visual Field Test"></option>
+                    <option value="Visual Acuity"></option>
+                    <option value="Slit Lamp Exam"></option>
+                </datalist>
+            </div>
+
+
+
                 </div>
 
                 <div class="flex space-x-4 mb-4">
@@ -174,36 +192,36 @@ $options_result = $options_stmt->get_result();
 
                 <div class="flex space-x-4 mb-4">
                     <div class="input-box w-1/2">
-                        <label class="block text-sm font-semibold mb-1" for="osuva">Osuva:</label>
-                        <input type="text" id="osuva" name="osuva" placeholder="Enter Osuva" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-
-                    <div class="input-box w-1/2">
-                        <label class="block text-sm font-semibold mb-1" for="oduva">Oduva:</label>
+                        <label class="block text-sm font-semibold mb-1" for="osuva">Right/OD UVA:</label>
                         <input type="text" id="oduva" name="oduva" placeholder="Enter Oduva" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
+
+                    <div class="input-box w-1/2">
+                        <label class="block text-sm font-semibold mb-1" for="oduva">Left/OS UVA:</label>
+                        <input type="text" id="osuva" name="osuva" placeholder="Enter Osuva" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
                 </div>
 
                 <div class="flex space-x-4 mb-4">
                     <div class="input-box w-1/2">
-                        <label class="block text-sm font-semibold mb-1" for="osadd">Osadd:</label>
-                        <input type="text" id="osadd" name="osadd" placeholder="Enter Osadd" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-
-                    <div class="input-box w-1/2">
-                        <label class="block text-sm font-semibold mb-1" for="odadd">Odadd:</label>
+                        <label class="block text-sm font-semibold mb-1" for="osadd">Right/OD Reading Add:</label>
                         <input type="text" id="odadd" name="odadd" placeholder="Enter Odadd" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
+
+                    <div class="input-box w-1/2">
+                        <label class="block text-sm font-semibold mb-1" for="odadd">Left/OS Reading Add:</label>
+                        <input type="text" id="osadd" name="osadd" placeholder="Enter Osadd" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
                 </div>
 
                 <div class="flex space-x-4 mb-4">
                     <div class="input-box w-1/2">
-                        <label class="block text-sm font-semibold mb-1" for="odbcva">Odbcva:</label>
+                        <label class="block text-sm font-semibold mb-1" for="odbcva">Right/OD Best Corrected Visual Activity:</label>
                         <input type="text" id="odbcva" name="odbcva" placeholder="Enter Odbcva" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
 
                     <div class="input-box w-1/2">
-                        <label class="block text-sm font-semibold mb-1" for="osbcva">Osbcva:</label>
+                        <label class="block text-sm font-semibold mb-1" for="osbcva">Left/OS Best Corrected Visual Activity:</label>
                         <input type="text" id="osbcva" name="osbcva" placeholder="Enter Osbcva" class="block w-full border border-gray-300 bg-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
                 </div>

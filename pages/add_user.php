@@ -41,8 +41,11 @@ if (isset($_SESSION['username'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="../images/ico.png" />
     <style>
         .success-message {
@@ -61,34 +64,32 @@ if (isset($_SESSION['username'])) {
         }
     </style>
 </head>
-<body>
-<!-- start: Main -->
+<body class="bg-gray-100">
+<!-- Start: Main -->
 <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
-    <div class="py-2 px-6 bg-white flex items-center shadow-md sticky top-0 left-0 z-30">
+    <div class="py-2 px-6 bg-white flex items-center shadow-md sticky top-0 z-30">
         <button type="button" class="text-lg text-gray-600 sidebar-toggle">
             <i class="ri-menu-line"></i>
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="#" class="text-black-400 hover:text-black-600 font-medium">Registration</a>
+                <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Registration</a>
             </li>
         </ul>
-
         <div class="ml-auto flex items-center">
             <div class="dropdown ml-3">
                 <button type="button" class="dropdown-toggle flex items-center">
                     <img src="../images/profile.png" alt="Profile Image" class="w-8 h-8 rounded-full block object-cover">
                 </button>
-                <ul class="dropdown-menu shadow-md z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
+                <ul class="dropdown-menu shadow-md z-30 hidden py-1.5 rounded-md bg-white border border-gray-100">
                     <li>
                         <a href="../index.php" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-black-50">Logout</a>
                     </li>
                 </ul>
             </div>
-
             <div class="user-details ml-3">
-                <span class="name text-sm font-semibold text-grey-900 block"><?php echo $user_fullname; ?></span>
-                <span class="role text-xs text-grey-500"><?php echo $user_role; ?></span>
+                <span class="name text-sm font-semibold text-gray-900 block"><?php echo htmlspecialchars($user_fullname); ?></span>
+                <span class="role text-xs text-gray-500"><?php echo ucfirst(htmlspecialchars($user_role)); ?></span>
             </div>
         </div>
     </div>
@@ -98,7 +99,7 @@ if (isset($_SESSION['username'])) {
     </div>
 
     <section class="container mx-auto p-6 bg-white rounded-md shadow-md">
-        <header class="text-2xl font-bold mb-4">Registration</header>
+        <header class="text-3xl font-semibold mb-4">Registration</header>
 
         <form action="register.php" method="post" class="space-y-4" onsubmit="showSuccessMessage(event)">
             <div class="input-box">
@@ -112,9 +113,15 @@ if (isset($_SESSION['username'])) {
             </div>
 
             <div class="input-box">
-                <label class="block text-sm font-semibold mb-1">Password</label>
-                <input type="password" name="password" placeholder="Enter password" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
-            </div>
+    <label class="block text-sm font-semibold mb-1">Password</label>
+    <div class="relative">
+        <input type="password" id="password" name="password" placeholder="Enter password" required 
+               class="block w-full border border-gray-300 rounded-md py-2 px-4 pr-10">
+        <button type="button" onclick="togglePasswordVisibility()" 
+                class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <i id="eye-icon" class="fas fa-eye text-gray-500"></i>
+        </button>
+    </div>
 
             <div class="input-box">
                 <label class="block text-sm font-semibold mb-1">Region</label>
@@ -144,20 +151,21 @@ if (isset($_SESSION['username'])) {
                 </select>
             </div>
 
-            <div class="flex space-x-4">
-                <div class="input-box w-1/2">
-                    <label class="block text-sm font-semibold mb-1">Contact Number</label>
-                    <input type="number" name="contact_number" id="contact_number" placeholder="Enter phone number" required oninput="validateNumber(this)" class="block w-full border border-gray-300 rounded-md py-2 px-4">
-                </div>
+            <div class="mb-4">
+    <label for="contact_no" class="block text-sm font-medium mb-1">Contact No:</label>
+    <input type="text" id="contact_number" name="contact_number" class="border border-gray-300 rounded-md py-2 px-4 w-full" 
+           pattern="^\d{11}$" maxlength="11" required title="Contact number must be exactly 11 digits" 
+           placeholder="Enter contact number">
+</div>
                 <div class="input-box w-1/2">
                     <label class="block text-sm font-semibold mb-1">Date of Birth</label>
                     <input type="date" name="birthdate" id="birthdate" placeholder="Enter birth date" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
                 </div>
             </div>
 
-            <div class="gender-box mb-4">
+            <div class="gender-box mb-2">
                 <h3 class="text-sm font-semibold mb-1">Gender</h3>
-                <div class="flex space-x-4">
+                <div class="flex space-x-6">
                     <div class="gender">
                         <input type="radio" id="check-male" name="gender" value="male" checked>
                         <label for="check-male" class="text-sm">Male</label>
@@ -184,6 +192,18 @@ if (isset($_SESSION['username'])) {
                         <input type="radio" id="check-secretary" name="role" value="secretary">
                         <label for="check-secretary" class="text-sm">Secretary</label>
                     </div>
+                </div>
+            </div>
+            
+            <p class="text-green-500 text-sm font-semibold mb-2">For Doctors Only</p> 
+            <div class="flex space-x-4">
+                <div class="input-box w-1/2">
+                    <label class="block text-sm font-semibold mb-1">License Number</label>
+                    <input type="text" name="license_no" id="license_no" placeholder="Enter license number"  class="block w-full border border-gray-300 rounded-md py-2 px-4">
+                </div>
+                <div class="input-box w-1/2">
+                    <label class="block text-sm font-semibold mb-1">PTR Number</label>
+                    <input type="text" name="ptr_no" id="ptr_no" placeholder="Enter PTR number"  class="block w-full border border-gray-300 rounded-md py-2 px-4">
                 </div>
             </div>
 
@@ -224,6 +244,22 @@ if (isset($_SESSION['username'])) {
             event.target.submit(); // Submit the form after showing the message
         }, 1000); // Wait 1 second before submitting
     }
+    
+    function togglePasswordVisibility() {
+        const passwordField = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
 
     // Get the current date for date validation
     const today = new Date();

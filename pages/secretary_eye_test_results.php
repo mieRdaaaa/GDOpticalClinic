@@ -126,31 +126,102 @@ if (isset($_SESSION['username'])) {
                 $stmt->execute();
                 $result = $stmt->get_result();
 
-                // Eye Test Results Section
-                echo '<div class="shadow-lg rounded-lg overflow-hidden mx-4 md:mx-10 mt-4 bg-white p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">';
-                echo '<h2 class="text-xl font-semibold col-span-2 mb-4">Eye Test Results</h2>';
-                
-                if ($row = $result->fetch_assoc()) {
-                    // Display each parameter in a card style
-                    foreach ([ 
-                        'r_sphere' => 'Right Sphere',
-                        'l_sphere' => 'Left Sphere',
-                        'r_cylinder' => 'Right Cylinder',
-                        'l_cylinder' => 'Left Cylinder',
-                        'r_axis' => 'Right Axis',
-                        'l_axis' => 'Left Axis',
-                        'pd' => 'PD',
-                        'diagnosis' => 'Diagnosis',
-                        'date_added' => 'Date Added'
-                    ] as $key => $label) {
-                        echo '<div class="bg-gray-100 p-4 rounded-lg shadow">';
-                        echo '<h3 class="text-gray-600 font-bold uppercase">' . $label . '</h3>';
-                        echo '<p class="text-lg">' . htmlspecialchars($row[$key]) . '</p>';
-                        echo '</div>';
-                    }
-                } else {
-                    echo '<div class="col-span-2 py-4 px-6 border-b border-gray-200 text-center text-gray-600">No eye test results found for this patient.</div>';
-                }
+// Eye Test Results Section
+echo '<div class="mx-4 md:mx-10 mt-4">';  // Add some space for title
+echo '<h2 class="text-2xl font-semibold text-gray-800 mb-4">Eye Test Results</h2>'; // Title above the section
+echo '<div class="shadow-lg rounded-lg overflow-hidden bg-white p-4 grid grid-cols-1 md:grid-cols-2 gap-4">';
+
+
+
+if ($row = $result->fetch_assoc()) {
+    // Left side: Right Sphere, Left Sphere, Right Axis, Left Axis, Right Cylinder
+    echo '<div class="space-y-4">';  // Start left column
+
+    // Right Sphere
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Left Sphere:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['l_sphere']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Left Sphere
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Left Cylinder:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['l_cylinder']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Right Axis
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Left Axis:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['l_axis']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Left Axis
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Pupillary Distance:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['pd']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Right Cylinder
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Other Conditions:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['other_conditions']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    echo '</div>'; // End left column
+
+    // Right side: Left Cylinder, Pupillary Distance, Diagnosis, Other Conditions
+    echo '<div class="space-y-4">';  // Start right column
+
+    // Left Cylinder
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Right Sphere:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_sphere']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Pupillary Distance
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Right Cylinder:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_cylinder']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Diagnosis
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Right Axis:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_axis']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Other Conditions
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Diagnosis:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['diagnosis']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    echo '</div>'; // End right column
+
+
+
+} else {
+    echo '<div class="col-span-2 py-4 px-6 border-b border-gray-200 text-center text-gray-600">No eye test results found for this patient.</div>';
+}
+
 
                 echo '</div>';
                 $stmt->close();
@@ -165,7 +236,7 @@ if (isset($_SESSION['username'])) {
         ?>
 
         <a href="secretary_table.php" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition duration-200 mb-4">
-            Back to Patients Table
+            Back to Patients List
         </a>
     </div>
     <?php include('secretary_homepage.php'); ?>

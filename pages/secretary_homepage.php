@@ -27,15 +27,15 @@
             </a>
         </li>
         <li class="mb-1 group">
-            <a href="add_patient.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-            <i class="ri-table-line mr-3 text-lg" style="color: #197DE4;"></i>
+            <a href="secretary_add_patient.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+            <i class="ri-add-box-line mr-3 text-lg" style="color: #197DE4;"></i>
                 <span class="text-sm">Add Patients</span>
             </a>
         </li>
         <li class="mb-1 group">
             <a href="secretary_table.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
-                <i class="ri-article-line mr-3 text-lg "style="color: #25B453;"></i>
-                <span class="text-sm">Patients Table</span>
+                <i class="ri-table-line mr-3 text-lg "style="color: #25B453;"></i>
+                <span class="text-sm">Patient List</span>
             </a>
         </li>
         <li class="mb-1 group">
@@ -51,12 +51,16 @@
             </a>
         </li>
         <li class="mb-1 group">
-            <a href="#" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+            <a href="secretary_services.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
                 <i class="ri-service-line mr-3 text-lg "style="color: #F25959;"></i>
                 <span class="text-sm">Services</span>
             </a>
         </li>
-        
+        <li class="mb-1 group">
+            <a href="secretary_reports.php" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-active:bg-gray-800 group-active:text-white">
+                <i class="ri-file-chart-line mr-3 text-lg "style="color: #25B453;"></i>
+                <span class="text-sm">Reports</span>
+            </a>
     </ul>
 </div>
 <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>

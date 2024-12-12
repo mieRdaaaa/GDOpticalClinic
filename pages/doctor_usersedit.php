@@ -32,8 +32,11 @@ if (isset($_SESSION['username'])) {
 $id = intval($_GET['id']);
 
 // Fetch the user's current details from the database
-$sql = "SELECT * FROM accounts WHERE accounts_id = $id";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM accounts WHERE accounts_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -52,27 +55,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $birthdate = $_POST['birthdate'];
     $contact_number = $_POST['contact_number'];
     $account_type = $_POST['account_type'];
+    $license_no = $_POST['license_no'];
+    $ptr_no = $_POST['ptr_no'];
 
-    // Corrected SQL UPDATE query
-    $update_sql = "UPDATE accounts SET 
-                    fullname = '$fullname', 
-                    username = '$username', 
-                    password = '$password', 
-                    gender = '$gender', 
-                    address = '$address', 
-                    birthdate = '$birthdate',
-                    contact_number = '$contact_number',
-                    account_type = '$account_type'
-                   WHERE accounts_id = $id";
 
-    if ($conn->query($update_sql) === TRUE) {
-        // Set a session variable for notification
-        $_SESSION['notification'] = 'Record updated successfully';
-        header("Location: view_user.php?id=$id");
-        exit;
-    } else {
-        echo "Error updating record: " . $conn->error;
-    }
+  // Corrected SQL UPDATE query
+  $update_sql = "UPDATE accounts SET 
+  fullname = ?, 
+  username = ?, 
+  password = ?, 
+  gender = ?, 
+  address = ?, 
+  birthdate = ?, 
+  contact_number = ?, 
+  account_type = ?, 
+  license_no = ?, 
+  ptr_no = ? 
+  WHERE accounts_id = ?";
+
+$stmt = $conn->prepare($update_sql);
+$stmt->bind_param("ssssssssssi", $fullname, $username, $password, $gender, $address, $birthdate, $contact_number, $account_type, $license_no, $ptr_no, $id);
+
+if ($stmt->execute()) {
+// Set a session variable for notification
+$_SESSION['notification'] = 'Record updated successfully';
+header("Location: view_user.php?id=$id");
+exit;
+} else {
+echo "Error updating record: " . $conn->error;
+}
+
+$stmt->close();
 }
 
 $conn->close();
@@ -85,6 +98,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="../images/ico.png" />
 </head>
 <body class="bg-gray-100">
 
@@ -96,7 +110,7 @@ $conn->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Edit User Details</a>
+                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Edit User Information</a>
                 </li>
             </ul>
             <div class="ml-auto flex items-center">
@@ -119,7 +133,7 @@ $conn->close();
 
         <!-- User Edit Form -->
         <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-6">
-            <h2 class="text-3xl font-semibold mb-6">Edit User Details</h2>
+            <h2 class="text-3xl font-semibold mb-6">Edit User Information</h2>
             <form method="POST" action="">
                 <div class="mb-4">
                     <label for="fullname" class="block text-lg font-medium text-gray-700">Full Name:</label>
@@ -156,6 +170,16 @@ $conn->close();
                     <label for="account_type" class="block text-lg font-medium text-gray-700">Account Type:</label>
                     <input type="text" id="account_type" name="account_type" value="<?php echo htmlspecialchars($row['account_type']); ?>" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
                 </div>
+                <div class="mb-4">
+                <label for="license_no" class="block text-lg font-medium text-gray-700">License Number:</label>
+                <input type="text" id="license_no" name="license_no" value="<?php echo htmlspecialchars($row['license_no']); ?>" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+
+                <div class="mb-4">
+                <label for="ptr_no" class="block text-lg font-medium text-gray-700">PTR Number:</label>
+                <input type="text" id="ptr_no" name="ptr_no" value="<?php echo htmlspecialchars($row['ptr_no']); ?>" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+
                 <div class="flex justify-end space-x-2">
                     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none">Save</button>
                     <a href="view_user.php?id=<?php echo $row['accounts_id']; ?>" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 focus:outline-none">Cancel</a>

@@ -21,15 +21,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Combine address into a single string
     $address = "$barangay, $city, $province, $region";
 
+    $license_no = filter_var($_POST["license_no"], FILTER_SANITIZE_STRING);
+    $ptr_no = filter_var($_POST["ptr_no"], FILTER_SANITIZE_STRING);
+
     // Use prepared statements to prevent SQL injection
-    $stmt = $conn->prepare("INSERT INTO accounts (username, password, fullname, gender, birthdate, address, contact_number, account_type) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO accounts (username, password, fullname, gender, birthdate, address, contact_number, account_type, license_no, ptr_no) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     // If you decide to hash the password, uncomment the next line
     // $password = password_hash($password, PASSWORD_DEFAULT);
 
     // Bind parameters
-    $stmt->bind_param("ssssssss", $username, $password, $fullname, $gender, $birthdate, $address, $contact_number, $account_type);
+    $stmt->bind_param("ssssssssss", $username, $password, $fullname, $gender, $birthdate, $address, $contact_number, $account_type, $license_no, $ptr_no);
 
     // Execute the statement
     if ($stmt->execute()) {

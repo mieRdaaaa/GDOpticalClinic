@@ -53,6 +53,23 @@ if ($certificate_result->num_rows > 0) {
      } else {
          die("Eye result not found.");
      }
+     
+      // Fetch the doctor's name based on created_by
+    $doctor_id = intval($certificate_data['created_by']);
+    $doctor_sql = "SELECT fullname, license_no, ptr_no FROM accounts WHERE accounts_id = ?";
+    $doctor_stmt = $conn->prepare($doctor_sql);
+    $doctor_stmt->bind_param("i", $doctor_id);
+    $doctor_stmt->execute();
+    $doctor_result = $doctor_stmt->get_result();
+
+    if ($doctor_result->num_rows > 0) {
+        $doctor_data = $doctor_result->fetch_assoc();
+        $doctor_name = htmlspecialchars($doctor_data['fullname']);
+        $license_no = htmlspecialchars($doctor_data['license_no']);
+        $ptr_no = htmlspecialchars($doctor_data['ptr_no']);
+    } else {
+        die("Doctor not found.");
+    }
  
  } else {
      die("Certificate not found.");
@@ -69,7 +86,8 @@ if ($certificate_result->num_rows > 0) {
 
  header('Content-Type: image/jpeg');
  $font = "arial.ttf";
- $image = imagecreatefromjpeg("Jules.jpg");
+ $fontbd='arialbd.ttf';
+ $image = imagecreatefromjpeg("Jules12.jpg");
  $color = imagecolorallocate($image, 19, 20, 21);
 
 
@@ -95,7 +113,7 @@ $odcylinder=htmlspecialchars($eye_result['r_cylinder']);
 $odaxis=htmlspecialchars($eye_result['r_axis']);
 $odadd=htmlspecialchars($certificate_data['odadd']);
 $odpd=htmlspecialchars($eye_result['pd']);
-$odbcva=htmlspecialchars($certificate_data['osbcva']);
+$odbcva=htmlspecialchars($certificate_data['odbcva']);
 //OS left
 $osuva=htmlspecialchars($certificate_data['osuva']);
 $ossphere=htmlspecialchars($eye_result['l_sphere']);
@@ -105,14 +123,14 @@ $osadd=htmlspecialchars($certificate_data['osadd']);
 $ospd=htmlspecialchars($eye_result['pd']);
 $osbcva=htmlspecialchars($certificate_data['osbcva']);
 $doctor='glen';
-imagettftext($image, 36 , 0 ,475, 549, $color, $font, $formatted_date1);
+imagettftext($image, 28 , 0 ,299, 435, $color, $font, $formatted_date1);
                         ///size   angle   x   y
 
-imagettftext($image, 36 , 0 ,953, 779, $color, $font, $name1);
+imagettftext($image, 28 , 0 ,616, 588, $color, $font, $name1);
 
-imagettftext($image, 36 , 0 ,650, 833, $color, $font, $formatted_date2);
+imagettftext($image, 27 , 0 ,409, 628, $color, $font, $formatted_date2);
 
-imagettftext($image, 36 , 0 ,1688, 833, $color, $font, $symptoms);
+imagettftext($image, 27 , 0 ,1128, 628, $color, $font, $symptoms);
 
 
 
@@ -122,9 +140,9 @@ imagettftext($image, 36 , 0 ,1688, 833, $color, $font, $symptoms);
 {
     // Define a maximum width for the text block
     $maxWidth = 700; // Adjust this to your image width constraints
-    $fontSize = 36;
-    $xPosition1 = 1063;
-    $yPosition1 = 1065;
+    $fontSize = 28;
+    $xPosition1 = 710;
+    $yPosition1 = 782;
     $lineHeight = 77; // Vertical space between lines
     
     // Split the examination text into lines
@@ -158,9 +176,9 @@ imagettftext($image, 36 , 0 ,1688, 833, $color, $font, $symptoms);
     {
     
     $maxWidth = 700; // Adjust this to your image width constraints
-    $fontSize = 36;
-    $xPosition2 = 1063;
-    $yPosition2 = 1410;
+    $fontSize = 28;
+    $xPosition2 = 710;
+    $yPosition2 = 1012;
     $lineHeight = 77; // Vertical space between lines
     
     // Split the diagnosis text into lines
@@ -191,10 +209,10 @@ imagettftext($image, 36 , 0 ,1688, 833, $color, $font, $symptoms);
 
 //recommendation
 {
-    $maxWidth = 700; // Adjust this to your image width constraints
-    $fontSize = 36;
-    $xPosition = 1063;
-    $yPosition = 1760;
+    $maxWidth = 400; // Adjust this to your image width constraints
+    $fontSize = 28;
+    $xPosition = 710;
+    $yPosition = 1245;
     $lineHeight = 77; // Vertical space between lines
     
     // Split the recommendation text into lines
@@ -226,34 +244,40 @@ imagettftext($image, 36 , 0 ,1688, 833, $color, $font, $symptoms);
 ///spectacle rx
 //od
 
-imagettftext($image, 36 , 0 ,599, 2117, $color, $font, $oduva);
-imagettftext($image, 36 , 0 ,859, 2117, $color, $font, $odsphere);
-imagettftext($image, 36 , 0 ,1109, 2117, $color, $font, $odcylinder);
-imagettftext($image, 36 , 0 ,1407, 2117, $color, $font, $odaxis);
-imagettftext($image, 36 , 0 ,1607, 2117, $color, $font, $odadd);
-imagettftext($image, 36 , 0 ,1867, 2117, $color, $font, $odpd);
-imagettftext($image, 36 , 0 ,2099, 2117, $color, $font, $odbcva);
+imagettftext($image, 28 , 0 ,394, 1559, $color, $font, $oduva);
+imagettftext($image, 28 , 0 ,553, 1559, $color, $font, $odsphere);
+imagettftext($image, 28 , 0 ,730, 1559, $color, $font, $odcylinder);
+imagettftext($image, 28 , 0 ,915, 1559, $color, $font, $odaxis);
+imagettftext($image, 28 , 0 ,1071, 1559, $color, $font, $odadd);
+imagettftext($image, 28 , 0 ,1225, 1559, $color, $font, $odpd);
+imagettftext($image, 28 , 0 ,1379, 1559, $color, $font, $odbcva);
 
 //os
 
-imagettftext($image, 36 , 0 ,599, 2181, $color, $font, $osuva);
-imagettftext($image, 36 , 0 ,859, 2181, $color, $font, $ossphere);
-imagettftext($image, 36 , 0 ,1109, 2181, $color, $font, $oscylinder);
-imagettftext($image, 36 , 0 ,1407, 2181, $color, $font, $osaxis);
-imagettftext($image, 36 , 0 ,1607, 2181, $color, $font, $osadd);
-imagettftext($image, 36 , 0 ,1867, 2181, $color, $font, $ospd);
-imagettftext($image, 36 , 0 ,2099, 2181, $color, $font, $osbcva);
+imagettftext($image, 28 , 0 ,394, 1599, $color, $font, $osuva);
+imagettftext($image, 28 , 0 ,553, 1599, $color, $font, $ossphere);
+imagettftext($image, 28 , 0 ,730, 1599, $color, $font, $oscylinder);
+imagettftext($image, 28 , 0 ,915, 1599, $color, $font, $osaxis);
+imagettftext($image, 28 , 0 ,1071, 1599, $color, $font, $osadd);
+imagettftext($image, 28 , 0 ,1225, 1599, $color, $font, $ospd);
+imagettftext($image, 28 , 0 ,1379, 1599, $color, $font, $osbcva);
 
 
 //DOCTOR
-imagettftext($image, 36, 0, 320, 2635, $color, $font, strtoupper($doctor));
+imagettftext($image, 27, 0, 226, 1908, $color, $fontbd, strtoupper($doctor_name));
 
+
+//license
+imagettftext($image, 24, 0, 419, 2064, $color, $fontbd, $license_no);
+imagettftext($image, 24, 0, 369, 2102, $color, $fontbd, $ptr_no);
 
 
 /*
+
 // Save the generated image
 imagejpeg($image);
-imagedestroy($image); */
+imagedestroy($image);   
+*/
 
 
 
@@ -267,5 +291,5 @@ imagedestroy($image);
 $pdf = new FPDF('P', 'mm', 'Letter' );
 $pdf->AddPage();
 $pdf->Image('output_image.jpg', 0, 0, 216, 279); // Adjust dimensions as needed
-$pdf->Output('D', 'output.pdf'); // Download the PDF file  
-?> 
+$pdf->Output('D', 'output.pdf'); // Download the PDF file 
+?>

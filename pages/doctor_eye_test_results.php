@@ -6,6 +6,7 @@ include('db.php');
 $user_fullname = '';
 $user_role = '';
 
+
 // Check if the user is logged in
 session_start(); 
 if (isset($_SESSION['username'])) {
@@ -27,6 +28,7 @@ if (isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
+
 ?>
 
 <!-- Start: Main -->
@@ -63,11 +65,12 @@ if (isset($_SESSION['username'])) {
 
     <!-- Patient Details Section -->
     <div class="container mx-auto px-4 sm:px-8 mt-4">
+        
         <?php
         if (isset($_GET['id'])) {
             $patients_id = $_GET['id'];
 
-            // Retrieve patient details
+            // Retrieve patient details first
             $patient_query = "SELECT * FROM patients WHERE patients_id = ?";
             if ($patient_stmt = $conn->prepare($patient_query)) {
                 $patient_stmt->bind_param('i', $patients_id);
@@ -117,7 +120,7 @@ if (isset($_SESSION['username'])) {
                 $patient_stmt->close();
             }
 
-            // Retrieve the eye test results
+            // Now retrieve the eye test results
             $query = "SELECT * FROM eye_result WHERE patients_id = ? ORDER BY date_added DESC LIMIT 1";
 
             if ($stmt = $conn->prepare($query)) {
@@ -125,36 +128,104 @@ if (isset($_SESSION['username'])) {
                 $stmt->execute();
                 $result = $stmt->get_result();
 
-                // Eye Test Results Section
-echo '<div class="shadow-lg rounded-lg overflow-hidden mx-4 md:mx-10 mt-8 bg-gray-100 p-6">'; // Removed grid class from the parent div
-echo '<h2 class="text-gray-800 text-2xl font-semibold text-center mb-6">Eye Test Results</h2>'; // Center the header
+// Eye Test Results Section
+echo '<div class="mx-4 md:mx-10 mt-4">';  // Add some space for title
+echo '<h2 class="text-2xl font-semibold text-gray-800 mb-4">Eye Test Results</h2>'; // Title above the section
+echo '<div class="shadow-lg rounded-lg overflow-hidden bg-white p-4 grid grid-cols-1 md:grid-cols-2 gap-4">';
 
-echo '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">'; // Added a new div for the grid
+
+
 if ($row = $result->fetch_assoc()) {
-    // Display each parameter in a card style
-    foreach ([
-        'r_sphere' => 'Right Sphere',
-        'l_sphere' => 'Left Sphere',
-        'r_cylinder' => 'Right Cylinder',
-        'l_cylinder' => 'Left Cylinder',
-        'r_axis' => 'Right Axis',
-        'l_axis' => 'Left Axis',
-        'pd' => 'PD',
-        'diagnosis' => 'Diagnosis',
-        'date_added' => 'Date Added'
-    ] as $key => $label) {
-        echo '<div class="bg-white p-4 rounded-lg shadow-md">';
-        echo '<label class="block text-sm font-medium text-gray-600 mb-2">' . $label . '</label>';
-        echo '<p class="text-gray-700 text-lg font-medium">' . htmlspecialchars($row[$key]) . '</p>';
-        echo '</div>';
-    }
+    // Left side: Right Sphere, Left Sphere, Right Axis, Left Axis, Right Cylinder
+    echo '<div class="space-y-4">';  // Start left column
+
+    // Right Sphere
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Left Sphere:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['l_sphere']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Left Sphere
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Left Cylinder:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['l_cylinder']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Right Axis
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Left Axis:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['l_axis']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Left Axis
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Pupillary Distance:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['pd']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Right Cylinder
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Other Conditions:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['other_conditions']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    echo '</div>'; // End left column
+
+    // Right side: Left Cylinder, Pupillary Distance, Diagnosis, Other Conditions
+    echo '<div class="space-y-4">';  // Start right column
+
+    // Left Cylinder
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Right Sphere:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_sphere']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Pupillary Distance
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Right Cylinder:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_cylinder']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Diagnosis
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Right Axis:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_axis']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    // Other Conditions
+    echo '<div class="mb-4">';
+    echo '<p class="text-lg text-gray-700"><strong>Diagnosis:</strong></p>';
+    echo '<div class="border p-4 bg-white rounded shadow-sm">';
+    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['diagnosis']) . '</p>';
+    echo '</div>';
+    echo '</div>';
+
+    echo '</div>'; // End right column
+
+
+
 } else {
-    echo '<div class="col-span-2 py-4 px-6 border-b border-gray-300 text-center text-gray-600">No eye test results found for this patient.</div>';
+    echo '<div class="col-span-2 py-4 px-6 border-b border-gray-200 text-center text-gray-600">No eye test results found for this patient.</div>';
 }
 
-echo '</div>'; // Close the grid div
-echo '</div>'; // Close the main div for eye test results
 
+                echo '</div>';
                 $stmt->close();
             }
         } else {
@@ -166,8 +237,20 @@ echo '</div>'; // Close the main div for eye test results
         }
         ?>
 
+<div class="flex justify-between items-center p-4 bg-gray-100">
+    <!-- Left Content -->
+    <div>
+        
+    </div>
+
+    <!-- Products/Services Button -->
+   <a href="purchase.php?id=<?php echo htmlspecialchars($patients_id); ?>" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md shadow-md transition duration-200">
+    Purchase Products and Services
+</a>
+</div>
+
         <a href="doctor_table.php" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition duration-200 mb-4">
-            Back to Patients Table
+            Back to Patients List
         </a>
     </div>
     <?php include('doctor_homepage.php'); ?>

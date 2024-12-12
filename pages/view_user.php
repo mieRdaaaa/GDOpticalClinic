@@ -90,7 +90,7 @@ $total_stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View User</title>
+    <title>View Registered User</title>
     <link rel="stylesheet" href="css/doctor_users.css">
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -105,7 +105,7 @@ $total_stmt->close();
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">View User</a>
+                    <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Registered User</a>
                 </li>
             </ul>
             <div class="ml-auto flex items-center">
@@ -128,7 +128,7 @@ $total_stmt->close();
 
 <!-- Search form -->
 <div class="flex items-center justify-between px-6 py-4">
-    <h2 class="text-3xl font-semibold text-gray-800">View User</h2>
+    <h2 class="text-3xl font-semibold text-gray-800">Registered User</h2>
     <form method="GET" action="" class="flex">
         <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
         <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg ml-2 hover:bg-blue-600 transition"><i class="fa fa-search"></i> Search</button>
@@ -160,12 +160,16 @@ $total_stmt->close();
                                 echo "<tr class='border-b border-gray-200 hover:bg-gray-100'>
                                         <td class='py-2 px-4'>{$row['fullname']}</td>
                                         <td class='py-2 px-4'>{$row['username']}</td>
-                                        <td class='py-2 px-4'>{$row['password']}</td>
+                                        <td class='py-2 px-4'>
+                                        <div class='relative'>
+                                        <input type='password' value='{$row['password']}' class='p-1 w-full bg-transparent focus:outline-none' readonly>
+                                        <button type='button' onclick='togglePassword(this)' class='absolute inset-y-0 right-0 flex items-center px-2 text-gray-600'>
+                                        <i class='fa fa-eye'></i> </button> </div> </td>
                                         <td class='py-2 px-4'>{$row['gender']}</td>
                                         <td class='py-2 px-4'>{$row['birthdate']}</td>
                                         <td class='py-2 px-4'>{$row['contact_number']}</td>
                                         <td class='py-2 px-4'>{$row['address']}</td>
-                                        <td class='py-2 px-4'>{$row['account_type']}</td>
+                                         <td class='py-2 px-4'>" . strtoupper($row['account_type']) . "</td>
                                         <td class='py-2 px-4'>
                                             <a href='doctor_usersedit.php?id={$row['accounts_id']}' class='text-blue-500 hover:text-blue-700'><i class='fa fa-edit'></i></a>
                                             <a href='?delete_id={$row['accounts_id']}' class='text-red-500 hover:text-red-700' onclick='return confirm(\"Are you sure you want to delete this record?\")'><i class='fa fa-trash'></i></a>
@@ -200,6 +204,23 @@ $total_stmt->close();
                 </nav>
             </div>
         </div>
+
+
+        <script>
+    function togglePassword(button) {
+        const input = button.previousElementSibling;
+        const icon = button.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>
 
         <!-- Include doctor homepage -->
         <?php include('doctor_homepage.php'); ?>

@@ -137,14 +137,22 @@ $total_pages = ceil($total_rows / $limit);
                         <?php
                         if ($result->num_rows > 0) {
                             while($row = $result->fetch_assoc()) {
+                                // Format the date of birth
+                                $dob = new DateTime($row['date_of_birth']);
+                                $formatted_dob = $dob->format('F j, Y'); // e.g., December 4, 2021
+                    
+                                // Format the date added
+                                $date_added = new DateTime($row['date_added']);
+                                $formatted_date_added = $date_added->format('F j, Y'); // e.g., December 4, 2021
+                    
                                 echo "<tr class='border-b border-gray-200 hover:bg-gray-100 text-lg'>
                                         <td class='py-2 px-4'>{$row['last_name']}</td>
                                         <td class='py-2 px-4'>{$row['first_name']}</td>
                                         <td class='py-2 px-4'>{$row['middle_name']}</td>
                                         <td class='py-2 px-4'>{$row['gender']}</td>
-                                        <td class='py-2 px-4'>{$row['date_of_birth']}</td>
+                                        <td class='py-2 px-4'>{$formatted_dob}</td>
                                         <td class='py-2 px-4'>{$row['contact_no']}</td>
-                                        <td class='py-2 px-4'>{$row['date_added']}</td>
+                                        <td class='py-2 px-4'>{$formatted_date_added}</td>
                                         <td class='py-2 px-4'>
                                             <a href='doctor_history_result.php?id={$row['patients_id']}' class='action-btn view text-blue-500 hover:text-blue-700'><i class='fa fa-eye'></i></a>
                                         </td>
@@ -159,26 +167,16 @@ $total_pages = ceil($total_rows / $limit);
             </div>
         </div>
 
-      <!-- Pagination -->
-<div class="px-6 py-4 flex justify-between items-center">
-    <div>
-        <span class="text-sm text-gray-700">Showing <?php echo ($offset + 1) . " to " . min($offset + $limit, $total_rows) . " of " . $total_rows . " entries"; ?></span>
-    </div>
-    <div>
-        <nav aria-label="Page navigation">
-            <ul class="flex space-x-2">
-                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <li>
-                        <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>" class="py-2 px-4 border border-gray-300 rounded-lg <?php echo $i === $page ? 'bg-blue-500 text-white' : 'bg-white text-blue-500 hover:bg-blue-100'; ?>">
-                            <?php echo $i; ?>
-                        </a>
-                    </li>
-                <?php endfor; ?>
-            </ul>
-        </nav>
-    </div>
-</div>
-
+   <!-- Pagination -->
+   <div class="flex justify-center mt-4">
+            <?php if ($page > 1): ?>
+                <a href="?page=<?php echo $page - 1; ?>&search=<?php echo htmlspecialchars($search); ?>" class="px-4 py-2 bg-blue-500 text-white rounded-l hover:bg-blue-600">Previous</a>
+            <?php endif; ?>
+            <span class="px-4 py-2 bg-gray-200 text-gray-600"><?php echo $page; ?> / <?php echo $total_pages; ?></span>
+            <?php if ($page < $total_pages): ?>
+                <a href="?page=<?php echo $page + 1; ?>&search=<?php echo htmlspecialchars($search); ?>" class="px-4 py-2 bg-blue-500 text-white rounded-r hover:bg-blue-600">Next</a>
+            <?php endif; ?>
+        </div>
 
     </main>
     <?php include('doctor_homepage.php'); ?>

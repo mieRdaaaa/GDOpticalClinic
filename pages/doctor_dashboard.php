@@ -1,4 +1,5 @@
 <?php
+// Database connection settings
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -14,31 +15,51 @@ if ($conn->connect_error) {
 
 // Get the number of patients added today
 $result = $conn->query("SELECT COUNT(*) as count FROM patients WHERE DATE(date_added) = CURDATE()");
-if ($result) {
-    $patients_today = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving patients today: " . $conn->error);
-}
+$patients_today = $result ? $result->fetch_assoc()['count'] : 0;
 
 // Get the number of patients added yesterday
 $result = $conn->query("SELECT COUNT(*) as count FROM patients WHERE DATE(date_added) = CURDATE() - INTERVAL 1 DAY");
-if ($result) {
-    $patients_yesterday = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving patients yesterday: " . $conn->error);
-}
+$patients_yesterday = $result ? $result->fetch_assoc()['count'] : 0;
 
 // Get the total number of patients
 $result = $conn->query("SELECT COUNT(*) as count FROM patients");
-if ($result) {
-    $total_patients = $result->fetch_assoc()['count'];
-} else {
-    die("Error retrieving total patients: " . $conn->error);
+$total_patients = $result ? $result->fetch_assoc()['count'] : 0;
+
+// Query to calculate the overall weekly income
+$query = "SELECT SUM(price) as total_weekly_income 
+          FROM services 
+          WHERE WEEK(date_added) = WEEK(CURDATE())";
+$result = $conn->query($query);
+$weekly_income = $result ? $result->fetch_assoc()['total_weekly_income'] : 0;
+
+// Query to calculate the overall monthly income
+$query = "SELECT SUM(price) as total_monthly_income 
+          FROM services 
+          WHERE MONTH(date_added) = MONTH(CURDATE())";
+$result = $conn->query($query);
+$total_monthly_income = $result ? $result->fetch_assoc()['total_monthly_income'] : 0; // Initialize variable
+
+// Query to calculate the overall income from last month
+$query = "SELECT SUM(price) as total_last_month_income 
+          FROM services 
+          WHERE MONTH(date_added) = MONTH(CURDATE()) - 1";
+$result = $conn->query($query);
+$last_month_income = $result ? $result->fetch_assoc()['total_last_month_income'] : 0;
+
+// Calculate percentage change in monthly income
+$monthly_income_percentage = 0;
+if ($last_month_income > 0) {
+    $monthly_income_percentage = (($total_monthly_income - $last_month_income) / $last_month_income) * 100;
+} else if ($total_monthly_income > 0) {
+    $monthly_income_percentage = 100; // If last month income is 0, but this month has income, consider it a 100% increase
 }
+
+// Display the percentage with the plus sign if positive
+$monthly_income_percentage_display = $monthly_income_percentage > 0 ? '+' . round($monthly_income_percentage, 2) . '%' : round($monthly_income_percentage, 2) . '%';
 
 $conn->close();
 
-// userinfo
+// userinfo session
 session_start();
 include 'db.php';
 
@@ -58,8 +79,9 @@ if (isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
+
 // Retrieve the latest 5 patients for the "Newly Added Patients" list
-$sql = "SELECT first_name, middle_name, last_name, gender, date_added FROM patients ORDER BY date_added DESC LIMIT 10";
+$sql = "SELECT first_name, middle_name, last_name, gender, date_added FROM patients ORDER BY date_added DESC LIMIT 11";
 $result = $conn->query($sql);
 
 $newly_added_patients = [];
@@ -75,7 +97,35 @@ if ($result && $result->num_rows > 0) {
     echo "Error retrieving recent patients: " . $conn->error;
 }
 
+// Automatically retrieve weekly income from database for each day (Monday to Saturday)
+$weekly_income = array_fill_keys(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], 0);
+
+$query = "
+    SELECT DAYNAME(date_added) AS day_name, SUM(price) AS total_price
+    FROM services
+    WHERE YEARWEEK(date_added, 1) = YEARWEEK(CURDATE(), 1)
+    GROUP BY DAYNAME(date_added)
+";
+$result = $conn->query($query);
+
+// Populate the $weekly_income array with data from the query
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $day_name = $row['day_name'];
+        $total_price = $row['total_price'];
+        if (isset($weekly_income[$day_name])) {
+            $weekly_income[$day_name] = $total_price;
+        }
+    }
+}
+$total_weekly_income = array_sum($weekly_income);
+
+// Close the connection
+$conn->close();
 ?>
+
+
+
 <head>
     <link rel="shortcut icon" href="../images/ico.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
@@ -119,162 +169,179 @@ if ($result && $result->num_rows > 0) {
                 <span class="name text-sm font-semibold text-grey-900 block"><?php echo $user_fullname; ?></span>
                 <span class="role text-xs text-grey-500"><?php echo ucwords($user_role); ?></span>
             </div>
-
         </div>
     </div>
 
     <div class="p-6">
-    <!-- Dashboard Header with Flexbox Alignment -->
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-semibold text-gray-800">Dashboard</h1>
+        <!-- Dashboard Header with Flexbox Alignment -->
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-semibold text-gray-800">Dashboard</h1>
+        </div>
+
+        <!-- Flexbox Container for the Cards (Side-by-Side) -->
+        <div class="flex gap-6 mb-6">
+            <!-- Metric Card for Patients Today -->
+            <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+                <div class="flex flex-row items-center">
+                    <div class="flex-shrink pr-4">
+                        <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                    </div>
+                    <div class="flex-1 text-right md:text-center">
+                        <h5 class="font-bold uppercase text-gray-600">Patients Today</h5>
+                        <h3 class="font-bold text-3xl">
+                            <?php echo $patients_today; ?> 
+                            <span class="text-sm text-green-500 font-bold">
+                                <?php 
+                                $patients_today_percentage = $total_patients > 0 ? ($patients_today / $total_patients) * 100 : 0; 
+                                echo round($patients_today_percentage, 2) . '% +'; 
+                                ?>
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric Card for Patients Yesterday with Indigo Colors -->
+            <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+                <div class="flex flex-row items-center">
+                    <div class="flex-shrink pr-4">
+                        <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                    </div>
+                    <div class="flex-1 text-right md:text-center">
+                        <h5 class="font-bold uppercase text-gray-600">Patients Yesterday</h5>
+                        <h3 class="font-bold text-3xl">
+                            <?php echo $patients_yesterday; ?> 
+                            <span class="text-sm text-green-500 font-bold">
+                                <?php 
+                                $patients_yesterday_percentage = $total_patients > 0 ? ($patients_yesterday / $total_patients) * 100 : 0; 
+                                echo round($patients_yesterday_percentage, 2) . '% +'; 
+                                ?>
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric Card for Total Patients -->
+            <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+                <div class="flex flex-row items-center">
+                    <div class="flex-shrink pr-4">
+                        <div class="rounded-full p-5 bg-green-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
+                    </div>
+                    <div class="flex-1 text-right md:text-center">
+                        <h5 class="font-bold uppercase text-gray-600">Total Patients</h5>
+                        <h3 class="font-bold text-3xl">
+                            <?php echo $total_patients; ?> 
+                            <span class="text-sm text-green-500"></span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Display Monthly Income with Percentage Change -->
+            <div class="bg-gradient-to-b from-yellow-200 to-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-xl p-5 flex flex-col justify-between w-1/4">
+                <div class="flex flex-row items-center">
+                    <div class="flex-shrink pr-4">
+                        <div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-wallet fa-2x fa-inverse"></i></div>
+                    </div>
+                    <div class="flex-1 text-right md:text-center">
+                        <h5 class="font-bold uppercase text-gray-600">Monthly Income</h5>
+                        <h3 class="font-bold text-3xl">
+                            ₱<?php echo number_format($total_monthly_income, 2); ?> 
+                            <span class="text-sm 
+                                <?php echo ($monthly_income_percentage > 0) ? 'text-green-500' : 'text-red-500'; ?> font-bold">
+                                <?php echo $monthly_income_percentage_display; ?>
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-x-4 mt-6 w-full">
+    <!-- Weekly Income Report (Wider Graph) -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-2/3" style="height: 40rem;">
+        <h2 class="text-lg font-semibold mb-4">
+            <i class="ri-money-dollar-circle-line mr-2"></i> Weekly Income Report
+        </h2>
+
+        <!-- Display total weekly income -->
+        <div class="text-base font-bold text-center mb-1">
+            <p>Total Weekly Income:</p>
+            <h3 class="text-lg text-green-600">₱<?php echo number_format($total_weekly_income, 2); ?></h3>
+        </div>
+
+        <!-- Chart -->
+        <canvas id="weeklyIncomeChart" style="max-width: 100%; height: 100%;"></canvas>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        <!-- Metric Card for Patients Today -->
-        <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
-            <div class="flex flex-row items-center">
-                <div class="flex-shrink pr-4">
-                    <div class="rounded-full p-5 bg-blue-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
-                </div>
-                <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Patients Today</h5>
-                    <h3 class="font-bold text-3xl">
-                        <?php echo $patients_today; ?> 
-                        <span class="text-sm text-green-500 font-bold">
-                            <?php 
-                            $patients_today_percentage = $total_patients > 0 ? ($patients_today / $total_patients) * 100 : 0; 
-                            echo round($patients_today_percentage, 2) . '% +'; 
-                            ?>
-                        </span>
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- Metric Card for Patients Yesterday with Indigo Colors -->
-        <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-b-4 border-indigo-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
-            <div class="flex flex-row items-center">
-                <div class="flex-shrink pr-4">
-                    <div class="rounded-full p-5 bg-indigo-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
-                </div>
-                <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Patients Yesterday</h5>
-                    <h3 class="font-bold text-3xl">
-                        <?php echo $patients_yesterday; ?> 
-                        <span class="text-sm text-green-500 font-bold">
-                            <?php 
-                            $patients_yesterday_percentage = $total_patients > 0 ? ($patients_yesterday / $total_patients) * 100 : 0; 
-                            echo round($patients_yesterday_percentage, 2) . '% +'; 
-                            ?>
-                        </span>
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- Metric Card for Total Patients -->
-        <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5 flex flex-col justify-between">
-            <div class="flex flex-row items-center">
-                <div class="flex-shrink pr-4">
-                    <div class="rounded-full p-5 bg-green-600"><i class="fas fa-user fa-2x fa-inverse"></i></div>
-                </div>
-                <div class="flex-1 text-right md:text-center">
-                    <h5 class="font-bold uppercase text-gray-600">Total Patients</h5>
-                    <h3 class="font-bold text-3xl">
-                        <?php echo $total_patients; ?> 
-                        <span class="text-sm text-green-500"></span>
-                    </h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Patient Comparison (Today vs. Yesterday) and Newly Added Patients -->
-    <div class="flex gap-x-4 mt-6 w-full">
-        <!-- Patient Comparison with Reduced Height -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-2/3" style="height: 38rem;">  <!-- Set height to 64 units -->
-            <h2 class="text-lg font-semibold mb-4">
-                <i class="ri-line-chart-fill text-2xl mr-2"></i>
-                Patient Insights: Comparing Today and Yesterday
-            </h2>
-            <canvas id="patientChart" style="max-width: 100%; height: 100%;"></canvas>
-        </div>
-
-        <!-- Newly Added Patients List -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-2/3">
-            <h2 class="text-lg font-semibold mb-4">
-                <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
-            </h2>
-            <ul>
-                <?php foreach ($newly_added_patients as $patient): ?>
-                    <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
-                        <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
-                             alt="Patient Photo" 
-                             class="w-8 h-8 rounded-full mr-3">
-                        <div class="flex items-center justify-between flex-grow">
-                            <div class="flex items-center">
-                                <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
-                                <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">NEW</span>
-                            </div>
-                            <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+    <!-- Newly Added Patients List (Make it a bit thinner) -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-1/3 h-2/3">
+        <h2 class="text-lg font-semibold mb-4">
+            <i class="ri-user-add-fill mr-2"></i> Newly Added Patients
+        </h2>
+        <ul>
+            <?php foreach ($newly_added_patients as $patient): ?>
+                <li class="flex items-center mb-2 border-b border-gray-200 pb-2">
+                    <img src="../images/<?php echo (strtolower($patient['gender']) === 'male' ? 'male_patient.png' : 'female_patient.png'); ?>" 
+                         alt="Patient Photo" 
+                         class="w-8 h-8 rounded-full mr-3">
+                    <div class="flex items-center justify-between flex-grow">
+                        <div class="flex items-center">
+                            <p class="font-semibold"><?php echo htmlspecialchars($patient['name']); ?></p>
+                            <span class="bg-red-500 text-white text-xs font-semibold rounded-full px-1 py-0.5 ml-2">NEW</span>
                         </div>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+                        <p class="text-xs text-gray-500"><?php echo htmlspecialchars($patient['date_added']); ?></p>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 </div>
 
+</main>
 
 
-
-<!-- Add this script at the bottom before closing the body -->
 <script>
-    const ctx = document.getElementById('patientChart').getContext('2d');
-    const patientChart = new Chart(ctx, {
+    const dailyData = <?php echo json_encode($daily_data); ?>;
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Pass the PHP array data to JavaScript
+    const weeklyIncomeData = <?php echo json_encode(array_values($weekly_income)); ?>;
+
+    const ctx = document.getElementById('weeklyIncomeChart').getContext('2d');
+    new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Yesterday', 'Today'],
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], // Daily labels
             datasets: [{
-                label: 'Number of Patients',
-                data: [<?php echo $patients_yesterday; ?>, <?php echo $patients_today; ?>],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                fill: true
+                label: 'Daily Income (₱)',
+                data: weeklyIncomeData, // Daily income data
+                backgroundColor: 'rgba(54, 162, 235, 0.6)', // Light fill color for the area under the line
+                borderColor: 'rgba(54, 162, 235, 1)', // Border color for the line
+                borderWidth: 1,
+                fill: true, // Fill the area under the line
+                lineTension: 0.4
             }]
         },
         options: {
-    responsive: true,
-    maintainAspectRatio: true,
-    scales: {
-        y: {
-            beginAtZero: true,
-            title: {
-                display: true,
-                text: 'Number of Patients'
+            scales: {
+                y: {
+                    beginAtZero: true // Start the y-axis from zero
+                }
             },
-            ticks: {
-                stepSize: 1, // Set step size to 1 for Y-axis
-                min: 0, // Set minimum value
-                max: 50, // Set maximum value
-            },
-            afterBuildTicks: function(scale) {
-                // Generate ticks from 0 to 50 in steps of 1
-                scale.ticks = Array.from({ length: 51 }, (_, i) => i);
-            }
-        },
-        x: {
-            title: {
-                display: true,
-                text: 'Days'
-            }
+            responsive: true // Ensure the chart is responsive
         }
-    }
-}
-
     });
 </script>
+
+
+
+<script src="jquery-3.7.1.js"></script>
+<script src="chat.min.js"></script>
 
     </main>
     <?php include('doctor_homepage.php'); ?>

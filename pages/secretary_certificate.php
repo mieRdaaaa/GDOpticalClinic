@@ -80,7 +80,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate</title>
+    <title>Medical Certificate</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="../images/ico.png" />
@@ -95,7 +95,7 @@ $result = $stmt->get_result();
         </button>
         <ul class="flex items-center text-sm ml-4">
             <li class="mr-2">
-                <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Certificate</a>
+                <a href="#" class="text-black-400 hover:text-gray-600 font-medium">Medical Certificate</a>
             </li>
         </ul>
         <div class="ml-auto flex items-center">
@@ -118,7 +118,7 @@ $result = $stmt->get_result();
 
     <!-- Search form -->
     <div class="flex items-center justify-between px-6 py-4">
-    <h2 class="text-3xl font-semibold text-gray-800">Certificate</h2>
+    <h2 class="text-3xl font-semibold text-gray-800">Medical Certificate</h2>
     <form method="GET" action="" class="px-6 py-4">
         <div class="flex">
             <input type="text" name="search" placeholder="Search..." value="<?php echo htmlspecialchars($search); ?>" class="border-2 border-gray-300 p-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -145,19 +145,27 @@ $result = $stmt->get_result();
                 </thead>
                 <tbody>
                     <?php
-                    if ($result->num_rows > 0) {
+                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
+                            // Format the date of birth
+                            $dob = new DateTime($row['date_of_birth']);
+                            $formatted_dob = $dob->format('F j, Y'); // e.g., December 4, 2021
+                
+                            // Format the date added
+                            $date_added = new DateTime($row['date_added']);
+                            $formatted_date_added = $date_added->format('F j, Y'); // e.g., December 4, 2021
+                
                             echo "<tr class='border-b border-gray-200 hover:bg-gray-100 text-lg'>
                                     <td class='py-2 px-4'>{$row['last_name']}</td>
                                     <td class='py-2 px-4'>{$row['first_name']}</td>
                                     <td class='py-2 px-4'>{$row['middle_name']}</td>
                                     <td class='py-2 px-4'>{$row['gender']}</td>
-                                    <td class='py-2 px-4'>{$row['date_of_birth']}</td>
+                                    <td class='py-2 px-4'>{$formatted_dob}</td>
                                     <td class='py-2 px-4'>{$row['contact_no']}</td>
-                                    <td class='py-2 px-4'>{$row['date_added']}</td>
+                                    <td class='py-2 px-4'>{$formatted_date_added}</td>
                                     <td class='py-2 px-4'>
                                         <a href='secretary_certificate_view.php?id={$row['patients_id']}' class='action-btn add text-blue-500 hover:text-green-700'><i class='fa fa-eye'></i></a>
-                                        <a href='secretary_certificate_add.php?id={$row['patients_id']}' class='action-btn view text-green-500 hover:text-blue-700'><i class='fa fa-plus'></i></a>
+                                       
                                     </td>
                                   </tr>";
                         }
