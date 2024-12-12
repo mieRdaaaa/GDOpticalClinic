@@ -26,7 +26,6 @@ if ($result->num_rows === 1) {
 }
 $stmt->close();
 
-<<<<<<< HEAD
 // Insert service data
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_service'])) { 
     $product_name = $_POST['product_name'];
@@ -44,24 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_service'])) {
     }
 }
 
-=======
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 // Set selected month
 $selected_month = isset($_POST['month']) ? $_POST['month'] : date('Y-m');
 
 // Prepare the SQL query to retrieve total purchases by month
-<<<<<<< HEAD
 $query = "SELECT services.product_name, services.price, services.date_added, services.services_id, 
                  patients.patients_id, patients.first_name, patients.last_name, patients.middle_name
           FROM services
           JOIN patients ON services.patients_id = patients.patients_id
           WHERE DATE_FORMAT(services.date_added, '%Y-%m') = ?
           ORDER BY services.date_added DESC";
-=======
-$query = "SELECT product_name, price, date_added, services_id 
-          FROM services 
-          WHERE DATE_FORMAT(date_added, '%Y-%m') = ?";
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $selected_month);
 $stmt->execute();
@@ -90,10 +81,6 @@ if (isset($_GET['delete_id'])) {
         header("Location: doctor_reports.php?error=Failed to delete service");
         exit();
     }
-<<<<<<< HEAD
-=======
-    
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 }
 ?>
 
@@ -157,10 +144,7 @@ if (isset($_GET['delete_id'])) {
         <table class="min-w-full bg-white rounded-lg shadow-lg">
             <thead class="bg-blue-100">
                 <tr>
-<<<<<<< HEAD
                     <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Patient Name</th>
-=======
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
                     <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Product Name</th>
                     <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Price</th>
                     <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">Date Purchased</th>
@@ -170,10 +154,7 @@ if (isset($_GET['delete_id'])) {
             <tbody class="bg-white divide-y divide-gray-200">
                 <?php foreach ($data as $item): ?>
                     <tr class="hover:bg-gray-100">
-<<<<<<< HEAD
                         <td class="py-3 px-4"><?php echo htmlspecialchars($item['first_name']) . ' ' . htmlspecialchars($item['middle_name']) . ' ' . htmlspecialchars($item['last_name']); ?></td>
-=======
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
                         <td class="py-3 px-4"><?php echo htmlspecialchars($item['product_name']); ?></td>
                         <td class="py-3 px-4">₱<?php echo number_format($item['price'], 2); ?></td>
                         <td class="py-3 px-4"><?php echo htmlspecialchars(date("F j, Y", strtotime($item['date_added']))); ?></td>

@@ -156,24 +156,12 @@ $conn->close();
                         <div>
                             <!-- Right Sphere Box -->
                             <div class="border p-4 mb-4 bg-white rounded shadow-sm">
-<<<<<<< HEAD
                                 <p class="text-lg text-gray-700"><strong>Left Sphere:</strong> <?php echo $eye_row['l_sphere']; ?></p>
-=======
-                                <p class="text-lg text-gray-700"><strong>Right Sphere:</strong> <?php echo $eye_row['r_sphere']; ?></p>
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
                             </div>
                             
                             <!-- Left Sphere Box -->
                             <div class="border p-4 mb-4 bg-white rounded shadow-sm">
-<<<<<<< HEAD
                                 <p class="text-lg text-gray-700"><strong>Left Cylinder:</strong> <?php echo $eye_row['l_cylinder']; ?></p>
-=======
-                                <p class="text-lg text-gray-700"><strong>Left Sphere:</strong> <?php echo $eye_row['l_sphere']; ?></p>
-                            </div>
-
-                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
-                                <p class="text-lg text-gray-700"><strong>Right Axis:</strong> <?php echo $eye_row['r_axis']; ?></p>
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
                             </div>
 
                             <div class="border p-4 mb-4 bg-white rounded shadow-sm">
@@ -181,22 +169,17 @@ $conn->close();
                             </div>
 
                             <div class="border p-4 mb-4 bg-white rounded shadow-sm">
-<<<<<<< HEAD
                                 <p class="text-lg text-gray-700"><strong>Pupillary Distance:</strong> <?php echo $eye_row['pd']; ?></p>
                             </div>
 
                             <div class="border p-4 mb-4 bg-white rounded shadow-sm">
                                 <p class="text-lg text-gray-700"><strong>Other Conditions:</strong> <?php echo $eye_row['other_conditions']; ?></p>
-=======
-                                <p class="text-lg text-gray-700"><strong>Right Cylinder:</strong> <?php echo $eye_row['r_cylinder']; ?></p>
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
                             </div>
                         </div>
                         
                         <!-- Additional Result Information -->
                         <div>
                             <div class="border p-4 mb-4 bg-white rounded shadow-sm">
-<<<<<<< HEAD
                                 <p class="text-lg text-gray-700"><strong>Right Sphere:</strong> <?php echo $eye_row['r_sphere']; ?></p>
                             </div>
                             
@@ -210,21 +193,6 @@ $conn->close();
                             
                             <div class="border p-4 mb-4 bg-white rounded shadow-sm">
                                 <p class="text-lg text-gray-700"><strong>Diagnosis:</strong> <?php echo $eye_row['diagnosis']; ?></p>
-=======
-                                <p class="text-lg text-gray-700"><strong>Left Cylinder:</strong> <?php echo $eye_row['l_cylinder']; ?></p>
-                            </div>
-                            
-                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
-                                <p class="text-lg text-gray-700"><strong>Pupillary Distance:</strong> <?php echo $eye_row['pd']; ?></p>
-                            </div>
-
-                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
-                                <p class="text-lg text-gray-700"><strong>Diagnosis:</strong> <?php echo $eye_row['diagnosis']; ?></p>
-                            </div>
-                            
-                            <div class="border p-4 mb-4 bg-white rounded shadow-sm">
-                                <p class="text-lg text-gray-700"><strong>Other Conditions:</strong> <?php echo $eye_row['other_conditions']; ?></p>
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
                             </div>
                         </div>
                     </div>

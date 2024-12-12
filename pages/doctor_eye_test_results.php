@@ -141,24 +141,12 @@ if ($row = $result->fetch_assoc()) {
 
     // Right Sphere
     echo '<div class="mb-4">';
-<<<<<<< HEAD
-=======
-    echo '<p class="text-lg text-gray-700"><strong>Right Sphere:</strong></p>';
-    echo '<div class="border p-4 bg-white rounded shadow-sm">';
-    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_sphere']) . '</p>';
-    echo '</div>';
-    echo '</div>';
-
-    // Left Sphere
-    echo '<div class="mb-4">';
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     echo '<p class="text-lg text-gray-700"><strong>Left Sphere:</strong></p>';
     echo '<div class="border p-4 bg-white rounded shadow-sm">';
     echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['l_sphere']) . '</p>';
     echo '</div>';
     echo '</div>';
 
-<<<<<<< HEAD
     // Left Sphere
     echo '<div class="mb-4">';
     echo '<p class="text-lg text-gray-700"><strong>Left Cylinder:</strong></p>';
@@ -168,17 +156,6 @@ if ($row = $result->fetch_assoc()) {
     echo '</div>';
 
     // Right Axis
-=======
-    // Right Axis
-    echo '<div class="mb-4">';
-    echo '<p class="text-lg text-gray-700"><strong>Right Axis:</strong></p>';
-    echo '<div class="border p-4 bg-white rounded shadow-sm">';
-    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_axis']) . '</p>';
-    echo '</div>';
-    echo '</div>';
-
-    // Left Axis
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     echo '<div class="mb-4">';
     echo '<p class="text-lg text-gray-700"><strong>Left Axis:</strong></p>';
     echo '<div class="border p-4 bg-white rounded shadow-sm">';
@@ -186,7 +163,6 @@ if ($row = $result->fetch_assoc()) {
     echo '</div>';
     echo '</div>';
 
-<<<<<<< HEAD
     // Left Axis
     echo '<div class="mb-4">';
     echo '<p class="text-lg text-gray-700"><strong>Pupillary Distance:</strong></p>';
@@ -200,13 +176,6 @@ if ($row = $result->fetch_assoc()) {
     echo '<p class="text-lg text-gray-700"><strong>Other Conditions:</strong></p>';
     echo '<div class="border p-4 bg-white rounded shadow-sm">';
     echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['other_conditions']) . '</p>';
-=======
-    // Right Cylinder
-    echo '<div class="mb-4">';
-    echo '<p class="text-lg text-gray-700"><strong>Right Cylinder:</strong></p>';
-    echo '<div class="border p-4 bg-white rounded shadow-sm">';
-    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_cylinder']) . '</p>';
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     echo '</div>';
     echo '</div>';
 
@@ -217,35 +186,22 @@ if ($row = $result->fetch_assoc()) {
 
     // Left Cylinder
     echo '<div class="mb-4">';
-<<<<<<< HEAD
     echo '<p class="text-lg text-gray-700"><strong>Right Sphere:</strong></p>';
     echo '<div class="border p-4 bg-white rounded shadow-sm">';
     echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_sphere']) . '</p>';
-=======
-    echo '<p class="text-lg text-gray-700"><strong>Left Cylinder:</strong></p>';
-    echo '<div class="border p-4 bg-white rounded shadow-sm">';
-    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['l_cylinder']) . '</p>';
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     echo '</div>';
     echo '</div>';
 
     // Pupillary Distance
     echo '<div class="mb-4">';
-<<<<<<< HEAD
     echo '<p class="text-lg text-gray-700"><strong>Right Cylinder:</strong></p>';
     echo '<div class="border p-4 bg-white rounded shadow-sm">';
     echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_cylinder']) . '</p>';
-=======
-    echo '<p class="text-lg text-gray-700"><strong>Pupillary Distance:</strong></p>';
-    echo '<div class="border p-4 bg-white rounded shadow-sm">';
-    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['pd']) . '</p>';
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     echo '</div>';
     echo '</div>';
 
     // Diagnosis
     echo '<div class="mb-4">';
-<<<<<<< HEAD
     echo '<p class="text-lg text-gray-700"><strong>Right Axis:</strong></p>';
     echo '<div class="border p-4 bg-white rounded shadow-sm">';
     echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['r_axis']) . '</p>';
@@ -254,25 +210,12 @@ if ($row = $result->fetch_assoc()) {
 
     // Other Conditions
     echo '<div class="mb-4">';
-=======
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     echo '<p class="text-lg text-gray-700"><strong>Diagnosis:</strong></p>';
     echo '<div class="border p-4 bg-white rounded shadow-sm">';
     echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['diagnosis']) . '</p>';
     echo '</div>';
     echo '</div>';
 
-<<<<<<< HEAD
-=======
-    // Other Conditions
-    echo '<div class="mb-4">';
-    echo '<p class="text-lg text-gray-700"><strong>Other Conditions:</strong></p>';
-    echo '<div class="border p-4 bg-white rounded shadow-sm">';
-    echo '<p class="text-lg text-gray-700">' . htmlspecialchars($row['other_conditions']) . '</p>';
-    echo '</div>';
-    echo '</div>';
-
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     echo '</div>'; // End right column
 
 

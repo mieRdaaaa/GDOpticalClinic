@@ -72,11 +72,7 @@ $conn->close(); // Close the database connection
             </button>
             <ul class="flex items-center text-sm ml-4">
                 <li class="mr-2">
-<<<<<<< HEAD
                     <a href="secretary_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients List</a>
-=======
-                    <a href="doctor_table.php" class="text-gray-400 hover:text-gray-600 font-medium">Patients List</a>
->>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
                 </li>
                 <li class="text-gray-600 mr-2 font-medium">/</li>
                 <li class="text-black-600 mr-2 font-medium">View Patient Details</li>
