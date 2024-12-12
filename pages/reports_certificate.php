@@ -10,7 +10,10 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 // Get the month from the URL parameters
 $selected_month = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
 
@@ -44,7 +47,11 @@ $pdf->Cell(130, 5, 'Surallah, South Cotabato, 9512', 0, 1);
 // Add Month of: line
 $pdf->SetFont('Arial', 'B', '20');
 $pdf->SetXY(68, 41);
+<<<<<<< HEAD
 $pdf->Cell(71, 5, 'Month of ' . date('F', strtotime($selected_month)), 0, 1); // Month name from selected_month
+=======
+$pdf->Cell(71, 5, 'Month of: ' . date('F', strtotime($selected_month)), 0, 1); // Month name from selected_month
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 
 // Fetch services data for the report
 $query = "SELECT product_name, price FROM services WHERE DATE_FORMAT(date_added, '%Y-%m') = ?";
@@ -111,5 +118,8 @@ $pdf->Cell(40, 10, '', 1); // Empty cell for price
 $pdf->Cell(40, 10, 'PHP ' . number_format($total_income, 2), 1);
 $pdf->Output();
 ?>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e

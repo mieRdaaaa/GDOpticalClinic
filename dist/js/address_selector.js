@@ -5052,9 +5052,37 @@ function loadBarangays() {
     { "id": 31140, "name": "Barangay 4" },
     { "id": 31141, "name": "Barangay 5" },
     { "id": 31142, "name": "Poblacion" }
+<<<<<<< HEAD
   ]
 
            
+=======
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+            
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     };
 
     let barangaySelect = document.getElementById('barangay');

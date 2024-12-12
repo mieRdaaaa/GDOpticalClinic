@@ -58,7 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $r_axis = $_POST['right_axis'];
     $l_axis = $_POST['left_axis'];
     $pd = $_POST['pupillary_distance'];
+<<<<<<< HEAD
     $diagnosis = $_POST['diagnosis'];
+=======
+    $diagnosis = $_POST['diagnosis'] ?? null;
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     $other_conditions = $_POST['other_conditions'] ?? NULL;
 
     // Prepare the SQL statement to insert the data into the database
@@ -68,7 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $stmt = $conn->prepare($sql);
 
+<<<<<<< HEAD
 $stmt->bind_param("sssssssssi", 
+=======
+$stmt->bind_param("ddddddsssi", 
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 $r_sphere, 
 $l_sphere, 
 $r_cylinder, 
@@ -170,6 +178,7 @@ $patient_id);
                     <input type="text"  id="pupillary_distance" name="pupillary_distance"  class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" pattern="^[+-]?[0-9]*\.?[0-9]+$" title="Please enter a valid number (e.g., +1.00, -0.50)" required>
                 </div>
                 <div class="mb-4">
+<<<<<<< HEAD
                 <label for="diagnosis" class="block text-gray-700"><i class="fa fa-eye"></i> Diagnosis:</label>
 <input list="diagnosis-options" id="diagnosis" name="diagnosis" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300" required>
 <datalist id="diagnosis-options">
@@ -186,6 +195,24 @@ $patient_id);
     <option value="Dry Eye Syndrome">
     <option value="Computer Vision Syndrome">
 </datalist>
+=======
+    <label for="diagnosis" class="block text-gray-700"><i class="fa fa-eye"></i> Diagnosis:</label>
+    <select id="diagnosis" name="diagnosis" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300">
+        <option value="" disabled selected>Select a diagnosis</option>
+        <option value="Myopia (Nearsightedness)">Myopia (Nearsightedness)</option>
+        <option value="Hyperopia (Farsightedness)">Hyperopia (Farsightedness)</option>
+        <option value="Astigmatism">Astigmatism</option>
+        <option value="Presbyopia">Presbyopia</option>
+        <option value="Cataracts">Cataracts</option>
+        <option value="Glaucoma">Glaucoma</option>
+        <option value="Macular Degeneration">Macular Degeneration</option>
+        <option value="Diabetic Retinopathy">Diabetic Retinopathy</option>
+        <option value="Conjunctivitis (Pink Eye)">Conjunctivitis (Pink Eye)</option>
+        <option value="Blepharitis">Blepharitis</option>
+        <option value="Dry Eye Syndrome">Dry Eye Syndrome</option>
+        <option value="Computer Vision Syndrome">Computer Vision Syndrome</option>
+    </select>
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 </div>
 <div class="mb-4">
     <label for="other_conditions" class="block text-gray-700"><i class="fa fa-pencil-alt"></i> Other Conditions:</label>

@@ -94,7 +94,10 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Patient</title>
+<<<<<<< HEAD
     <link rel="shortcut icon" href="../images/ico.png" />
+=======
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>

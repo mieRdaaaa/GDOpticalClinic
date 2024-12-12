@@ -244,7 +244,11 @@ imagettftext($image, 27 , 0 ,1128, 628, $color, $font, $symptoms);
 ///spectacle rx
 //od
 
+<<<<<<< HEAD
 imagettftext($image, 28 , 0 ,394, 1559, $color, $font, $oduva);
+=======
+imagettftext($image, 28 , 0 ,394, 1567, $color, $font, $oduva);
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 imagettftext($image, 28 , 0 ,553, 1559, $color, $font, $odsphere);
 imagettftext($image, 28 , 0 ,730, 1559, $color, $font, $odcylinder);
 imagettftext($image, 28 , 0 ,915, 1559, $color, $font, $odaxis);
@@ -265,6 +269,23 @@ imagettftext($image, 28 , 0 ,1379, 1599, $color, $font, $osbcva);
 
 //DOCTOR
 imagettftext($image, 27, 0, 226, 1908, $color, $fontbd, strtoupper($doctor_name));
+<<<<<<< HEAD
+=======
+
+
+//license
+imagettftext($image, 24, 0, 419, 2064, $color, $fontbd, $license_no);
+imagettftext($image, 24, 0, 369, 2102, $color, $fontbd, $ptr_no);
+
+
+
+
+// Save the generated image
+imagejpeg($image);
+imagedestroy($image);   
+
+
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 
 
 //license
@@ -275,6 +296,7 @@ imagettftext($image, 24, 0, 369, 2102, $color, $fontbd, $ptr_no);
 /*
 
 // Save the generated image
+<<<<<<< HEAD
 imagejpeg($image);
 imagedestroy($image);   
 */
@@ -284,6 +306,8 @@ imagedestroy($image);
 
 
 // Save the generated image
+=======
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 imagejpeg($image, 'output_image.jpg');
 imagedestroy($image);
 
@@ -291,5 +315,9 @@ imagedestroy($image);
 $pdf = new FPDF('P', 'mm', 'Letter' );
 $pdf->AddPage();
 $pdf->Image('output_image.jpg', 0, 0, 216, 279); // Adjust dimensions as needed
+<<<<<<< HEAD
 $pdf->Output('D', 'output.pdf'); // Download the PDF file 
+=======
+$pdf->Output('D', 'output.pdf'); // Download the PDF file */
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 ?>

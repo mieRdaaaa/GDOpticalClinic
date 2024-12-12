@@ -32,8 +32,12 @@ $selected_month = isset($_POST['month']) ? $_POST['month'] : date('Y-m');
 // Prepare the SQL query to retrieve total purchases by month
 $query = "SELECT product_name, price, date_added, services_id 
           FROM services 
+<<<<<<< HEAD
           WHERE DATE_FORMAT(date_added, '%Y-%m') = ?
           ORDER BY date_added DESC";
+=======
+          WHERE DATE_FORMAT(date_added, '%Y-%m') = ?";
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $selected_month);
 $stmt->execute();

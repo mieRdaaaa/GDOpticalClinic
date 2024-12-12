@@ -199,11 +199,19 @@ if (isset($_SESSION['username'])) {
             <div class="flex space-x-4">
                 <div class="input-box w-1/2">
                     <label class="block text-sm font-semibold mb-1">License Number</label>
+<<<<<<< HEAD
                     <input type="text" name="license_no" id="license_no" placeholder="Enter license number"  class="block w-full border border-gray-300 rounded-md py-2 px-4">
                 </div>
                 <div class="input-box w-1/2">
                     <label class="block text-sm font-semibold mb-1">PTR Number</label>
                     <input type="text" name="ptr_no" id="ptr_no" placeholder="Enter PTR number"  class="block w-full border border-gray-300 rounded-md py-2 px-4">
+=======
+                    <input type="text" name="license_no" id="license_no" placeholder="Enter license number" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
+                </div>
+                <div class="input-box w-1/2">
+                    <label class="block text-sm font-semibold mb-1">PTR Number</label>
+                    <input type="text" name="ptr_no" id="ptr_no" placeholder="Enter PTR number" required class="block w-full border border-gray-300 rounded-md py-2 px-4">
+>>>>>>> d79df6df0a6e12abde2dc54bafd0f13dd8f0045e
                 </div>
             </div>
 
